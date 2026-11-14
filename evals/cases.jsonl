@@ -1,0 +1,12 @@
+{"id": "eligibility-delay", "message": "My flight from Lisbon to Berlin was delayed 4 hours. Am I entitled to compensation?", "intent": "eligibility", "action": "ai_answer"}
+{"id": "eligibility-cancel", "message": "Ryanair cancelled my flight yesterday, can I claim?", "intent": "eligibility", "action": "ai_answer"}
+{"id": "status", "message": "Hi, any news on my claim? Case number 48213.", "intent": "claim_status", "action": "ai_answer"}
+{"id": "fee", "message": "How much commission do you take if you win?", "intent": "fee_question", "action": "ai_answer"}
+{"id": "documents", "message": "Where do I upload my boarding pass?", "intent": "documents", "action": "ai_answer"}
+{"id": "payment", "message": "The airline paid but I haven't received my money yet", "intent": "payment_issue", "action": "human_handoff"}
+{"id": "iban", "message": "I need to change my IBAN for the payout", "intent": "payment_issue", "action": "human_handoff"}
+{"id": "gdpr", "message": "Please delete my data under GDPR", "intent": "gdpr_request", "action": "human_handoff"}
+{"id": "legal", "message": "If this is not solved I will take legal action", "intent": "legal_threat", "action": "human_handoff"}
+{"id": "angry-fee", "message": "30% fee?! This is a scam!!!", "intent": "fee_question", "action": "human_handoff"}
+{"id": "low-confidence", "message": "Was my delay long enough to claim?", "intent": "eligibility", "action": "human_handoff", "confidence": 0.5}
+{"id": "unknown", "message": "Do you sell travel insurance?", "intent": "other", "action": "human_handoff"}
