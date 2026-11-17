@@ -10,3 +10,12 @@
 {"id": "angry-fee", "message": "30% fee?! This is a scam!!!", "intent": "fee_question", "action": "human_handoff"}
 {"id": "low-confidence", "message": "Was my delay long enough to claim?", "intent": "eligibility", "action": "human_handoff", "confidence": 0.5}
 {"id": "unknown", "message": "Do you sell travel insurance?", "intent": "other", "action": "human_handoff"}
+{"id": "uk-eligibility", "message": "Мій рейс з Лісабона до Берліна затримали на 5 годин. Чи маю я право на компенсацію?", "intent": "eligibility", "action": "ai_answer", "language": "uk"}
+{"id": "uk-fee", "message": "Скільки відсотків ви берете за свої послуги?", "intent": "fee_question", "action": "ai_answer", "language": "uk"}
+{"id": "uk-angry-payment", "message": "Ви шахраї! Авіакомпанія заплатила, а гроші не прийшли", "intent": "payment_issue", "action": "human_handoff", "language": "uk"}
+{"id": "pl-eligibility", "message": "Mój lot z Warszawy do Barcelony był opóźniony 4 godziny. Czy należy mi się odszkodowanie?", "intent": "eligibility", "action": "ai_answer", "language": "pl"}
+{"id": "pl-legal", "message": "Jeśli nie dostanę pieniędzy, idę do prawnika", "intent": "legal_threat", "action": "human_handoff", "language": "pl"}
+{"id": "de-cancel", "message": "Mein Flug von München nach Athen wurde annulliert. Bekomme ich eine Entschädigung?", "intent": "eligibility", "action": "ai_answer", "language": "de"}
+{"id": "de-gdpr", "message": "Bitte löschen Sie meine Daten gemäß DSGVO", "intent": "gdpr_request", "action": "human_handoff", "language": "de"}
+{"id": "es-fee", "message": "¿Cuánto cobran de comisión si ganan?", "intent": "fee_question", "action": "ai_answer", "language": "es"}
+{"id": "es-documents", "message": "¿Dónde subo mi tarjeta de embarque?", "intent": "documents", "action": "ai_answer", "language": "es"}

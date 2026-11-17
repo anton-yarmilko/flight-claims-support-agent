@@ -1,0 +1,136 @@
+"""Analyse an airline's rejection letter and suggest whether to contest it.
+
+Airlines often refuse with "extraordinary circumstances". Whether that holds
+depends on the actual cause. This module names the cause, maps it to the usual
+position in EU case law and suggests the next step. The category comes from
+keyword rules, or from the LLM when no rule matches; the recommendation for a
+category is fixed here, never written by the model. Every result goes to a
+person for the final decision. Not legal advice.
+"""
+
+from __future__ import annotations
+
+import re
+from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from .llm import LLM
+
+
+@dataclass(frozen=True)
+class Category:
+    name: str
+    label: str
+    pattern: str
+    recommendation: str  # contest | review | unlikely
+    why: str
+
+
+# Order matters: more specific causes first.
+CATEGORIES: list[Category] = [
+    Category("airline_staff_strike", "Strike by the airline's own staff",
+             r"(our|own|company|cabin crew|pilots?'?|crew) (strike|industrial action)|strike (of|by) (our|the airline'?s?) (pilots|crew|staff)"
+             r"|pilot strike|crew strike|sick[- ]?out|wildcat",
+             "contest", "Strikes by the airline's own staff are usually not extraordinary "
+             "(CJEU C-28/20 Airhelp v SAS; spontaneous 'wildcat' sick-outs: C-195/17 Krüsemann)."),
+    Category("atc_strike", "Air-traffic-control or airport strike",
+             r"(air traffic control|atc|controllers?'?|airport (staff|workers)|security staff|ground handling) (strike|industrial action)"
+             r"|strike (of|by) (the )?(\w+ )?(air traffic|atc|controllers|airport)",
+             "unlikely", "Strikes outside the airline (ATC, airport) are generally extraordinary. Worth a look only if "
+             "the airline did not take reasonable measures, e.g. a very long delay or no re-routing offered."),
+    Category("bird_strike", "Bird strike",
+             r"bird ?strike|collision with (a )?bird",
+             "unlikely", "A bird strike is extraordinary (CJEU C-315/15 Pešková), though delay beyond the "
+             "necessary inspection may still be claimable."),
+    Category("weather", "Weather",
+             r"\b(weather|storms?|snow\w*|fog|thunder\w*|wind|ice|icing|de-?icing|visibility|hurricane)\b",
+             "review", "Severe weather can be extraordinary, but it must have affected this flight. Check historic "
+             "weather at the airports and whether other flights operated normally."),
+    Category("atc_restrictions", "ATC restrictions / slots",
+             r"air traffic (control )?restriction|atc restriction|slot|eurocontrol|airspace (closure|restriction)|flow control",
+             "review", "ATC decisions can be extraordinary, but the airline must show they caused this delay. "
+             "Ask for the ATC/slot evidence."),
+    Category("knock_on", "Knock-on effect of an earlier flight",
+             r"previous flight|earlier flight|late arrival of (the )?(incoming )?aircraft|\brotation\b|knock-?on|\binbound\b",
+             "review", "The airline may rely on a cause from an earlier rotation only if that cause was itself "
+             "extraordinary and directly linked (CJEU C-74/19 LE v TAP). Ask what happened on the earlier flight."),
+    Category("security_medical", "Security, medical or political event",
+             r"security (threat|alert|incident)|bomb|medical emergency|unruly|disruptive passenger|political|war|airspace closed",
+             "unlikely", "Security threats, medical emergencies and unruly passengers are usually extraordinary."),
+    Category("technical", "Technical problem",
+             r"\b(technical|mechanical|maintenance|engines?|repairs?|fault|defects?|aircraft (problem|issue)|spare parts?|hydraulic)\b",
+             "contest", "Technical problems are usually not extraordinary: maintenance is part of normal airline "
+             "operations (CJEU C-549/07 Wallentin-Hermann; C-257/14 van der Lans). Exception: hidden manufacturing "
+             "defects or damage by a third party, such as foreign objects on the runway (C-501/17 Germanwings)."),
+    Category("operational", "Operational / crew shortage",
+             r"operational reasons?|crew (shortage|availability)|staff shortage|crew rest|duty time|scheduling|aircraft availability",
+             "contest", "Crew shortages and other operational reasons are part of the airline's normal activity "
+             "and are generally not extraordinary."),
+]
+
+BY_NAME = {c.name: c for c in CATEGORIES}
+
+NEXT_STEP = {
+    "contest": "Reply to the airline contesting the refusal and asking for evidence.",
+    "review": "Ask the airline for evidence of the cause; a claims handler decides after reviewing it.",
+    "unlikely": "Tell the customer the refusal is probably valid; a claims handler confirms before closing.",
+}
+
+
+@dataclass
+class Analysis:
+    category: str
+    label: str
+    recommendation: str
+    why: str
+    next_step: str
+    matched: str | None
+    source: str  # rules | llm | none
+    summary: str | None = None
+    notes: list[str] = field(default_factory=list)
+    human_review: bool = True
+
+    def to_dict(self) -> dict[str, Any]:
+        return self.__dict__.copy()
+
+
+LLM_PROMPT = """You read an airline's reply to an EU261 compensation claim.
+Pick the cause the airline gives for the disruption, one of:
+{names}, other.
+Reply with JSON only:
+{{"category": "<name>", "airline_claim": "<one sentence: what the airline says happened>"}}"""
+
+
+def analyse(letter: str, llm: "LLM | None" = None) -> Analysis:
+    low = letter.lower()
+    for c in CATEGORIES:
+        m = re.search(c.pattern, low)
+        if m:
+            a = Analysis(c.name, c.label, c.recommendation, c.why, NEXT_STEP[c.recommendation], m.group(0), "rules")
+            break
+    else:
+        a = Analysis("other", "Unclear cause", "review",
+                     "The letter does not name a cause the rules recognise. A claims handler should read it.",
+                     NEXT_STEP["review"], None, "none")
+
+    if llm is not None:
+        from .llm import LLMError
+
+        try:
+            data = llm.chat_json(
+                [{"role": "system", "content": LLM_PROMPT.format(names=", ".join(BY_NAME))},
+                 {"role": "user", "content": letter[:6000]}],
+                temperature=0.0, max_tokens=150,
+            )
+            a.summary = str(data.get("airline_claim") or "") or None
+            cat = str(data.get("category", "")).strip()
+            if a.source == "none" and cat in BY_NAME:
+                c = BY_NAME[cat]
+                a.category, a.label, a.recommendation, a.why = c.name, c.label, c.recommendation, c.why
+                a.next_step, a.source = NEXT_STEP[c.recommendation], "llm"
+            elif a.source == "rules" and cat in BY_NAME and cat != a.category:
+                a.notes.append(f"The LLM read the cause as '{BY_NAME[cat].label}'; check which one applies.")
+        except LLMError as e:
+            a.notes.append(f"LLM analysis failed: {e}")
+    return a

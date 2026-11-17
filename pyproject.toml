@@ -1,7 +1,7 @@
 [project]
 name = "flight-claims-support-agent"
-version = "0.1.0"
-description = "Claude skill + deterministic triage and EU261 checks for first-line claims support"
+version = "0.2.0"
+description = "First-line claims support agent: deterministic triage and EU261 checks around a small LLM, with a web demo"
 requires-python = ">=3.10"
 
 [project.optional-dependencies]
