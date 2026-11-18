@@ -90,5 +90,7 @@
  "hr_old": "let starší než 2 roky",
  "too_old": "Let je starší než 2 roky. Lhůty závisí na zemi, proto tento případ prověří kolega.",
  "download": "Stáhnout .txt",
- "m_future": "datum letu, který už proběhl (toto datum je v budoucnosti)"
+ "m_future": "datum letu, který už proběhl (toto datum je v budoucnosti)",
+ "rs_halved": "Pravděpodobně máte nárok: EUR {amount} na cestujícího před provizí. Je to polovina obvyklé částky, protože náhradní let přiletěl do {h} hodin.",
+ "elig_half": "Je to polovina obvyklé částky, protože náhradní let přiletěl do {h} hodin."
 }

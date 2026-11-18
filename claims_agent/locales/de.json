@@ -90,5 +90,7 @@
  "hr_old": "Flug älter als 2 Jahre",
  "too_old": "Der Flug ist über 2 Jahre her. Die Fristen hängen vom Land ab, deshalb prüft ein Kollege diesen Fall.",
  "download": "Als .txt laden",
- "m_future": "das Datum eines bereits durchgeführten Flugs (dieses Datum liegt in der Zukunft)"
+ "m_future": "das Datum eines bereits durchgeführten Flugs (dieses Datum liegt in der Zukunft)",
+ "rs_halved": "Wahrscheinlich berechtigt: EUR {amount} pro Passagier vor der Servicegebühr. Das ist die Hälfte, weil der Ersatzflug innerhalb von {h} Stunden ankam.",
+ "elig_half": "Das ist die Hälfte, weil der Ersatzflug innerhalb von {h} Stunden ankam."
 }

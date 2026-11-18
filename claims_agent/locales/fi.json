@@ -90,5 +90,7 @@
  "hr_old": "yli 2 vuotta vanha lento",
  "too_old": "Lento on yli 2 vuotta vanha. Määräajat riippuvat maasta, joten kollega tarkistaa tapauksen.",
  "download": "Lataa .txt",
- "m_future": "jo toteutuneen lennon päivämäärä (tämä päivämäärä on tulevaisuudessa)"
+ "m_future": "jo toteutuneen lennon päivämäärä (tämä päivämäärä on tulevaisuudessa)",
+ "rs_halved": "Todennäköisesti oikeutettu: EUR {amount} matkustajaa kohden ennen palkkiota. Summa on puolitettu, koska korvaava lento saapui {h} tunnin sisällä.",
+ "elig_half": "Summa on puolitettu, koska korvaava lento saapui {h} tunnin sisällä."
 }

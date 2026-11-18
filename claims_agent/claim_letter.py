@@ -42,7 +42,9 @@ def _what_happened(f: FlightFacts) -> str:
         return f"The flight arrived at its final destination {f.delay_hours:g} hours late."
     if f.disruption == "cancellation":
         when = f" The cancellation was announced {f.notice_days} days before departure." if f.notice_days is not None else ""
-        return "The flight was cancelled." + when
+        late = f" The passenger reached the final destination {f.delay_hours:g} hours late on a replacement flight." \
+            if f.delay_hours is not None else ""
+        return "The flight was cancelled." + when + late
     return "The passenger was denied boarding against their will despite presenting for check-in on time."
 
 

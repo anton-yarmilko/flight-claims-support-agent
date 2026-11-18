@@ -90,5 +90,7 @@
  "hr_old": "vlucht ouder dan 2 jaar",
  "too_old": "De vlucht is meer dan 2 jaar geleden. Termijnen verschillen per land, dus een collega bekijkt deze zaak.",
  "download": "Download .txt",
- "m_future": "de datum van een vlucht die al heeft plaatsgevonden (deze datum ligt in de toekomst)"
+ "m_future": "de datum van een vlucht die al heeft plaatsgevonden (deze datum ligt in de toekomst)",
+ "rs_halved": "Waarschijnlijk recht: EUR {amount} per passagier vóór de servicekosten. Dat is de helft van het gewone bedrag, omdat de vervangende vlucht binnen {h} uur aankwam.",
+ "elig_half": "Dat is de helft van het gewone bedrag, omdat de vervangende vlucht binnen {h} uur aankwam."
 }

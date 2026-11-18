@@ -90,5 +90,7 @@
  "hr_old": "flyvning over 2 år gammel",
  "too_old": "Flyvningen er over 2 år gammel. Fristene avhenger av landet, så en kollega sjekker saken.",
  "download": "Last ned .txt",
- "m_future": "datoen for en flyvning som allerede har funnet sted (denne datoen er i fremtiden)"
+ "m_future": "datoen for en flyvning som allerede har funnet sted (denne datoen er i fremtiden)",
+ "rs_halved": "Sannsynligvis berettiget: EUR {amount} per passasjer før gebyret. Det er halvparten av vanlig beløp fordi erstatningsflyet kom fram innen {h} timer.",
+ "elig_half": "Det er halvparten av vanlig beløp fordi erstatningsflyet kom fram innen {h} timer."
 }

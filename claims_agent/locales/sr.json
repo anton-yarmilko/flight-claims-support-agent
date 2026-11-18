@@ -90,5 +90,7 @@
  "hr_old": "let stariji od 2 godine",
  "too_old": "Let je stariji od 2 godine. Rokovi zavise od zemlje, pa ovaj slučaj proverava kolega.",
  "download": "Preuzmi .txt",
- "m_future": "datum leta koji je već obavljen (ovaj datum je u budućnosti)"
+ "m_future": "datum leta koji je već obavljen (ovaj datum je u budućnosti)",
+ "rs_halved": "Verovatno imate pravo: EUR {amount} po putniku pre provizije. To je pola uobičajenog iznosa jer je zamenski let stigao u roku od {h} sata.",
+ "elig_half": "To je pola uobičajenog iznosa jer je zamenski let stigao u roku od {h} sata."
 }

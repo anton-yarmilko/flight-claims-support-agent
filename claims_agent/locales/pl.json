@@ -90,5 +90,7 @@
  "hr_old": "lot sprzed ponad 2 lat",
  "too_old": "Lot odbył się ponad 2 lata temu. Terminy zależą od kraju, więc tę sprawę sprawdzi konsultant.",
  "download": "Pobierz .txt",
- "m_future": "datę lotu, który już się odbył (ta data jest w przyszłości)"
+ "m_future": "datę lotu, który już się odbył (ta data jest w przyszłości)",
+ "rs_halved": "Prawdopodobnie przysługuje: EUR {amount} na pasażera przed prowizją. To połowa zwykłej kwoty, bo lot zastępczy przyleciał w ciągu {h} godzin.",
+ "elig_half": "To połowa zwykłej kwoty, bo lot zastępczy przyleciał w ciągu {h} godzin."
 }
