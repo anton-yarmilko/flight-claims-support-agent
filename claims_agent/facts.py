@@ -47,9 +47,11 @@ class FlightFacts:
         return asdict(self)
 
 
-_HOURS = (r"(\d+(?:[.,]\d+)?)\s*(?:hours?|hrs?|h\b|годин\w*|год\b|час\w*|godzin\w*|godz\b|stunden?|std\b|horas?"
-          r"|heures?|ore\b|ora\b|uur|ώρ\w*|saat|[óo]r[áa]\w*|hodin\w*|sat[ai]?\b|timer|timmar|tunti\w*|tunnin)")
-_MINUTES = r"(\d+)\s*(?:minutes?|mins?|хвилин\w*|хв\b|минут\w*|minut\w*|min\b|minuten|minuti|minutos|λεπτ\w*|dakika|perc\w*|minuuttia)"
+_HOUR_UNIT = (r"(?:hours?|hrs?|h\b|годин\w*|год\b|час\w*|godzin\w*|godz\b|stunden?|std\b|horas?"
+              r"|heures?|ore\b|ora\b|uur|ώρ\w*|saat|[óo]r[áa]\w*|hodin\w*|sat[ai]?\b|timer|timmar|tunti\w*|tunnin)")
+_MINUTE_UNIT = r"(?:minutes?|mins?|хвилин\w*|хв\b|минут\w*|minut\w*|min\b|minuten|minuti|minutos|λεπτ\w*|dakika|perc\w*|minuuttia)"
+_HOURS = r"(\d+(?:[.,]\d+)?)\s*" + _HOUR_UNIT
+_MINUTES = r"(\d+)\s*" + _MINUTE_UNIT
 _CANCEL = (r"cancel|скасува|отмен|odwo[łl]a|annul|gestrichen|anulat|geannuleerd|annulering|ακυρ|iptal|t[öo]r[öo]lt"
            r"|zru[šs]en|otkaz|aflys|kansell|innstilt|inst[äa]lld|peruttu|peruutettiin")
 _DENIED = (r"denied boarding|overbook|відмовили в посадці|овербук|отказали в посадке|odm[óo]wiono wej|nadrezerwac"
@@ -59,6 +61,36 @@ _DENIED = (r"denied boarding|overbook|відмовили в посадці|ов�
 _DELAY = (r"delay|late|затрим|запізн|задерж|опозда|op[óo][źz]ni|versp[äa]t|retras|retard|ritard|atras|[îi]nt[âa]rzi"
           r"|vertraag|vertraging|καθυστ|r[öo]tar|gecik|k[ée]s|zpo[žz]d|kasn|forsink|f[öo]rsen|my[öo]h[äa]|viiv[äa]s")
 _DATE = r"\b(\d{4}-\d{2}-\d{2}|\d{1,2}[./]\d{1,2}[./]\d{2,4}|\d{1,2}\s?(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s?\d{2,4})\b"
+
+
+# Spelled-out durations ("three hours", "tres horas", "чотири години"), 1 to 12, in the main languages.
+_NUMBER_WORDS: dict[str, int] = {}
+for _n, _words in enumerate([
+    "one un una uno ein eine eins один одна одну jeden jedna jedną um uma één en ett yksi egy jeden jedna μία μια bir",
+    "two dos deux due zwei два дві dwa dwie dois duas twee to två kaksi kettő két dva dvě δύο iki",
+    "three tres trois tre drei три trzy três drie tre tre kolme három tři τρεις τρία üç",
+    "four cuatro quatre quattro vier чотири четыре cztery quatro vier fire fyra neljä négy čtyři τέσσερις τέσσερα dört",
+    "five cinco cinq cinque fünf п'ять пять pięć cinco vijf fem fem viisi öt pět πέντε beş",
+    "six seis six sei sechs шість шесть sześć seis zes seks sex kuusi hat šest έξι altı",
+    "seven siete sept sette sieben сім семь siedem sete zeven syv sju seitsemän hét sedm επτά yedi",
+    "eight ocho huit otto acht вісім восемь osiem oito acht otte åtta kahdeksan nyolc osm οκτώ sekiz",
+    "nine nueve neuf nove neun дев'ять девять dziewięć nove negen ni nio yhdeksän kilenc devět εννέα dokuz",
+    "ten diez dix dieci zehn десять dziesięć dez tien ti tio kymmenen tíz deset δέκα on",
+    "eleven once onze undici elf одинадцять одиннадцать jedenaście onze elf elleve elva tizenegy jedenáct έντεκα",
+    "twelve doce douze dodici zwölf дванадцять двенадцать dwanaście doze twaalf tolv tolv tizenkét dvanáct δώδεκα",
+], start=1):
+    for _w in _words.split():
+        _NUMBER_WORDS.setdefault(_w, _n)
+_UNIT_AFTER = re.compile(r"\s+(?:" + _HOUR_UNIT + "|" + _MINUTE_UNIT + ")")
+_NUMBER_WORD_RE = re.compile(r"(?<!\w)(" + "|".join(sorted(map(re.escape, _NUMBER_WORDS), key=len, reverse=True)) + r")(?=\s+)")
+
+
+def spell_numbers(low: str) -> str:
+    """Turn a spelled-out number into digits when an hour or minute word follows it."""
+    def repl(m: re.Match[str]) -> str:
+        unit = _UNIT_AFTER.match(low, m.end())
+        return str(_NUMBER_WORDS[m.group(1)]) if unit else m.group(1)
+    return _NUMBER_WORD_RE.sub(repl, low)
 
 
 def extract_facts_rules(text: str) -> FlightFacts:
@@ -85,8 +117,9 @@ def extract_facts_rules(text: str) -> FlightFacts:
     elif re.search(_DELAY, low):
         f.disruption = "delay"
 
-    h = re.search(_HOURS, low)
-    mins = re.search(_MINUTES, low)
+    spelled = spell_numbers(low)
+    h = re.search(_HOURS, spelled)
+    mins = re.search(_MINUTES, spelled)
     if h:
         f.delay_hours = float(h.group(1).replace(",", "."))
         if mins and mins.start() > h.start():

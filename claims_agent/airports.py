@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import math
 import re
+import unicodedata
 from dataclasses import dataclass
 
 
@@ -77,6 +78,59 @@ AIRPORTS: dict[str, Airport] = {a.iata: a for a in [
     _A("JFK", "New York", "US", False, 40.6413, -73.7781, ("нью-йорк", "nowy jork", "nueva york")),
     _A("ORD", "Chicago", "US", False, 41.9742, -87.9073, ("чикаго",)),
     _A("YYZ", "Toronto", "CA", False, 43.6777, -79.6248, ("торонто",)),
+    # More European airports common in compensation claims.
+    _A("KBP", "Kyiv", "UA", False, 50.3450, 30.8947, ("київ", "киев", "kijów", "kiew", "kiev", "kijev", "kyjev", "kiova", "κίεβο")),
+    _A("LWO", "Lviv", "UA", False, 49.8125, 23.9561, ("львів", "львов", "lwów", "lemberg", "leopoli")),
+    _A("ODS", "Odesa", "UA", False, 46.4268, 30.6765, ("одеса", "одесса", "odessa")),
+    _A("CGN", "Cologne", "DE", True, 50.8659, 7.1427, ("köln", "кельн", "kolonia", "colonia", "keulen", "kolín")),
+    _A("STR", "Stuttgart", "DE", True, 48.6899, 9.2220, ("штутгарт",)),
+    _A("NUE", "Nuremberg", "DE", True, 49.4987, 11.0669, ("nürnberg", "нюрнберг", "norymberga", "norimberga", "nuremberga")),
+    _A("HAJ", "Hanover", "DE", True, 52.4611, 9.6851, ("hannover", "ганновер", "hanower")),
+    _A("KTW", "Katowice", "PL", True, 50.4743, 19.0800, ("катовіце", "катовице", "kattowitz")),
+    _A("POZ", "Poznan", "PL", True, 52.4210, 16.8263, ("poznań", "познань", "posen")),
+    _A("BLQ", "Bologna", "IT", True, 44.5354, 11.2887, ("болонья", "bolonia", "bologne", "bolonha")),
+    _A("NAP", "Naples", "IT", True, 40.8860, 14.2908, ("napoli", "неаполь", "nápoles", "neapol", "neapel", "napels", "νάπολη")),
+    _A("CTA", "Catania", "IT", True, 37.4668, 15.0664, ("катанія", "катания")),
+    _A("PMO", "Palermo", "IT", True, 38.1760, 13.0910, ("палермо",)),
+    _A("BRI", "Bari", "IT", True, 41.1389, 16.7606, ("барі", "бари")),
+    _A("SVQ", "Seville", "ES", True, 37.4180, -5.8931, ("sevilla", "севілья", "севилья", "sewilla", "séville", "siviglia", "sevilha")),
+    _A("VLC", "Valencia", "ES", True, 39.4893, -0.4816, ("валенсія", "валенсия", "walencja", "valence", "valência")),
+    _A("ALC", "Alicante", "ES", True, 38.2822, -0.5582, ("аліканте", "аликанте")),
+    _A("IBZ", "Ibiza", "ES", True, 38.8729, 1.3731, ("ібіца", "ибица", "eivissa")),
+    _A("TFS", "Tenerife", "ES", True, 28.0445, -16.5725, ("тенеріфе", "тенерифе", "teneryfa", "teneriffa")),
+    _A("LPA", "Gran Canaria", "ES", True, 27.9319, -15.3866, ("гран-канарія", "гран-канария", "las palmas")),
+    _A("MRS", "Marseille", "FR", True, 43.4393, 5.2214, ("марсель", "marsylia", "marsella", "marsiglia", "marselha", "marseilles")),
+    _A("LYS", "Lyon", "FR", True, 45.7256, 5.0811, ("ліон", "лион", "lione", "lyons")),
+    _A("TLS", "Toulouse", "FR", True, 43.6291, 1.3638, ("тулуза", "tuluza", "tolosa")),
+    _A("BOD", "Bordeaux", "FR", True, 44.8283, -0.7156, ("бордо", "burdeos")),
+    _A("NTE", "Nantes", "FR", True, 47.1532, -1.6107, ("нант",)),
+    _A("CRL", "Charleroi", "BE", True, 50.4592, 4.4538, ("шарлеруа",)),
+    _A("EIN", "Eindhoven", "NL", True, 51.4500, 5.3745, ("ейндховен", "эйндховен")),
+    _A("BSL", "Basel", "CH", True, 47.5896, 7.5299, ("базель", "bâle", "bazylea", "basilea", "bâle-mulhouse")),
+    _A("CLJ", "Cluj-Napoca", "RO", True, 46.7852, 23.6862, ("cluj", "клуж")),
+    _A("IAS", "Iasi", "RO", True, 47.1785, 27.6206, ("iași",)),
+    _A("VAR", "Varna", "BG", True, 43.2321, 27.8251, ("варна", "warna")),
+    _A("BEG", "Belgrade", "RS", False, 44.8184, 20.3091, ("beograd", "белград", "belgrad", "belgrado", "belgrád", "bělehrad", "βελιγράδι")),
+    _A("ZAG", "Zagreb", "HR", True, 45.7429, 16.0688, ("загреб", "ζάγκρεμπ")),
+    _A("DBV", "Dubrovnik", "HR", True, 42.5614, 18.2682, ("дубровник",)),
+    _A("LJU", "Ljubljana", "SI", True, 46.2237, 14.4576, ("любляна", "lublana", "lubiana")),
+    _A("SKG", "Thessaloniki", "GR", True, 40.5197, 22.9709, ("θεσσαλονίκη", "салоніки", "салоники", "saloniki", "thessalonique", "tesalónica", "selanik", "szaloniki", "soluň")),
+    _A("HER", "Heraklion", "GR", True, 35.3397, 25.1803, ("ηράκλειο", "іракліон", "ираклион", "iraklio", "heraklion")),
+    _A("RHO", "Rhodes", "GR", True, 36.4054, 28.0862, ("ρόδος", "родос", "rodos", "rhodos")),
+    _A("CFU", "Corfu", "GR", True, 39.6019, 19.9117, ("κέρκυρα", "корфу", "korfu", "corfou")),
+    _A("SAW", "Sabiha Gokcen", "TR", False, 40.8986, 29.3092, ("sabiha", "sabiha gökçen")),
+    _A("ADB", "Izmir", "TR", False, 38.2924, 27.1570, ("i̇zmir", "ізмір", "измир", "smyrna", "esmirna")),
+    _A("LTN", "Luton", "GB", False, 51.8747, -0.3683, ("лутон",)),
+    _A("LGW", "Gatwick", "GB", False, 51.1537, -0.1821, ("гатвік", "гатвик")),
+    _A("MAN", "Manchester", "GB", False, 53.3537, -2.2750, ("манчестер",)),
+    _A("EDI", "Edinburgh", "GB", False, 55.9500, -3.3725, ("единбург", "эдинбург", "edynburg", "edimburgo", "édimbourg", "edimbourg")),
+    _A("BHX", "Birmingham", "GB", False, 52.4539, -1.7480, ("бірмінгем", "бирмингем")),
+    _A("LCA", "Larnaca", "CY", True, 34.8751, 33.6249, ("λάρνακα", "ларнака", "larnaka")),
+    _A("MLA", "Malta", "MT", True, 35.8575, 14.4775, ("мальта", "valletta")),
+    _A("FAO", "Faro", "PT", True, 37.0144, -7.9659, ("фару", "фаро")),
+    _A("FNC", "Madeira", "PT", True, 32.6979, -16.7745, ("funchal", "мадейра")),
+    _A("PDL", "Ponta Delgada", "PT", True, 37.7412, -25.6979, ("azores", "açores", "азори", "азоры")),
+    _A("BTS", "Bratislava", "SK", True, 48.1702, 17.2127, ("братислава", "bratysława", "pozsony", "pressburg")),
     _A("BKK", "Bangkok", "TH", False, 13.6900, 100.7501, ("бангкок",)),
 ]}
 
@@ -109,20 +163,42 @@ def find_airport(token: str) -> Airport | None:
     return None
 
 
+def fold(text: str) -> str:
+    """Lowercase and drop accents from Latin letters ("Ámsterdam" -> "amsterdam", "Köln" -> "koln").
+
+    Cyrillic and Greek letters keep their marks: in Ukrainian "й" and "ї" are letters of their own.
+    """
+    out: list[str] = []
+    for ch in unicodedata.normalize("NFD", text.lower()):
+        if unicodedata.combining(ch) and out and "a" <= out[-1] <= "z":
+            continue
+        out.append(ch)
+    return unicodedata.normalize("NFC", "".join(out)).translate(_LATIN_EXTRA)
+
+
+_LATIN_EXTRA = str.maketrans({"ł": "l", "ø": "o", "ß": "ss", "æ": "ae", "đ": "d", "ı": "i"})
+# English words that are also IATA codes or city names; they count only when written as a name.
+_AMBIGUOUS_IATA = {"MAN", "SAW", "HER", "VAR", "BOD", "BER", "LIS", "NAP", "BRI", "EDI"}
+_CASE_SENSITIVE_CITIES = {"nice", "malta", "faro", "bari"}
+
+
 def airports_in_text(text: str) -> list[Airport]:
     """Airports mentioned in text, in order of appearance (IATA codes or city names)."""
     hits: list[tuple[int, Airport]] = []
-    low = text.lower().replace("i\u0307", "i")  # Turkish dotted capital I lowercases to i + combining dot
+    low = fold(text)
     for a in AIRPORTS.values():
-        names = [a.city.lower(), *a.aliases]
+        names = {fold(n) for n in (a.city, *a.aliases)}
         best = None
         for n in names:
-            # Ukrainian/Polish nouns inflect ("з Лісабона", "z Warszawy"); match the stem of longer names.
-            stem = n[:-1] if len(n) > 5 else n
-            m = re.search(r"(?<!\w)" + re.escape(stem), low)
+            if n in _CASE_SENSITIVE_CITIES:
+                m = re.search(r"(?<!\w)" + re.escape(n.capitalize()) + r"(?!\w)", text)
+            else:
+                # Ukrainian/Polish nouns inflect ("з Лісабона", "z Warszawy"); match the stem of longer names.
+                pat = re.escape(n[:-1]) if len(n) > 5 else re.escape(n)
+                m = re.search(r"(?<!\w)" + pat, low)
             if m and (best is None or m.start() < best):
                 best = m.start()
-        m = re.search(r"\b" + a.iata + r"\b", text)
+        m = None if a.iata in _AMBIGUOUS_IATA and text.isupper() else re.search(r"\b" + a.iata + r"\b", text)
         if m and (best is None or m.start() < best):
             best = m.start()
         if best is not None:
