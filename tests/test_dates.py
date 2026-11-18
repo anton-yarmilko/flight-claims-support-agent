@@ -45,7 +45,7 @@ def test_chat_future_date_localised():
 
 
 def test_handoff_note_carries_check():
-    r = respond("I want my money now! Flight Warsaw to Lisbon was 5 hours late and you still have not paid")
+    r = respond("I haven't received my money! Flight Warsaw to Lisbon was 5 hours late and you still have not paid")
     assert r.decision.action.value == "human_handoff"
     assert "EU261 CHECK" in r.handoff_note and "EUR 400" in r.handoff_note
 

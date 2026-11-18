@@ -13,7 +13,7 @@ import re
 from dataclasses import asdict, dataclass, field
 from typing import TYPE_CHECKING, Any
 
-from .airports import AIRLINES, AIRPORTS, airline_in_text, airports_in_text, distance_km
+from .airports import AIRLINES, AIRPORTS, airline_in_text, airports_in_text, distance_km, route_in_text
 from .eligibility import Disruption, Flight, Incident, Verdict, check
 
 if TYPE_CHECKING:
@@ -157,12 +157,11 @@ def extract_facts_rules(text: str, today: dt.date | None = None) -> FlightFacts:
     f = FlightFacts()
     low = text.lower()
 
-    ports = airports_in_text(text)
-    # "from X to Y" order is the usual one; IATA pairs like "LIS-BER" keep their order too.
-    if len(ports) >= 2:
-        f.origin, f.destination = ports[0].iata, ports[1].iata
-    elif len(ports) == 1:
-        f.origin = ports[0].iata
+    # "from X to Y" order is the usual one; IATA chains like "WAW-FRA-LIS" keep their order too.
+    # A connection ("via Frankfurt") is skipped: EU261 distance is first departure to final destination.
+    origin, destination, _ = route_in_text(text)
+    f.origin = origin.iata if origin else None
+    f.destination = destination.iata if destination else None
 
     f.airline = airline_in_text(text)
     m = re.search(r"\b([A-Z0-9]{2})\s?(\d{2,4})\b", text)

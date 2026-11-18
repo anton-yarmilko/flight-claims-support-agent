@@ -184,6 +184,39 @@ _CASE_SENSITIVE_CITIES = {"nice", "malta", "faro", "bari"}
 
 def airports_in_text(text: str) -> list[Airport]:
     """Airports mentioned in text, in order of appearance (IATA codes or city names)."""
+    return [a for _, a in _airport_hits(text)]
+
+
+# A connecting airport: "via Frankfurt", "через Франкфурт", "przez Frankfurt", "connection in Frankfurt".
+_VIA = (r"(?:via|through|over|stopover in|lay-?over in|connection in|connecting in|change in|через|пересадк\w* в"
+        r"|przez|przesiadk\w* w|über|uber|umstieg in|escala en|vía|par|avec escale à|correspondance à|scalo a"
+        r"|tramite|prin|escala em|över|μέσω|přes|preko|kautta)")
+
+
+def route_in_text(text: str) -> tuple[Airport | None, Airport | None, list[Airport]]:
+    """Origin, final destination and connecting airports.
+
+    EU261 distance runs from the first departure to the final destination, so a
+    connection named in the middle ("Warsaw via Frankfurt to Lisbon") is skipped.
+    Without a via-word the first and last airports named are taken.
+    """
+    hits = _airport_hits(text)
+    low = fold(text)
+    via, main = [], []
+    for pos, a in hits:
+        before = low[max(0, pos - 25):pos]
+        (via if re.search(_VIA + r"\W{1,3}$", before) else main).append(a)
+    if len(main) < 2:
+        main = [a for _, a in hits]
+        via = []
+    if not main:
+        return None, None, []
+    if len(main) == 1:
+        return main[0], None, via
+    return main[0], main[-1], via + main[1:-1]
+
+
+def _airport_hits(text: str) -> list[tuple[int, Airport]]:
     hits: list[tuple[int, Airport]] = []
     low = fold(text)
     for a in AIRPORTS.values():
@@ -204,11 +237,7 @@ def airports_in_text(text: str) -> list[Airport]:
         if best is not None:
             hits.append((best, a))
     hits.sort(key=lambda h: h[0])
-    seen: list[Airport] = []
-    for _, a in hits:
-        if a not in seen:
-            seen.append(a)
-    return seen
+    return hits
 
 
 def airline_in_text(text: str) -> str | None:

@@ -13,7 +13,8 @@ CASES = [json.loads(line) for line in (Path(__file__).parent.parent / "evals" / 
 def test_eval_cases(case):
     d = triage(case["message"], ai_confidence=case.get("confidence", 1.0))
     assert d.intent == case["intent"], d
-    assert d.action.value == case["action"], d
+    # The agent, not triage, escalates some answerable questions after the EU261 check (e.g. old flights).
+    assert d.action.value == case.get("triage_action", case["action"]), d
 
 
 def test_low_confidence_goes_to_human():
