@@ -25,7 +25,7 @@ threats, GDPR requests, upset customers, weak knowledge-base matches.
 | Knowledge base | `knowledge/*.md` | EU261 rules, fees, stages, documents |
 | Evals | `evals/cases.jsonl`, `evals/judge.py` | Triage cases in all 20 languages; reply checks + optional LLM-as-judge |
 | Inbox | `claims_agent/inbox.py` | Batch triage of a day of mail: AI share, handoff reasons, urgent cases, compensation found |
-| Tests | `tests/` | 168 tests, run in CI with a fake LLM server |
+| Tests | `tests/` | 170 tests, run in CI with a fake LLM server |
 
 ```mermaid
 flowchart LR
@@ -84,7 +84,8 @@ The six tabs:
 2. **Inbox** - runs a day of customer mail (the 36 eval messages in 20 languages, or your own, one per
    line) through triage: share answered by AI, what goes to a person and why, urgent cases, eligible
    claims and the compensation they add up to. Rules only, so it is instant and free. Click a row to
-   open it in the chat.
+   open it in the chat. **Download CSV** exports every row (language, topic, decision, route,
+   amount, drafted reply) for the claims team; it opens directly in Excel.
 3. **Ticket reader** - paste a booking email or the text under a boarding-pass barcode (parsed
    offline), or upload a photo (needs a vision model). Then check EU261 or draft the letter.
 4. **Airline reply** - paste the airline's refusal; get the cause, the usual position in EU case
@@ -100,6 +101,9 @@ visitor (first `X-Forwarded-For` hop) and in total over a sliding window: `LLM_R
 (default 40), `LLM_RATE_TOTAL` (600) per `LLM_RATE_WINDOW_SECONDS` (600). Over the cap the request
 still works with the offline templates and the reply shows `(rate limit)`. Inbox and the EU261
 check never use the LLM.
+
+The LLM client also keeps a small in-memory cache (256 answers, `LLM(cache_size=...)`): the same request
+(for example a sample button pressed twice) is answered instantly and costs no tokens.
 
 ## How the LLM is kept in its lane
 
@@ -126,7 +130,7 @@ tune the rules from real tickets.
 
 ```bash
 pip install pytest
-pytest -q                     # 168 tests, LLM calls go to a fake local server
+pytest -q                     # 170 tests, LLM calls go to a fake local server
 python -m evals.judge         # reply checks on every eval case (offline: templates)
 
 # with a model, plus a bigger judge model for LLM-as-judge scoring

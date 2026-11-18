@@ -213,7 +213,7 @@ The message can be in any language. Reply with JSON only:
 {"intent": "<one of the names above>", "confidence": <0.0-1.0>}"""
 
 
-def classify_with_llm(message: str, llm: "LLM") -> tuple[str, float]:
+def classify_with_llm(message: str, llm: LLM) -> tuple[str, float]:
     data = llm.chat_json(
         [{"role": "system", "content": LLM_CLASSIFIER_PROMPT}, {"role": "user", "content": message}],
         temperature=0.0,
@@ -234,7 +234,7 @@ def triage(
     *,
     ai_confidence: float = 1.0,
     previous_handoffs: int = 0,
-    llm: "LLM | None" = None,
+    llm: LLM | None = None,
 ) -> Decision:
     intent = classify(message)
     source = "rules"

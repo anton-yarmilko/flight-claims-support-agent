@@ -79,5 +79,6 @@
  "hw_s3": "Wyciąga dane lotu; kwotę EU261 liczy kod, nie model.",
  "hw_s4": "Mały, tani LLM pisze odpowiedź na podstawie bazy wiedzy i wyliczenia.",
  "hw_s5": "Strażnik liczb: jeśli odpowiedź zawiera liczbę spoza faktów, model ma jedną poprawkę, a potem używany jest bezpieczny szablon.",
- "hw_cost": "Działa z każdym modelem zgodnym z OpenAI (tu Groq gpt-oss-20b), a bez klucza offline na szablonach."
+ "hw_cost": "Działa z każdym modelem zgodnym z OpenAI (tu Groq gpt-oss-20b), a bez klucza offline na szablonach.",
+ "ib_csv": "Pobierz CSV"
 }

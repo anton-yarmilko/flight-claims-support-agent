@@ -26,9 +26,9 @@ sys.path.insert(0, str(ROOT))
 
 from claims_agent import airline_reply, inbox  # noqa: E402
 from claims_agent.agent import MISSING_KEYS, _reason, respond  # noqa: E402
-from claims_agent.i18n import LANGUAGES, native_names, strings, t  # noqa: E402
 from claims_agent.claim_letter import draft_letter  # noqa: E402
 from claims_agent.facts import FlightFacts, check_facts  # noqa: E402
+from claims_agent.i18n import LANGUAGES, native_names, strings, t  # noqa: E402
 from claims_agent.llm import LLMError, get_llm  # noqa: E402
 from claims_agent.ticket import read_ticket_image, read_ticket_text  # noqa: E402
 
@@ -170,7 +170,7 @@ class Handler(BaseHTTPRequestHandler):
         fwd = (self.headers.get("X-Forwarded-For") or "").split(",")[0].strip()
         return fwd or self.client_address[0]
 
-    def do_GET(self) -> None:  # noqa: N802
+    def do_GET(self) -> None:
         if self.path in ("/", "/index.html"):
             self._send(200, INDEX, "text/html; charset=utf-8")
         elif self.path == "/api/status":
@@ -182,7 +182,7 @@ class Handler(BaseHTTPRequestHandler):
         else:
             self._json(404, {"error": "not found"})
 
-    def do_POST(self) -> None:  # noqa: N802
+    def do_POST(self) -> None:
         length = int(self.headers.get("Content-Length") or 0)
         if length > MAX_BODY:
             return self._json(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, {"error": "request too large (8 MB max)"})
@@ -199,7 +199,7 @@ class Handler(BaseHTTPRequestHandler):
             self._json(500, {"error": f"{type(e).__name__}: {e}"})
 
     def log_message(self, fmt: str, *args: Any) -> None:
-        sys.stderr.write("%s %s\n" % (self.command, self.path))
+        sys.stderr.write(f"{self.command} {self.path}\n")
 
 
 def main() -> None:

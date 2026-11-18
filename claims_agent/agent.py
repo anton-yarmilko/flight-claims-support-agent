@@ -203,7 +203,7 @@ def respond(
     message: str,
     history: list[dict[str, str]] | None = None,
     *,
-    llm: "LLM | None" = None,
+    llm: LLM | None = None,
     previous_handoffs: int = 0,
 ) -> Reply:
     from .llm import LLMError
@@ -251,7 +251,7 @@ def respond(
         if bad:
             # One retry: tell the model which numbers it may not use. The guard still decides.
             notes.append(f"Number guard rejected the first LLM reply (unsupported numbers: {', '.join(bad)}); retried.")
-            retry = messages + [{"role": "assistant", "content": text}, {"role": "system", "content":
+            retry = [*messages, {"role": "assistant", "content": text}, {"role": "system", "content":
                      f"Your reply used numbers that are not in the KNOWLEDGE BASE or CHECK RESULT: {', '.join(bad)}. "
                      "Rewrite it without them, using only numbers given above."}]
             text = llm.chat(retry, temperature=0.0, max_tokens=400).strip()

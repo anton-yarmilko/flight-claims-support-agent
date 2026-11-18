@@ -79,5 +79,6 @@
  "hw_s3": "Extrait les données du vol ; le montant EU261 est calculé par le code, pas par le modèle.",
  "hw_s4": "Un petit LLM peu coûteux rédige la réponse à partir de la base de connaissances et du calcul.",
  "hw_s5": "Contrôle des chiffres : si la réponse contient un nombre absent des faits, le modèle a un nouvel essai, puis un modèle sûr est utilisé.",
- "hw_cost": "Fonctionne avec tout modèle compatible OpenAI (ici Groq gpt-oss-20b) et hors ligne avec des modèles sans clé."
+ "hw_cost": "Fonctionne avec tout modèle compatible OpenAI (ici Groq gpt-oss-20b) et hors ligne avec des modèles sans clé.",
+ "ib_csv": "Télécharger le CSV"
 }

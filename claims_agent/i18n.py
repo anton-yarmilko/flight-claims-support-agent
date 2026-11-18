@@ -9,7 +9,7 @@ in `locales/`; English is the fallback for any missing key.
 from __future__ import annotations
 
 import json
-from functools import lru_cache
+from functools import cache
 from pathlib import Path
 
 LOCALES = Path(__file__).parent / "locales"
@@ -23,7 +23,7 @@ LANGUAGES: dict[str, str] = {
 }
 
 
-@lru_cache(maxsize=None)
+@cache
 def strings(lang: str) -> dict[str, str]:
     path = LOCALES / f"{lang}.json"
     data = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}

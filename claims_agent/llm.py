@@ -19,12 +19,15 @@ Configuration (environment variables):
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
+import threading
 import urllib.error
 import urllib.request
-from dataclasses import dataclass
+from collections import OrderedDict
+from dataclasses import dataclass, field
 from typing import Any
 
 # Small, cheap models that are good enough for a demo.
@@ -68,6 +71,12 @@ class LLM:
     api_key: str = ""
     vision_model: str = ""
     timeout: float = 30.0
+    # Same request, same answer: repeat questions (sample buttons, re-runs) cost
+    # no tokens and come back instantly. 0 turns the cache off.
+    cache_size: int = 256
+    _cache: OrderedDict[str, str] = field(default_factory=OrderedDict, repr=False, compare=False)
+    _lock: threading.Lock = field(default_factory=threading.Lock, repr=False, compare=False)
+    hits: int = field(default=0, repr=False, compare=False)
 
     @property
     def label(self) -> str:
@@ -94,6 +103,24 @@ class LLM:
             body["max_tokens"] = max(max_tokens, 1000)
         if json_mode:
             body["response_format"] = {"type": "json_object"}
+        key = hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()
+        if self.cache_size:
+            with self._lock:
+                if key in self._cache:
+                    self._cache.move_to_end(key)
+                    self.hits += 1
+                    return self._cache[key]
+        text = self._post(body, messages, temperature=temperature, max_tokens=max_tokens, model=model,
+                          json_mode=json_mode)
+        if self.cache_size and text.strip():
+            with self._lock:
+                self._cache[key] = text
+                while len(self._cache) > self.cache_size:
+                    self._cache.popitem(last=False)
+        return text
+
+    def _post(self, body: dict[str, Any], messages: list[dict[str, Any]], *, temperature: float,
+              max_tokens: int, model: str | None, json_mode: bool) -> str:
         req = urllib.request.Request(
             self.base_url.rstrip("/") + "/chat/completions",
             data=json.dumps(body).encode(),
@@ -135,7 +162,7 @@ def parse_json(text: str) -> dict[str, Any]:
     except json.JSONDecodeError:
         m = re.search(r"\{.*\}", text, re.S)
         if not m:
-            raise LLMError(f"No JSON in LLM output: {text[:200]}")
+            raise LLMError(f"No JSON in LLM output: {text[:200]}") from None
         try:
             return json.loads(m.group(0))
         except json.JSONDecodeError as e:
