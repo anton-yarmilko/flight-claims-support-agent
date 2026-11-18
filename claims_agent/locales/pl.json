@@ -94,5 +94,6 @@
  "rs_halved": "Prawdopodobnie przysługuje: EUR {amount} na pasażera przed prowizją. To połowa zwykłej kwoty, bo lot zastępczy przyleciał w ciągu {h} godzin.",
  "elig_half": "To połowa zwykłej kwoty, bo lot zastępczy przyleciał w ciągu {h} godzin.",
  "rs_voluntary": "dobrowolnie oddałeś miejsce, a ochotnicy dostają to, co uzgodnili z linią, a nie odszkodowanie z EU261.",
- "f_via": "Przesiadka (IATA)"
+ "f_via": "Przesiadka (IATA)",
+ "draft_reply": "Projekt odpowiedzi do linii (sprawdza i wysyła człowiek)"
 }

@@ -94,5 +94,6 @@
  "rs_halved": "Likely eligible: EUR {amount} per passenger before the service fee. It is half the usual amount because the replacement flight arrived within {h} hours.",
  "elig_half": "It is half the usual amount because the replacement flight arrived within {h} hours.",
  "rs_voluntary": "you gave up your seat voluntarily, and volunteers get the benefits agreed with the airline rather than EU261 compensation.",
- "f_via": "Connection (IATA)"
+ "f_via": "Connection (IATA)",
+ "draft_reply": "Draft reply to the airline (a person checks and sends it)"
 }

@@ -94,5 +94,6 @@
  "rs_halved": "Troligen berättigad: EUR {amount} per passagerare före avgiften. Det är halva det vanliga beloppet eftersom ersättningsflyget kom fram inom {h} timmar.",
  "elig_half": "Det är halva det vanliga beloppet eftersom ersättningsflyget kom fram inom {h} timmar.",
  "rs_voluntary": "du lämnade frivilligt din plats, och frivilliga får det som avtalats med flygbolaget, inte EU261-ersättning.",
- "f_via": "Byte (IATA)"
+ "f_via": "Byte (IATA)",
+ "draft_reply": "Utkast till svar till flygbolaget (en människa granskar och skickar det)"
 }

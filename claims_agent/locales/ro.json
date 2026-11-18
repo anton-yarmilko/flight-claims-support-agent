@@ -94,5 +94,6 @@
  "rs_halved": "Probabil eligibil: EUR {amount} per pasager înainte de comision. Este jumătate din suma obișnuită, deoarece zborul alternativ a sosit în maximum {h} ore.",
  "elig_half": "Este jumătate din suma obișnuită, deoarece zborul alternativ a sosit în maximum {h} ore.",
  "rs_voluntary": "ați renunțat voluntar la loc, iar voluntarii primesc beneficiile convenite cu compania, nu compensația EU261.",
- "f_via": "Escală (IATA)"
+ "f_via": "Escală (IATA)",
+ "draft_reply": "Ciornă de răspuns către companie (un om o verifică și o trimite)"
 }

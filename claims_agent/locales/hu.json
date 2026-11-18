@@ -94,5 +94,6 @@
  "rs_halved": "Valószínűleg jogosult: utasonként EUR {amount} a díj levonása előtt. Ez a szokásos összeg fele, mert a pótjárat {h} órán belül megérkezett.",
  "elig_half": "Ez a szokásos összeg fele, mert a pótjárat {h} órán belül megérkezett.",
  "rs_voluntary": "önként lemondott a helyéről, az önkéntesek pedig a légitársasággal egyeztetett juttatást kapják, nem EU261 kártérítést.",
- "f_via": "Átszállás (IATA)"
+ "f_via": "Átszállás (IATA)",
+ "draft_reply": "Válaszvázlat a légitársaságnak (ember ellenőrzi és küldi el)"
 }

@@ -94,5 +94,6 @@
  "rs_halved": "Waarschijnlijk recht: EUR {amount} per passagier vóór de servicekosten. Dat is de helft van het gewone bedrag, omdat de vervangende vlucht binnen {h} uur aankwam.",
  "elig_half": "Dat is de helft van het gewone bedrag, omdat de vervangende vlucht binnen {h} uur aankwam.",
  "rs_voluntary": "u heeft uw stoel vrijwillig afgestaan; vrijwilligers krijgen wat met de maatschappij is afgesproken, geen EU261-compensatie.",
- "f_via": "Overstap (IATA)"
+ "f_via": "Overstap (IATA)",
+ "draft_reply": "Conceptantwoord aan de maatschappij (een mens controleert en verstuurt het)"
 }

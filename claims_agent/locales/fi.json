@@ -94,5 +94,6 @@
  "rs_halved": "Todennäköisesti oikeutettu: EUR {amount} matkustajaa kohden ennen palkkiota. Summa on puolitettu, koska korvaava lento saapui {h} tunnin sisällä.",
  "elig_half": "Summa on puolitettu, koska korvaava lento saapui {h} tunnin sisällä.",
  "rs_voluntary": "luovuit paikastasi vapaaehtoisesti, ja vapaaehtoiset saavat lentoyhtiön kanssa sovitut edut, eivät EU261-korvausta.",
- "f_via": "Vaihto (IATA)"
+ "f_via": "Vaihto (IATA)",
+ "draft_reply": "Vastausluonnos lentoyhtiölle (ihminen tarkistaa ja lähettää sen)"
 }
