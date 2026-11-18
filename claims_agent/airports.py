@@ -72,6 +72,7 @@ AIRPORTS: dict[str, Airport] = {a.iata: a for a in [
     _A("IST", "Istanbul", "TR", False, 41.2753, 28.7519, ("стамбул", "stambuł", "estambul", "istanbul", "κωνσταντινούπολη")),
     _A("AYT", "Antalya", "TR", False, 36.8987, 30.8005, ("анталія",)),
     _A("DXB", "Dubai", "AE", False, 25.2532, 55.3657, ("дубай", "dubaj")),
+    _A("AUH", "Abu Dhabi", "AE", False, 24.4330, 54.6511, ("абу-дабі", "абу-даби", "abu zabi", "abú dabi", "άμπου ντάμπι")),
     _A("DOH", "Doha", "QA", False, 25.2731, 51.6081, ("доха",)),
     _A("TLV", "Tel Aviv", "IL", False, 32.0055, 34.8854, ("тель-авів",)),
     _A("CAI", "Cairo", "EG", False, 30.1219, 31.4056, ("каїр", "kair")),
@@ -145,7 +146,7 @@ AIRLINES: dict[str, tuple[str, bool]] = {
     "LX": ("SWISS", True), "SN": ("Brussels Airlines", True), "AZ": ("ITA Airways", True),
     "EW": ("Eurowings", True), "DY": ("Norwegian", True), "BT": ("airBaltic", True),
     "A3": ("Aegean Airlines", True), "EI": ("Aer Lingus", True), "TK": ("Turkish Airlines", False),
-    "EK": ("Emirates", False), "QR": ("Qatar Airways", False), "PS": ("Ukraine International", False),
+    "EK": ("Emirates", False), "QR": ("Qatar Airways", False), "EY": ("Etihad Airways", False), "PS": ("Ukraine International", False),
     "UA": ("United Airlines", False), "DL": ("Delta Air Lines", False), "AA": ("American Airlines", False),
     "VS": ("Virgin Atlantic", False), "LS": ("Jet2", False), "BY": ("TUI Airways", False),
 }
@@ -155,7 +156,7 @@ UK_CARRIERS = frozenset({"BA", "U2", "VS", "LS", "BY"})
 
 AIRLINE_NAMES = {name.lower(): code for code, (name, _) in AIRLINES.items()}
 AIRLINE_NAMES.update({"wizz": "W6", "wizzair": "W6", "wizz air": "W6", "easyjet": "U2", "pll lot": "LO", "lot polish": "LO",
-                      "virgin": "VS", "jet2.com": "LS", "tui": "BY",
+                      "virgin": "VS", "etihad": "EY", "jet2.com": "LS", "tui": "BY",
                       "райанейр": "FR", "візейр": "W6", "люфтганза": "LH", "мау": "PS"})
 
 
@@ -280,15 +281,19 @@ _AIRLINE_PATTERNS = [(re.compile(r"(?<!\w)" + re.escape(name) + r"(?!\w)"), code
 _CASED_AIRLINES = [(re.compile(r"(?<!\w)" + name + r"(?!\w)"), code) for name, code in (("LOT", "LO"), ("TAP", "TP"))]
 
 
+# Country names that contain an airline name ("United Arab Emirates" is not the airline Emirates).
+_NOT_AIRLINE = re.compile(r"\barab(?:ian)?\s+emirates\b|\bemirati\b", re.I)
+
+
 def airline_in_text(text: str) -> str | None:
+    """The airline named first in the text (the longer name wins at the same spot)."""
+    text = _NOT_AIRLINE.sub(lambda m: " " * len(m.group()), text)
     low = text.lower()
-    for pattern, code in _AIRLINE_PATTERNS:
-        if pattern.search(low):
-            return code
+    hits = [(m.start(), -len(m.group()), code) for pattern, code in _AIRLINE_PATTERNS if (m := pattern.search(low))]
     if not text.isupper():
-        for pattern, code in _CASED_AIRLINES:
-            if pattern.search(text):
-                return code
+        hits += [(m.start(), -len(m.group()), code) for pattern, code in _CASED_AIRLINES if (m := pattern.search(text))]
+    if hits:
+        return min(hits)[2]
     m = re.search(r"\b([A-Z0-9]{2})\s?(\d{2,4})\b", text)
     if m and m.group(1) in AIRLINES:
         return m.group(1)
