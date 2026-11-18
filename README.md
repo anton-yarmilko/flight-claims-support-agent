@@ -25,7 +25,7 @@ threats, GDPR requests, upset customers, weak knowledge-base matches.
 | Knowledge base | `knowledge/*.md` | EU261 rules, fees, stages, documents |
 | Evals | `evals/cases.jsonl`, `evals/judge.py` | Triage cases in all 20 languages; reply checks + optional LLM-as-judge |
 | Inbox | `claims_agent/inbox.py` | Batch triage of a day of mail: AI share, handoff reasons, urgent cases, compensation found |
-| Tests | `tests/` | 362 tests, run in CI with a fake LLM server |
+| Tests | `tests/` | 370 tests, run in CI with a fake LLM server |
 
 ```mermaid
 flowchart LR
@@ -142,7 +142,7 @@ tune the rules from real tickets.
 
 ```bash
 pip install pytest
-pytest -q                     # 362 tests, LLM calls go to a fake local server
+pytest -q                     # 370 tests, LLM calls go to a fake local server
 python -m evals.judge         # reply checks on every eval case (offline: templates)
 
 # with a model, plus a bigger judge model for LLM-as-judge scoring
