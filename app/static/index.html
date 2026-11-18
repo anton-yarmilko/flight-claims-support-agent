@@ -36,6 +36,7 @@
   textarea, input, select { width: 100%; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
   textarea { min-height: 120px; resize: vertical; }
   button.main { background: var(--brand); color: var(--brand-ink); border: 0; border-radius: 8px; padding: 9px 16px; font: inherit; cursor: pointer; }
+  button.ghost.on { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
   button.ghost { background: none; border: 1px solid var(--line); color: var(--ink); border-radius: 99px; padding: 4px 10px; font-size: 13px; cursor: pointer; }
   button:disabled { opacity: .5; cursor: wait; }
   .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
@@ -106,16 +107,16 @@
         <h2 data-i18n="chat_title">Customer chat</h2>
         <p class="hint" data-i18n="chat_hint"></p>
         <div class="chips" id="chatSamples"></div>
-        <div id="log"></div>
+        <div id="log" role="log" aria-live="polite" aria-label="Chat"></div>
         <div class="row">
-          <input id="chatInput" data-i18n-ph="chat_ph" autocomplete="off">
+          <input id="chatInput" data-i18n-ph="chat_ph" data-i18n-aria="chat_ph" autocomplete="off" maxlength="2000">
           <button class="main" id="chatSend" data-i18n="send">Send</button>
           <button class="ghost" id="chatReset" data-i18n="new_chat">New chat</button>
         </div>
       </div>
       <div class="card">
         <h2 data-i18n="dec_title">What the agent decided</h2>
-        <div id="decision" class="empty" data-i18n="dec_empty"></div>
+        <div id="decision" class="empty" data-i18n="dec_empty" aria-live="polite"></div>
       </div>
     </div>
   </section>
@@ -130,7 +131,7 @@
         <button class="ghost" id="inboxMine" data-i18n="ib_mine">Run my messages</button>
         <button class="ghost" id="inboxCsv" data-i18n="ib_csv" hidden>Download CSV</button>
       </div>
-      <textarea id="inboxText" data-i18n-ph="ib_ph" style="min-height:70px;margin-top:10px"></textarea>
+      <textarea id="inboxText" data-i18n-ph="ib_ph" data-i18n-aria="ib_ph" style="min-height:70px;margin-top:10px"></textarea>
       <div id="inboxOut" class="empty" data-i18n="ib_empty" style="margin-top:12px"></div>
     </div>
   </section>
@@ -145,7 +146,7 @@
           <button class="ghost" data-ticket="M1KOWALSKI/ANNA       EXYZ789 WAWBCNFR 1234 300Y014C0001 100" data-i18n="t_barcode">Barcode text</button>
           <button class="ghost" data-ticket="Your booking is confirmed. Booking reference: QX7P2K&#10;Passenger: Olena Petrenko&#10;Flight LH1172 Frankfurt (FRA) to Lisbon (LIS)&#10;Date: 2026-09-14, departs 09:40" data-i18n="t_email">Booking email</button>
         </div>
-        <textarea id="ticketText" data-i18n-ph="t_ph"></textarea>
+        <textarea id="ticketText" data-i18n-ph="t_ph" data-i18n-aria="t_ph" maxlength="8000"></textarea>
         <div class="row">
           <button class="main" id="ticketRead" data-i18n="t_read">Read ticket</button>
           <input type="file" id="ticketFile" accept="image/*" style="width:auto">
@@ -177,7 +178,7 @@
           <button class="ghost" data-reply="Your flight was delayed due to adverse weather conditions (heavy snow and de-icing) at the departure airport.">Weather</button>
           <button class="ghost" data-reply="The delay resulted from the late arrival of the incoming aircraft on its previous flight.">Knock-on delay</button>
         </div>
-        <textarea id="replyText" data-i18n-ph="r_ph"></textarea>
+        <textarea id="replyText" data-i18n-ph="r_ph" data-i18n-aria="r_ph" maxlength="8000"></textarea>
         <div class="row"><button class="main" id="replyGo" data-i18n="r_go">Analyse</button></div>
       </div>
       <div class="card">
@@ -219,6 +220,14 @@
 
 <script>
 const $ = (s) => document.querySelector(s);
+async function copyText(btn, text) {
+  try { await navigator.clipboard.writeText(text); } catch {
+    const t = document.createElement("textarea"); t.value = text; document.body.append(t); t.select(); document.execCommand("copy"); t.remove();
+  }
+  btn.textContent = T("copied"); setTimeout(() => { btn.textContent = T("copy"); }, 1500);
+}
+const copyBtn = (id) => `<button class="ghost" data-copy="${id}">${esc(T("copy"))}</button>`;
+document.addEventListener("click", (e) => { const b = e.target.closest("[data-copy]"); if (b) copyText(b, document.getElementById(b.dataset.copy).textContent); });
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
 async function post(path, body) {
@@ -233,6 +242,7 @@ function alertBox(msg) { const d = document.createElement("div"); d.className = 
 // tabs
 document.querySelectorAll("nav button").forEach((b) => b.onclick = () => {
   document.querySelectorAll("nav button, section").forEach((x) => x.classList.remove("on"));
+  document.querySelectorAll("nav button").forEach((x) => x.setAttribute("aria-current", x === b ? "page" : "false"));
   b.classList.add("on"); $("#" + b.dataset.tab).classList.add("on");
 });
 
@@ -248,6 +258,7 @@ async function setLang(code) {
   document.documentElement.lang = code; $("#lang").value = code;
   document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = T(el.dataset.i18n); });
   document.querySelectorAll("[data-i18n-ph]").forEach((el) => { el.placeholder = T(el.dataset.i18nPh); });
+  document.querySelectorAll("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", T(el.dataset.i18nAria)); });
   renderMode(); buildSamples(); relabelFields(); renderInbox();
 }
 fetch("/api/status").then((r) => r.json()).then((s) => { STATUS = s; renderMode(); });
@@ -310,7 +321,7 @@ function decisionHtml(r) {
     if (e.eligible === null) h += `<p class="empty">${esc(T("waiting"))}: ${esc(e.missing.join(", "))}</p>`;
     else h += `<dl><dt>${esc(T("route"))}</dt><dd>${esc(e.route)} (${e.distance_km} km)</dd><dt>${esc(T("eligible"))}</dt><dd>${esc(T(e.eligible ? "yes" : "no"))}</dd><dt>${esc(T("amount"))}</dt><dd>EUR ${e.amount_eur} ${esc(T("per_pax"))}</dd><dt>${esc(T("reason"))}</dt><dd>${esc(e.reason)}</dd></dl>`;
   }
-  if (r.handoff_note) h += `<p><b>${esc(T("note_title"))}</b></p><pre>${esc(r.handoff_note)}</pre>`;
+  if (r.handoff_note) h += `<p><b>${esc(T("note_title"))}</b> ${copyBtn("handoffNote")}</p><pre id="handoffNote">${esc(r.handoff_note)}</pre>`;
   if (r.notes.length) h += `<p class="src">${r.notes.map(esc).join("<br>")}</p>`;
   return h;
 }
@@ -341,8 +352,8 @@ function relabelFields() {
 }
 function buildFields(el, prefix) {
   el.innerHTML = FIELDS.map(([k, l]) => k === "disruption"
-    ? `<div><label data-flabel="${l}">${esc(T(l))} </label><select id="${prefix}_${k}"><option value="">-</option><option value="delay" data-dopt="d_delay"></option><option value="cancellation" data-dopt="d_cancel"></option><option value="denied_boarding" data-dopt="d_denied"></option></select></div>`
-    : `<div><label data-flabel="${l}">${esc(T(l))} <span class="src" id="${prefix}_${k}_src"></span></label><input id="${prefix}_${k}"></div>`).join("");
+    ? `<div><label for="${prefix}_${k}" data-flabel="${l}">${esc(T(l))} </label><select id="${prefix}_${k}"><option value="">-</option><option value="delay" data-dopt="d_delay"></option><option value="cancellation" data-dopt="d_cancel"></option><option value="denied_boarding" data-dopt="d_denied"></option></select></div>`
+    : `<div><label for="${prefix}_${k}" data-flabel="${l}">${esc(T(l))} <span class="src" id="${prefix}_${k}_src"></span></label><input id="${prefix}_${k}"></div>`).join("");
 }
 buildFields($("#factFields"), "t"); buildFields($("#letterFields"), "l");
 const readFacts = (p) => Object.fromEntries(FIELDS.map(([k]) => [k, $(`#${p}_${k}`).value.trim()]));
@@ -373,7 +384,8 @@ $("#ticketCheck").onclick = () => busy($("#ticketCheck"), async () => {
 $("#ticketToLetter").onclick = () => { writeFacts("l", readFacts("t")); document.querySelector('[data-tab="letter"]').click(); $("#letterGo").click(); };
 
 // ---------- inbox ----------
-let INBOX = null;
+let INBOX = null, INBOX_FILTER = "all";
+const FILTERS = {all: () => true, human: (r) => r.action !== "ai_answer", urgent: (r) => r.priority === "high", eligible: (r) => r.eligible};
 function renderInbox() {
   if (!INBOX) return;
   const s = INBOX.stats, pct = (n) => s.total ? Math.round(100 * n / s.total) : 0;
@@ -381,7 +393,10 @@ function renderInbox() {
   const max = Math.max(1, ...Object.values(s.handoff_reasons));
   const reasons = Object.entries(s.handoff_reasons).map(([c, n]) =>
     `<span>${esc(T("hr_" + c))}</span><div class="bar" style="width:${Math.round(100 * n / max)}%"></div><span class="num">${n}</span>`).join("");
+  const filters = [["all", "ib_f_all"], ["human", "ib_human"], ["urgent", "ib_urgent"], ["eligible", "ib_eligible"]].map(([f, k]) =>
+    `<button class="ghost${f === INBOX_FILTER ? " on" : ""}" data-filter="${f}" aria-pressed="${f === INBOX_FILTER}">${esc(T(k).charAt(0).toLocaleUpperCase(LANG) + T(k).slice(1))} (${INBOX.rows.filter(FILTERS[f]).length})</button>`).join("");
   const rows = INBOX.rows.map((r, i) => {
+    if (!FILTERS[INBOX_FILTER](r)) return "";
     const dec = r.action === "ai_answer" ? `<span class="badge ok">${esc(T("ai_answers"))}</span>`
       : `<span class="badge ${r.priority === "high" ? "bad" : "warn"}">${esc(T("handed"))}</span><br><span class="src">${r.handoff.map((c) => esc(T("hr_" + c))).join(", ")}</span>`;
     const res = r.eligible ? `<span class="num">EUR ${r.amount}</span><br><span class="src">${esc(r.route || "")}</span>`
@@ -394,8 +409,9 @@ function renderInbox() {
     ${kpi(s.urgent, "ib_urgent")}${kpi(s.eligible, "ib_eligible")}${kpi(`EUR ${s.eur.toLocaleString(LANG)}`, "ib_eur", "ok")}${kpi(s.languages, "ib_langs")}
     ${s.labelled ? kpi(`${s.agrees}/${s.labelled}`, "ib_agree") : ""}</div>
     ${reasons ? `<h2>${esc(T("ib_reasons"))}</h2><div class="bars">${reasons}</div>` : ""}
-    <p class="hint">${esc(T("ib_open"))}</p>
+    <p class="hint">${esc(T("ib_open"))}</p><div class="chips" role="group">${filters}</div>
     <div class="tablewrap"><table><thead><tr><th>${esc(T("ib_msg"))}</th><th>${esc(T("ib_lang"))}</th><th>${esc(T("ib_intent"))}</th><th>${esc(T("ib_decision"))}</th><th>${esc(T("ib_result"))}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  $("#inboxOut").querySelectorAll("[data-filter]").forEach((b) => b.onclick = () => { INBOX_FILTER = b.dataset.filter; renderInbox(); });
   $("#inboxOut").querySelectorAll("tbody tr").forEach((tr) => tr.onclick = () => {
     $("#chatReset").click(); $("#chatInput").value = INBOX.rows[+tr.dataset.i].message;
     document.querySelector('[data-tab="chat"]').click(); send();
@@ -413,11 +429,11 @@ function inboxCsv() {
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 $("#inboxCsv").onclick = () => INBOX && inboxCsv();
-$("#inboxSample").onclick = () => busy($("#inboxSample"), async () => { INBOX = await post("/api/inbox", {}); renderInbox(); });
+$("#inboxSample").onclick = () => busy($("#inboxSample"), async () => { INBOX = await post("/api/inbox", {}); INBOX_FILTER = "all"; renderInbox(); });
 $("#inboxMine").onclick = () => busy($("#inboxMine"), async () => {
   const lines = $("#inboxText").value.split("\n").map((x) => x.trim()).filter(Boolean);
   if (!lines.length) { $("#inboxText").focus(); return; }
-  INBOX = await post("/api/inbox", {messages: lines}); renderInbox();
+  INBOX = await post("/api/inbox", {messages: lines}); INBOX_FILTER = "all"; renderInbox();
 });
 
 // ---------- airline reply ----------
@@ -437,8 +453,8 @@ $("#replyGo").onclick = () => busy($("#replyGo"), async () => {
 $("#letterGo").onclick = () => busy($("#letterGo"), async () => {
   const D = await post("/api/letter", readFacts("l"));
   $("#letterOut").className = "";
-  $("#letterOut").innerHTML = `<span class="badge ${D.ready ? "ok" : "warn"}">${esc(T(D.ready ? "ready" : "incomplete"))}</span><span class="badge">${esc(D.mode)}</span>
-    ${D.missing.length ? `<p class="empty">${esc(T("missing"))}: ${esc(D.missing.join(", "))}</p>` : ""}<pre>${esc(D.text)}</pre>
+  $("#letterOut").innerHTML = `<span class="badge ${D.ready ? "ok" : "warn"}">${esc(T(D.ready ? "ready" : "incomplete"))}</span><span class="badge">${esc(D.mode)}</span>${copyBtn("letterText")}
+    ${D.missing.length ? `<p class="empty">${esc(T("missing"))}: ${esc(D.missing.join(", "))}</p>` : ""}<pre id="letterText">${esc(D.text)}</pre>
     ${D.notes.length ? `<p class="src">${D.notes.map(esc).join("<br>")}</p>` : ""}`;
 });
 </script>

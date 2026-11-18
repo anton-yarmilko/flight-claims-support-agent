@@ -80,5 +80,8 @@
  "hw_s4": "Een klein, goedkoop LLM schrijft het antwoord op basis van de kennisbank en de berekening.",
  "hw_s5": "Cijferbewaking: staat er een getal in het antwoord dat niet in de feiten staat, dan krijgt het model één nieuwe poging en daarna wordt een veilig sjabloon gebruikt.",
  "hw_cost": "Werkt met elk OpenAI-compatibel model (hier Groq gpt-oss-20b) en zonder sleutel offline met sjablonen.",
- "ib_csv": "CSV downloaden"
+ "ib_csv": "CSV downloaden",
+ "ib_f_all": "Alle",
+ "copy": "Kopiëren",
+ "copied": "Gekopieerd"
 }

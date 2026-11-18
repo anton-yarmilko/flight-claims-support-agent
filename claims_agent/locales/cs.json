@@ -80,5 +80,8 @@
  "hw_s4": "Malý levný LLM napíše odpověď ze znalostní báze a výpočtu.",
  "hw_s5": "Hlídač čísel: pokud odpověď obsahuje číslo, které není ve faktech, model dostane ještě jeden pokus a pak se použije bezpečná šablona.",
  "hw_cost": "Funguje s jakýmkoli modelem kompatibilním s OpenAI (zde Groq gpt-oss-20b) a bez klíče offline se šablonami.",
- "ib_csv": "Stáhnout CSV"
+ "ib_csv": "Stáhnout CSV",
+ "ib_f_all": "Vše",
+ "copy": "Kopírovat",
+ "copied": "Zkopírováno"
 }
