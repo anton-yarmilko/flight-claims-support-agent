@@ -25,3 +25,22 @@ def test_polish_flight_into_eu_asks_for_the_airline():
     r = respond("Mój lot z Nowego Jorku do Warszawy był opóźniony 5 godzin. Czy należy mi się odszkodowanie?")
     assert r.facts.airline is None
     assert r.eligibility.verdict is None and r.eligibility.missing
+
+
+def test_country_is_not_the_airline_emirates():
+    assert airline_in_text("Dubai, United Arab Emirates to Paris") is None
+    assert airline_in_text("Emirates flight from Dubai") == "EK"
+
+
+def test_first_named_airline_wins():
+    assert airline_in_text("My Emirates flight was cancelled; next time I fly Lufthansa") == "EK"
+    assert airline_in_text("Flew Lufthansa, never Emirates again") == "LH"
+    assert airline_in_text("easyJet Europe from Berlin") == "EJU"
+
+
+def test_abu_dhabi_and_etihad():
+    r = respond("Flew from Abu Dhabi to Rome with Etihad, delay 5 hours")
+    assert r.eligibility.to_dict()["route"] == "Abu Dhabi - Rome"
+    assert not r.eligibility.verdict.eligible
+    r = respond("Flew Abu Dhabi to Rome with Lufthansa, delay 5 hours")
+    assert r.eligibility.verdict.amount_eur == 600
