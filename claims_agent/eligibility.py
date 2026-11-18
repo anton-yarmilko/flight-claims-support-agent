@@ -3,6 +3,7 @@
 Pure functions, no I/O, so the rules can be tested directly. This is a support
 aid that tells the agent what to say next; it is not legal advice and it skips
 edge cases (re-routing reductions, denied-boarding nuances, UK261 differences).
+It does apply the Article 7(2)(c) halving for long-haul delays of 3 to 4 hours.
 """
 
 from __future__ import annotations
@@ -73,4 +74,6 @@ def check(flight: Flight, incident: Incident) -> Verdict:
         return Verdict(False, 0, "Cancellation announced 14 or more days before departure.")
 
     amount = compensation_band(flight)
+    if amount == 600 and incident.kind is Disruption.DELAY and incident.arrival_delay_hours < 4:
+        amount = 300  # Article 7(2)(c): long-haul arriving 3-4 hours late gets half
     return Verdict(True, amount, f"Likely eligible: EUR {amount} per passenger before the service fee.")

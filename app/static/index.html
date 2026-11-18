@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FlyClaim AI demo</title>
+<style>
+  :root {
+    --bg: #f5f7fb; --card: #fff; --ink: #14213d; --muted: #5c6b84; --line: #e2e7f0;
+    --brand: #1f5eff; --brand-ink: #fff; --ok: #12805c; --warn: #b26b00; --bad: #c0392b;
+    --ok-bg: #e7f6ef; --warn-bg: #fff4e0; --bad-bg: #fdecea; --user: #1f5eff; --bot: #eef2f8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1522; --card: #172033; --ink: #e8edf7; --muted: #9aa7bd; --line: #26324a;
+      --brand: #5b8cff; --ok: #3ccf91; --warn: #f0a838; --bad: #ff7a6b;
+      --ok-bg: #12352a; --warn-bg: #3a2c12; --bad-bg: #3d1d1a; --user: #3a6df0; --bot: #202b42;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--ink); }
+  header { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--card); flex-wrap: wrap; }
+  header h1 { font-size: 18px; margin: 0; }
+  header h1 span { color: var(--brand); }
+  #mode { font-size: 12px; padding: 3px 10px; border-radius: 99px; background: var(--bot); color: var(--muted); }
+  nav { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; }
+  nav button { border: 0; background: none; color: var(--muted); padding: 8px 12px; border-radius: 8px; cursor: pointer; font: inherit; }
+  nav button.on { background: var(--brand); color: var(--brand-ink); }
+  main { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
+  section { display: none; } section.on { display: block; }
+  .grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px; }
+  @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .card h2 { font-size: 15px; margin: 0 0 10px; }
+  .hint { color: var(--muted); font-size: 13px; margin: 0 0 10px; }
+  textarea, input, select { width: 100%; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+  textarea { min-height: 120px; resize: vertical; }
+  button.main { background: var(--brand); color: var(--brand-ink); border: 0; border-radius: 8px; padding: 9px 16px; font: inherit; cursor: pointer; }
+  button.ghost { background: none; border: 1px solid var(--line); color: var(--ink); border-radius: 99px; padding: 4px 10px; font-size: 13px; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: wait; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  #log { height: 430px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding: 4px; }
+  .msg { max-width: 85%; padding: 9px 12px; border-radius: 12px; white-space: pre-wrap; }
+  .msg.user { align-self: flex-end; background: var(--user); color: #fff; border-bottom-right-radius: 4px; }
+  .msg.bot { align-self: flex-start; background: var(--bot); border-bottom-left-radius: 4px; }
+  .msg.bot.handoff { border-left: 3px solid var(--warn); }
+  .msg small { display: block; font-size: 11px; opacity: .7; margin-top: 4px; }
+  .badge { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 99px; margin: 0 4px 4px 0; background: var(--bot); }
+  .badge.ok { background: var(--ok-bg); color: var(--ok); } .badge.warn { background: var(--warn-bg); color: var(--warn); } .badge.bad { background: var(--bad-bg); color: var(--bad); }
+  pre { white-space: pre-wrap; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px; font-size: 13px; margin: 8px 0 0; }
+  dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; margin: 0; font-size: 14px; }
+  dt { color: var(--muted); }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .fields label { font-size: 12px; color: var(--muted); }
+  .src { font-size: 11px; color: var(--muted); }
+  .big { font-size: 22px; font-weight: 600; }
+  .empty { color: var(--muted); font-size: 14px; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin: 12px 0; }
+  .kpi { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  .kpi b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
+  .kpi span { font-size: 12px; color: var(--muted); }
+  .kpi.ok b { color: var(--ok); } .kpi.warn b { color: var(--warn); }
+  .bars { display: grid; grid-template-columns: max-content 1fr max-content; gap: 6px 10px; align-items: center; font-size: 13px; margin-bottom: 12px; max-width: 640px; }
+  .bar { height: 8px; border-radius: 99px; background: var(--warn); }
+  .tablewrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--line); padding: 6px 8px; }
+  td { border-bottom: 1px solid var(--line); padding: 6px 8px; vertical-align: top; }
+  tbody tr { cursor: pointer; } tbody tr:hover { background: var(--bg); }
+  td.msgcell { max-width: 380px; }
+  .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  @media (max-width: 600px) {
+    header { padding: 10px 12px; gap: 8px; }
+    nav { margin-left: 0; width: 100%; flex-wrap: nowrap; overflow-x: auto; }
+    nav button { white-space: nowrap; }
+    #log { height: auto; min-height: 140px; max-height: 60vh; }
+    .fields { grid-template-columns: 1fr; }
+  }
+  .steps { counter-reset: step; list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .steps li { counter-increment: step; position: relative; padding: 10px 12px 10px 46px; border: 1px solid var(--line); border-radius: 10px; }
+  .steps li::before { content: counter(step); position: absolute; left: 12px; top: 10px; width: 24px; height: 24px; border-radius: 99px; background: var(--brand); color: var(--brand-ink); font-size: 13px; display: grid; place-items: center; }
+  footer { text-align: center; color: var(--muted); font-size: 12px; padding: 20px; }
+</style>
+</head>
+<body>
+<header>
+  <h1><span>FlyClaim</span> AI demo</h1>
+  <span id="mode">...</span>
+  <select id="lang" aria-label="Language" style="width:auto"></select>
+  <nav>
+    <button data-tab="chat" class="on" data-i18n="tab_chat">Support chat</button>
+    <button data-tab="inbox" data-i18n="tab_inbox">Inbox</button>
+    <button data-tab="ticket" data-i18n="tab_ticket">Ticket reader</button>
+    <button data-tab="reply" data-i18n="tab_reply">Airline reply</button>
+    <button data-tab="letter" data-i18n="tab_letter">Claim letter</button>
+    <button data-tab="how" data-i18n="tab_how">How it works</button>
+  </nav>
+</header>
+
+<main>
+  <!-- 1 + 3: chat with multilingual triage -->
+  <section id="chat" class="on">
+    <div class="grid">
+      <div class="card">
+        <h2 data-i18n="chat_title">Customer chat</h2>
+        <p class="hint" data-i18n="chat_hint"></p>
+        <div class="chips" id="chatSamples"></div>
+        <div id="log"></div>
+        <div class="row">
+          <input id="chatInput" data-i18n-ph="chat_ph" autocomplete="off">
+          <button class="main" id="chatSend" data-i18n="send">Send</button>
+          <button class="ghost" id="chatReset" data-i18n="new_chat">New chat</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2 data-i18n="dec_title">What the agent decided</h2>
+        <div id="decision" class="empty" data-i18n="dec_empty"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- inbox: a batch of mail through triage -->
+  <section id="inbox">
+    <div class="card">
+      <h2 data-i18n="ib_title"></h2>
+      <p class="hint" data-i18n="ib_hint"></p>
+      <div class="row" style="margin-top:0">
+        <button class="main" id="inboxSample" data-i18n="ib_sample">Run sample inbox</button>
+        <button class="ghost" id="inboxMine" data-i18n="ib_mine">Run my messages</button>
+      </div>
+      <textarea id="inboxText" data-i18n-ph="ib_ph" style="min-height:70px;margin-top:10px"></textarea>
+      <div id="inboxOut" class="empty" data-i18n="ib_empty" style="margin-top:12px"></div>
+    </div>
+  </section>
+
+  <!-- 2: ticket reader -->
+  <section id="ticket">
+    <div class="grid">
+      <div class="card">
+        <h2 data-i18n="t_title"></h2>
+        <p class="hint" data-i18n="t_hint"></p>
+        <div class="chips">
+          <button class="ghost" data-ticket="M1KOWALSKI/ANNA       EXYZ789 WAWBCNFR 1234 300Y014C0001 100" data-i18n="t_barcode">Barcode text</button>
+          <button class="ghost" data-ticket="Your booking is confirmed. Booking reference: QX7P2K&#10;Passenger: Olena Petrenko&#10;Flight LH1172 Frankfurt (FRA) to Lisbon (LIS)&#10;Date: 2026-09-14, departs 09:40" data-i18n="t_email">Booking email</button>
+        </div>
+        <textarea id="ticketText" data-i18n-ph="t_ph"></textarea>
+        <div class="row">
+          <button class="main" id="ticketRead" data-i18n="t_read">Read ticket</button>
+          <input type="file" id="ticketFile" accept="image/*" style="width:auto">
+        </div>
+      </div>
+      <div class="card">
+        <h2 data-i18n="x_title"></h2>
+        <p class="hint" data-i18n="x_hint"></p>
+        <div class="fields" id="factFields"></div>
+        <div class="row">
+          <button class="main" id="ticketCheck" data-i18n="x_check">Check EU261</button>
+          <button class="ghost" id="ticketToLetter" data-i18n="x_letter">Draft claim letter</button>
+        </div>
+        <div id="ticketOut"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4: airline reply -->
+  <section id="reply">
+    <div class="grid">
+      <div class="card">
+        <h2 data-i18n="r_title"></h2>
+        <p class="hint" data-i18n="r_hint"></p>
+        <div class="chips">
+          <button class="ghost" data-reply="Dear passenger, we regret to inform you that your flight was delayed due to a technical problem with the aircraft, which constitutes an extraordinary circumstance. Therefore no compensation is due.">Technical fault</button>
+          <button class="ghost" data-reply="The cancellation was caused by a strike of French air traffic controllers, outside of our control. Compensation is not payable under Article 5(3).">ATC strike</button>
+          <button class="ghost" data-reply="Unfortunately our pilots' strike meant that flight had to be cancelled. As this was beyond our control we cannot offer compensation.">Pilots' strike</button>
+          <button class="ghost" data-reply="Your flight was delayed due to adverse weather conditions (heavy snow and de-icing) at the departure airport.">Weather</button>
+          <button class="ghost" data-reply="The delay resulted from the late arrival of the incoming aircraft on its previous flight.">Knock-on delay</button>
+        </div>
+        <textarea id="replyText" data-i18n-ph="r_ph"></textarea>
+        <div class="row"><button class="main" id="replyGo" data-i18n="r_go">Analyse</button></div>
+      </div>
+      <div class="card">
+        <h2 data-i18n="a_title"></h2>
+        <div id="replyOut" class="empty" data-i18n="a_empty"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5: claim letter -->
+  <section id="letter">
+    <div class="grid">
+      <div class="card">
+        <h2 data-i18n="l_title"></h2>
+        <p class="hint" data-i18n="l_hint"></p>
+        <div class="fields" id="letterFields"></div>
+        <div class="row"><button class="main" id="letterGo" data-i18n="l_go">Draft letter</button></div>
+      </div>
+      <div class="card">
+        <h2 data-i18n="lo_title"></h2>
+        <div id="letterOut" class="empty" data-i18n="lo_empty"></div>
+      </div>
+    </div>
+  </section>
+  <!-- how it works -->
+  <section id="how">
+    <div class="card" style="max-width:760px">
+      <h2 data-i18n="hw_title">How it works</h2>
+      <p class="hint" data-i18n="hw_intro"></p>
+      <ol class="steps">
+        <li data-i18n="hw_s1"></li><li data-i18n="hw_s2"></li><li data-i18n="hw_s3"></li>
+        <li data-i18n="hw_s4"></li><li data-i18n="hw_s5"></li>
+      </ol>
+      <p class="hint" style="margin-top:12px" data-i18n="hw_cost"></p>
+    </div>
+  </section>
+</main>
+<footer data-i18n="footer"></footer>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+async function post(path, body) {
+  const r = await fetch(path, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
+  const data = await r.json();
+  if (!r.ok) throw new Error(data.error || r.statusText);
+  return data;
+}
+async function busy(btn, fn) { btn.disabled = true; try { await fn(); } catch (e) { alertBox(e.message); } finally { btn.disabled = false; } }
+function alertBox(msg) { const d = document.createElement("div"); d.className = "badge bad"; d.textContent = msg; document.querySelector("section.on .card:last-child").prepend(d); setTimeout(() => d.remove(), 6000); }
+
+// tabs
+document.querySelectorAll("nav button").forEach((b) => b.onclick = () => {
+  document.querySelectorAll("nav button, section").forEach((x) => x.classList.remove("on"));
+  b.classList.add("on"); $("#" + b.dataset.tab).classList.add("on");
+});
+
+// ---------- i18n ----------
+let L = {}, LANG = "en", STATUS = {};
+const T = (k) => L[k] ?? k;
+const store = {get: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
+               set: (k, v) => { try { localStorage.setItem(k, v); } catch {} }};
+function renderMode() { $("#mode").textContent = STATUS.llm ? `LLM: ${STATUS.llm}` : (STATUS.problem ? `offline: ${STATUS.problem}` : T("mode_offline")); }
+async function setLang(code) {
+  L = await (await fetch(`/api/i18n/${code}`)).json();
+  LANG = code; store.set("lang", code);
+  document.documentElement.lang = code; $("#lang").value = code;
+  document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = T(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-ph]").forEach((el) => { el.placeholder = T(el.dataset.i18nPh); });
+  renderMode(); buildSamples(); relabelFields(); renderInbox();
+}
+fetch("/api/status").then((r) => r.json()).then((s) => { STATUS = s; renderMode(); });
+fetch("/api/languages").then((r) => r.json()).then((langs) => {
+  $("#lang").innerHTML = Object.entries(langs).map(([c, n]) => `<option value="${c}">${esc(n)}</option>`).join("");
+  const nav = (navigator.language || "en").slice(0, 2).toLowerCase().replace("nb", "no").replace("nn", "no");
+  const saved = store.get("lang");
+  setLang(saved && langs[saved] ? saved : (langs[nav] ? nav : "en"));
+});
+$("#lang").onchange = (e) => setLang(e.target.value);
+
+// ---------- chat ----------
+// One eligibility question per language; the one in the selected language comes first.
+const SAMPLE_BY_LANG = {
+  en: "My flight from Lisbon to Berlin was delayed 4 hours. Am I entitled to compensation?",
+  es: "Mi vuelo de Madrid a Roma se retrasó 5 horas. ¿Tengo derecho a compensación?",
+  de: "Mein Flug von München nach Athen wurde annulliert, 3 Tage vorher.",
+  fr: "Mon vol de Paris à Lisbonne a été retardé de 4 heures, ai-je droit à une indemnisation ?",
+  ro: "Zborul meu din București spre Londra a fost întârziat 4 ore, am dreptul la compensație?",
+  pt: "O meu voo de Lisboa para Paris atrasou 6 horas. Tenho direito a indemnização?",
+  pl: "Mój lot z Warszawy do Barcelony był opóźniony 4 godziny. Czy należy mi się odszkodowanie?",
+  sr: "Moj let iz Beča za Atinu je kasnio 4 sata, da li imam pravo na odštetu?",
+  el: "Η πτήση μου από Αθήνα προς Βερολίνο καθυστέρησε 5 ώρες, δικαιούμαι αποζημίωση;",
+  tr: "İstanbul'dan Viyana'ya TK1885 uçuşum 4 saat rötar yaptı, tazminat hakkım var mı?",
+  hu: "A járatom Budapestről Párizsba 4 órát késett, jár nekem kártérítés?",
+  da: "Mit fly fra København til Rom blev forsinket 4 timer, har jeg ret til kompensation?",
+  no: "Flyet mitt fra Oslo til Barcelona ble forsinket 5 timer, har jeg rett på kompensasjon?",
+  fi: "Lentoni Helsingistä Ateenaan oli 4 tuntia myöhässä, onko minulla oikeus korvaukseen?",
+  nl: "Mijn vlucht van Amsterdam naar Lissabon had 4 uur vertraging, heb ik recht op compensatie?",
+  sv: "Mitt flyg från Stockholm till Barcelona blev försenat 4 timmar, har jag rätt till ersättning?",
+  cs: "Můj let z Prahy do Londýna měl zpoždění 4 hodiny, mám nárok na odškodnění?",
+  it: "Il mio volo da Roma a Parigi è stato cancellato 3 giorni prima, ho diritto a un risarcimento?",
+  uk: "Мій рейс з Варшави до Барселони затримали на 5 годин. Чи маю право на компенсацію?",
+  ru: "Мой рейс из Лиссабона в Берлин задержали на 5 часов, имею ли я право на компенсацию?",
+};
+const EXTRA_SAMPLES = ["30% fee?! This is a scam!!!", "Ile bierzecie prowizji?", "Je n'ai pas reçu mon argent", "Avukatıma gideceğim"];
+let history = [], handoffs = 0;
+function buildSamples() {
+  $("#chatSamples").innerHTML = "";
+  const list = [SAMPLE_BY_LANG[LANG] || SAMPLE_BY_LANG.en, ...(LANG === "en" ? [] : [SAMPLE_BY_LANG.en]), ...EXTRA_SAMPLES];
+  list.forEach((s) => { const b = document.createElement("button"); b.className = "ghost"; b.textContent = s.length > 34 ? s.slice(0, 32) + "..." : s; b.title = s; b.onclick = () => { $("#chatInput").value = s; send(); }; $("#chatSamples").append(b); });
+}
+
+function addMsg(role, text, meta, handoff) {
+  const d = document.createElement("div");
+  d.className = `msg ${role}${handoff ? " handoff" : ""}`;
+  d.textContent = text.replace(/\*\*(.+?)\*\*/g, "$1");  // small models still add Markdown bold sometimes
+  if (meta) { const m = document.createElement("small"); m.textContent = meta; d.append(m); }
+  $("#log").append(d); $("#log").scrollTop = 1e9;
+}
+
+function decisionHtml(r) {
+  const act = r.action === "ai_answer" ? `<span class="badge ok">${esc(T("ai_answers"))}</span>` : `<span class="badge warn">${esc(T("handed"))}</span>`;
+  const pri = r.priority === "high" ? `<span class="badge bad">${esc(T("high"))}</span>` : "";
+  let h = `${act}${pri}<span class="badge">intent: ${esc(r.intent)}${r.intent_source === "llm" ? " (LLM)" : ""}</span><span class="badge">language: ${esc(r.language)}</span><span class="badge">${esc(r.mode)}</span>`;
+  if (r.reasons.length) h += `<p><b>${esc(T("why"))}:</b></p><ul>${r.reasons.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
+  if (r.eligibility) {
+    const e = r.eligibility;
+    h += `<p><b>${esc(T("check_title"))}</b></p>`;
+    if (e.eligible === null) h += `<p class="empty">${esc(T("waiting"))}: ${esc(e.missing.join(", "))}</p>`;
+    else h += `<dl><dt>${esc(T("route"))}</dt><dd>${esc(e.route)} (${e.distance_km} km)</dd><dt>${esc(T("eligible"))}</dt><dd>${esc(T(e.eligible ? "yes" : "no"))}</dd><dt>${esc(T("amount"))}</dt><dd>EUR ${e.amount_eur} ${esc(T("per_pax"))}</dd><dt>${esc(T("reason"))}</dt><dd>${esc(e.reason)}</dd></dl>`;
+  }
+  if (r.handoff_note) h += `<p><b>${esc(T("note_title"))}</b></p><pre>${esc(r.handoff_note)}</pre>`;
+  if (r.notes.length) h += `<p class="src">${r.notes.map(esc).join("<br>")}</p>`;
+  return h;
+}
+
+async function send() {
+  const text = $("#chatInput").value.trim();
+  if (!text) return;
+  $("#chatInput").value = "";
+  addMsg("user", text);
+  await busy($("#chatSend"), async () => {
+    const r = await post("/api/chat", {message: text, history, previous_handoffs: handoffs, lang: LANG});
+    history.push({role: "user", content: text}, {role: "assistant", content: r.text});
+    if (r.action === "human_handoff") handoffs++;
+    addMsg("bot", r.text, `${r.intent} · ${r.mode}`, r.action === "human_handoff");
+    $("#decision").className = ""; $("#decision").innerHTML = decisionHtml(r);
+  });
+}
+$("#chatSend").onclick = send;
+$("#chatInput").onkeydown = (e) => { if (e.key === "Enter") send(); };
+$("#chatReset").onclick = () => { history = []; handoffs = 0; $("#log").innerHTML = ""; $("#decision").className = "empty"; $("#decision").textContent = T("new_conv"); };
+
+// ---------- fact forms (shared by ticket and letter) ----------
+const FIELDS = [["passenger","f_passenger"],["booking_ref","f_booking"],["flight_number","f_flight"],["date","f_date"],
+  ["origin","f_from"],["destination","f_to"],["airline","f_airline"],["disruption","f_what"],["delay_hours","f_delay"],["notice_days","f_notice"]];
+function relabelFields() {
+  document.querySelectorAll("[data-flabel]").forEach((el) => { el.firstChild.textContent = T(el.dataset.flabel) + " "; });
+  document.querySelectorAll("[data-dopt]").forEach((el) => { el.textContent = T(el.dataset.dopt); });
+}
+function buildFields(el, prefix) {
+  el.innerHTML = FIELDS.map(([k, l]) => k === "disruption"
+    ? `<div><label data-flabel="${l}">${esc(T(l))} </label><select id="${prefix}_${k}"><option value="">-</option><option value="delay" data-dopt="d_delay"></option><option value="cancellation" data-dopt="d_cancel"></option><option value="denied_boarding" data-dopt="d_denied"></option></select></div>`
+    : `<div><label data-flabel="${l}">${esc(T(l))} <span class="src" id="${prefix}_${k}_src"></span></label><input id="${prefix}_${k}"></div>`).join("");
+}
+buildFields($("#factFields"), "t"); buildFields($("#letterFields"), "l");
+const readFacts = (p) => Object.fromEntries(FIELDS.map(([k]) => [k, $(`#${p}_${k}`).value.trim()]));
+function writeFacts(p, f) {
+  FIELDS.forEach(([k]) => { if (f[k] !== null && f[k] !== undefined) $(`#${p}_${k}`).value = f[k]; const s = $(`#${p}_${k}_src`); if (s) s.textContent = f.sources && f.sources[k] ? `(${f.sources[k]})` : ""; });
+}
+
+// ---------- ticket ----------
+document.querySelectorAll("[data-ticket]").forEach((b) => b.onclick = () => { $("#ticketText").value = b.dataset.ticket; $("#ticketRead").click(); });
+function showTicket(r) {
+  FIELDS.forEach(([k]) => { $(`#t_${k}`).value = ""; });
+  writeFacts("t", r.facts);
+  $("#ticketOut").innerHTML = `<p class="src">${esc(T("read_from"))}: ${esc(r.method)}${r.notes.length ? "<br>" + r.notes.map(esc).join("<br>") : ""}</p>`;
+}
+$("#ticketRead").onclick = () => busy($("#ticketRead"), async () => showTicket(await post("/api/ticket", {text: $("#ticketText").value})));
+$("#ticketFile").onchange = () => {
+  const file = $("#ticketFile").files[0]; if (!file) return;
+  const fr = new FileReader();
+  fr.onload = () => busy($("#ticketRead"), async () => showTicket(await post("/api/ticket", {image: fr.result, mime: file.type})));
+  fr.readAsDataURL(file);
+};
+$("#ticketCheck").onclick = () => busy($("#ticketCheck"), async () => {
+  const e = await post("/api/eligibility", {...readFacts("t"), lang: LANG});
+  $("#ticketOut").innerHTML = e.eligible === null
+    ? `<p class="empty">${esc(T("add"))}: ${esc(e.missing.join(", "))}</p>`
+    : `<p class="big" style="color:var(--${e.eligible ? "ok" : "bad"})">${e.eligible ? "EUR " + e.amount_eur + " " + esc(T("per_pax")) : esc(T("not_elig"))}</p><p>${esc(e.reason)}</p><p class="src">${esc(e.route)} · ${e.distance_km} km</p>`;
+});
+$("#ticketToLetter").onclick = () => { writeFacts("l", readFacts("t")); document.querySelector('[data-tab="letter"]').click(); $("#letterGo").click(); };
+
+// ---------- inbox ----------
+let INBOX = null;
+function renderInbox() {
+  if (!INBOX) return;
+  const s = INBOX.stats, pct = (n) => s.total ? Math.round(100 * n / s.total) : 0;
+  const kpi = (v, k, cls = "") => `<div class="kpi ${cls}"><b>${esc(v)}</b><span>${esc(T(k))}</span></div>`;
+  const max = Math.max(1, ...Object.values(s.handoff_reasons));
+  const reasons = Object.entries(s.handoff_reasons).map(([c, n]) =>
+    `<span>${esc(T("hr_" + c))}</span><div class="bar" style="width:${Math.round(100 * n / max)}%"></div><span class="num">${n}</span>`).join("");
+  const rows = INBOX.rows.map((r, i) => {
+    const dec = r.action === "ai_answer" ? `<span class="badge ok">${esc(T("ai_answers"))}</span>`
+      : `<span class="badge ${r.priority === "high" ? "bad" : "warn"}">${esc(T("handed"))}</span><br><span class="src">${r.handoff.map((c) => esc(T("hr_" + c))).join(", ")}</span>`;
+    const res = r.eligible ? `<span class="num">EUR ${r.amount}</span><br><span class="src">${esc(r.route || "")}</span>`
+      : r.eligible === false ? `<span class="src">${esc(T("not_elig"))}</span>` : r.missing ? `<span class="src">${esc(T("ib_needs"))}</span>` : "";
+    return `<tr data-i="${i}"><td class="msgcell">${esc(r.message)}</td><td>${esc(r.language)}</td><td>${esc(r.intent)}</td><td>${dec}</td><td>${res}</td></tr>`;
+  }).join("");
+  $("#inboxOut").className = "";
+  $("#inboxOut").innerHTML = `<div class="kpis">${kpi(s.total, "ib_total")}${kpi(`${s.ai} · ${pct(s.ai)}%`, "ib_ai", "ok")}${kpi(s.human, "ib_human", "warn")}
+    ${kpi(s.urgent, "ib_urgent")}${kpi(s.eligible, "ib_eligible")}${kpi(`EUR ${s.eur.toLocaleString(LANG)}`, "ib_eur", "ok")}${kpi(s.languages, "ib_langs")}
+    ${s.labelled ? kpi(`${s.agrees}/${s.labelled}`, "ib_agree") : ""}</div>
+    ${reasons ? `<h2>${esc(T("ib_reasons"))}</h2><div class="bars">${reasons}</div>` : ""}
+    <p class="hint">${esc(T("ib_open"))}</p>
+    <div class="tablewrap"><table><thead><tr><th>${esc(T("ib_msg"))}</th><th>${esc(T("ib_lang"))}</th><th>${esc(T("ib_intent"))}</th><th>${esc(T("ib_decision"))}</th><th>${esc(T("ib_result"))}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  $("#inboxOut").querySelectorAll("tbody tr").forEach((tr) => tr.onclick = () => {
+    $("#chatReset").click(); $("#chatInput").value = INBOX.rows[+tr.dataset.i].message;
+    document.querySelector('[data-tab="chat"]').click(); send();
+  });
+}
+$("#inboxSample").onclick = () => busy($("#inboxSample"), async () => { INBOX = await post("/api/inbox", {}); renderInbox(); });
+$("#inboxMine").onclick = () => busy($("#inboxMine"), async () => {
+  const lines = $("#inboxText").value.split("\n").map((x) => x.trim()).filter(Boolean);
+  if (!lines.length) { $("#inboxText").focus(); return; }
+  INBOX = await post("/api/inbox", {messages: lines}); renderInbox();
+});
+
+// ---------- airline reply ----------
+document.querySelectorAll("[data-reply]").forEach((b) => b.onclick = () => { $("#replyText").value = b.dataset.reply; $("#replyGo").click(); });
+const REC = {contest: ["bad", "rec_contest"], review: ["warn", "rec_review"], unlikely: ["ok", "rec_unlikely"]};
+$("#replyGo").onclick = () => busy($("#replyGo"), async () => {
+  const a = await post("/api/airline-reply", {text: $("#replyText").value});
+  const [cls, label] = REC[a.recommendation];
+  $("#replyOut").className = "";
+  $("#replyOut").innerHTML = `<p class="big">${esc(a.label)}</p><span class="badge ${cls}">${esc(T(label))}</span><span class="badge">${esc(T("found_by"))}: ${esc(a.source)}</span>
+    ${a.summary ? `<p><b>${esc(T("airline_says"))}:</b> ${esc(a.summary)}</p>` : ""}${a.matched ? `<p class="src">Matched: "${esc(a.matched)}"</p>` : ""}
+    <p><b>${esc(T("why"))}:</b> ${esc(a.why)}</p><p><b>${esc(T("next_step"))}:</b> ${esc(a.next_step)}</p>
+    ${a.notes.length ? `<p class="src">${a.notes.map(esc).join("<br>")}</p>` : ""}<p class="src">${esc(T("footer"))}</p>`;
+});
+
+// ---------- letter ----------
+$("#letterGo").onclick = () => busy($("#letterGo"), async () => {
+  const D = await post("/api/letter", readFacts("l"));
+  $("#letterOut").className = "";
+  $("#letterOut").innerHTML = `<span class="badge ${D.ready ? "ok" : "warn"}">${esc(T(D.ready ? "ready" : "incomplete"))}</span><span class="badge">${esc(D.mode)}</span>
+    ${D.missing.length ? `<p class="empty">${esc(T("missing"))}: ${esc(D.missing.join(", "))}</p>` : ""}<pre>${esc(D.text)}</pre>
+    ${D.notes.length ? `<p class="src">${D.notes.map(esc).join("<br>")}</p>` : ""}`;
+});
+</script>
+</body>
+</html>
