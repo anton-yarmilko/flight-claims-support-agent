@@ -11,6 +11,7 @@ import math
 import re
 import unicodedata
 from dataclasses import dataclass
+from functools import lru_cache
 
 
 @dataclass(frozen=True)
@@ -216,34 +217,57 @@ def route_in_text(text: str) -> tuple[Airport | None, Airport | None, list[Airpo
     return main[0], main[-1], via + main[1:-1]
 
 
+@dataclass(frozen=True)
+class _Matcher:
+    airport: Airport
+    folded: re.Pattern[str] | None  # stems on the folded text
+    cased: re.Pattern[str] | None  # names that only count when capitalised ("Nice", "Faro")
+    iata: re.Pattern[str]
+
+
+@lru_cache(maxsize=1)
+def _matchers() -> tuple[_Matcher, ...]:
+    """One compiled pattern per airport, built once. Compiling ~500 patterns per message used to
+    overflow the re module's cache and took most of the time of a reply."""
+    out = []
+    for a in AIRPORTS.values():
+        names = sorted({fold(n) for n in (a.city, *a.aliases)})
+        # Ukrainian/Polish nouns inflect ("з Лісабона", "z Warszawy"); match the stem of longer names.
+        stems = [re.escape(n[:-1]) if len(n) > 5 else re.escape(n) for n in names if n not in _CASE_SENSITIVE_CITIES]
+        cased = [re.escape(n.capitalize()) for n in names if n in _CASE_SENSITIVE_CITIES]
+        out.append(_Matcher(
+            a,
+            re.compile(r"(?<!\w)(?:" + "|".join(stems) + ")") if stems else None,
+            re.compile(r"(?<!\w)(?:" + "|".join(cased) + r")(?!\w)") if cased else None,
+            re.compile(r"\b" + a.iata + r"\b"),
+        ))
+    return tuple(out)
+
+
 def _airport_hits(text: str) -> list[tuple[int, Airport]]:
     hits: list[tuple[int, Airport]] = []
     low = fold(text)
-    for a in AIRPORTS.values():
-        names = {fold(n) for n in (a.city, *a.aliases)}
-        best = None
-        for n in names:
-            if n in _CASE_SENSITIVE_CITIES:
-                m = re.search(r"(?<!\w)" + re.escape(n.capitalize()) + r"(?!\w)", text)
-            else:
-                # Ukrainian/Polish nouns inflect ("з Лісабона", "z Warszawy"); match the stem of longer names.
-                pat = re.escape(n[:-1]) if len(n) > 5 else re.escape(n)
-                m = re.search(r"(?<!\w)" + pat, low)
-            if m and (best is None or m.start() < best):
-                best = m.start()
-        m = None if a.iata in _AMBIGUOUS_IATA and text.isupper() else re.search(r"\b" + a.iata + r"\b", text)
-        if m and (best is None or m.start() < best):
-            best = m.start()
-        if best is not None:
-            hits.append((best, a))
+    upper = text.isupper()
+    for mt in _matchers():
+        starts = [m.start() for m in (
+            mt.folded.search(low) if mt.folded else None,
+            mt.cased.search(text) if mt.cased else None,
+            None if upper and mt.airport.iata in _AMBIGUOUS_IATA else mt.iata.search(text),
+        ) if m]
+        if starts:
+            hits.append((min(starts), mt.airport))
     hits.sort(key=lambda h: h[0])
     return hits
 
 
+_AIRLINE_PATTERNS = [(re.compile(r"(?<!\w)" + re.escape(name) + r"(?!\w)"), code)
+                     for name, code in sorted(AIRLINE_NAMES.items(), key=lambda kv: -len(kv[0]))]
+
+
 def airline_in_text(text: str) -> str | None:
     low = text.lower()
-    for name, code in sorted(AIRLINE_NAMES.items(), key=lambda kv: -len(kv[0])):
-        if re.search(r"(?<!\w)" + re.escape(name) + r"(?!\w)", low):
+    for pattern, code in _AIRLINE_PATTERNS:
+        if pattern.search(low):
             return code
     m = re.search(r"\b([A-Z0-9]{2})\s?(\d{2,4})\b", text)
     if m and m.group(1) in AIRLINES:

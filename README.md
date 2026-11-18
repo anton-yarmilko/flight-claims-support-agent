@@ -25,7 +25,7 @@ threats, GDPR requests, upset customers, weak knowledge-base matches.
 | Knowledge base | `knowledge/*.md` | EU261 rules, fees, stages, documents |
 | Evals | `evals/cases.jsonl`, `evals/judge.py` | Triage cases in all 20 languages; reply checks + optional LLM-as-judge |
 | Inbox | `claims_agent/inbox.py` | Batch triage of a day of mail: AI share, handoff reasons, urgent cases, compensation found |
-| Tests | `tests/` | 247 tests, run in CI with a fake LLM server |
+| Tests | `tests/` | 248 tests, run in CI with a fake LLM server |
 
 ```mermaid
 flowchart LR
@@ -110,7 +110,7 @@ letter at 8,000, chat history at the last 12 user/assistant turns (other roles a
 served with a strict Content-Security-Policy, `X-Frame-Options: DENY` and `Referrer-Policy: no-referrer`.
 
 **Monitoring:** `GET /api/health` returns `{"ok": true, ...}` with the LLM model and cache counts, for an
-uptime checker. Every response carries a `Server-Timing` header, and each chat reply shows how long it took.
+uptime checker. Every response carries a `Server-Timing` header, and each chat reply shows how long it took. The rule path (triage, fact extraction, EU261 check) takes about 0.6 ms per message, because all airport and phrase patterns are compiled once; `tests/test_speed.py` guards this.
 
 The LLM client also keeps a small in-memory cache (256 answers, `LLM(cache_size=...)`): the same request
 (for example a sample button pressed twice) is answered instantly and costs no tokens.
@@ -140,7 +140,7 @@ tune the rules from real tickets.
 
 ```bash
 pip install pytest
-pytest -q                     # 247 tests, LLM calls go to a fake local server
+pytest -q                     # 248 tests, LLM calls go to a fake local server
 python -m evals.judge         # reply checks on every eval case (offline: templates)
 
 # with a model, plus a bigger judge model for LLM-as-judge scoring
