@@ -95,6 +95,9 @@ class LLM:
             data=json.dumps(body).encode(),
             headers={
                 "Content-Type": "application/json",
+                # Groq sits behind Cloudflare, which rejects urllib's default
+                # "Python-urllib" agent with HTTP 403 (error 1010).
+                "User-Agent": "flyclaim-demo/1.0",
                 **({"Authorization": f"Bearer {self.api_key}"} if self.api_key else {}),
             },
             method="POST",
