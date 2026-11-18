@@ -186,8 +186,12 @@ def number_guard(reply: str, allowed_sources: list[str]) -> list[str]:
 
 
 _CURRENCY_WORDS = {
-    "EUR": re.compile(r"\bEUR\b|€|\beuros?\b|євро|евро|ευρώ|\bavro\b", re.IGNORECASE),
-    "GBP": re.compile(r"\bGBP\b|£|\bpounds?\b|фунт|\bfunt|pfund|sterlin|στερλ", re.IGNORECASE),
+    # Currency names in the 20 reply languages, not only the codes ("Europe" must not match).
+    "EUR": re.compile(r"\bEUR\b|€|\beur(?:o|os|ó|ót|óban|ów|ach|a|y|t|ssa|ja|oa)?\b|євро|евро|ευρώ|\bavro\b",
+                      re.IGNORECASE),
+    "GBP": re.compile(r"\bGBP\b|£|\bpounds?\b|фунт|\bfunt|pfund|sterlin|στερλ|λίρ|\bpund\b|\bpond(?:en)?\b"
+                      r"|\blibr(?:a|as|y|ách|e)\b|\blire\b|\blivres?\b|\bpun(?:ta|taa|nissa|tia)\b|\bfont\b|\bfontban\b",
+                      re.IGNORECASE),
 }
 
 
