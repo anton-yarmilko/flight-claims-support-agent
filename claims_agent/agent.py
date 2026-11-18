@@ -95,6 +95,8 @@ REASON_KEYS = {
     "extraordinary circumstances": "rs_extraordinary",
     "under 3 hours": "rs_under_3h",
     "14 or more days": "rs_notice_14d",
+    "announced 7-13 days ahead": "rs_reroute_7d",
+    "announced under 7 days ahead": "rs_reroute_lt7",
     "voluntarily": "rs_voluntary",
 }
 

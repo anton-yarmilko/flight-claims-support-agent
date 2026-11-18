@@ -96,5 +96,7 @@
  "rs_voluntary": "luovuit paikastasi vapaaehtoisesti, ja vapaaehtoiset saavat lentoyhtiön kanssa sovitut edut, eivät EU261-korvausta.",
  "f_via": "Vaihto (IATA)",
  "draft_reply": "Vastausluonnos lentoyhtiölle (ihminen tarkistaa ja lähettää sen)",
- "uk261_note": "Tähän lentoon sovelletaan UK261-asetusta, sääntöjen brittiläistä versiota, joten korvaus maksetaan punnissa."
+ "uk261_note": "Tähän lentoon sovelletaan UK261-asetusta, sääntöjen brittiläistä versiota, joten korvaus maksetaan punnissa.",
+ "rs_reroute_7d": "peruutuksesta ilmoitettiin 7-13 päivää etukäteen ja korvaava lento saapui 4 tunnin sisällä. Silloin korvausta ei makseta, jos se lähti enintään 2 tuntia ennen alkuperäistä aikaa.",
+ "rs_reroute_lt7": "peruutuksesta ilmoitettiin alle 7 päivää etukäteen ja korvaava lento myöhästyi alle 2 tuntia. Silloin korvausta ei makseta, jos se lähti enintään 1 tunnin ennen alkuperäistä aikaa."
 }

@@ -96,5 +96,7 @@
  "rs_voluntary": "du lämnade frivilligt din plats, och frivilliga får det som avtalats med flygbolaget, inte EU261-ersättning.",
  "f_via": "Byte (IATA)",
  "draft_reply": "Utkast till svar till flygbolaget (en människa granskar och skickar det)",
- "uk261_note": "Den här flygningen omfattas av UK261, den brittiska versionen av reglerna, så ersättningen betalas i pund."
+ "uk261_note": "Den här flygningen omfattas av UK261, den brittiska versionen av reglerna, så ersättningen betalas i pund.",
+ "rs_reroute_7d": "inställningen meddelades 7-13 dagar i förväg och ersättningsflyget kom fram inom 4 timmar. Då utgår ingen ersättning om det avgick högst 2 timmar före den ursprungliga tiden.",
+ "rs_reroute_lt7": "inställningen meddelades mindre än 7 dagar i förväg och ersättningsflyget var mindre än 2 timmar försenat. Då utgår ingen ersättning om det avgick högst 1 timme före den ursprungliga tiden."
 }

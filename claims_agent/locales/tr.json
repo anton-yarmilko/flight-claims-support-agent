@@ -96,5 +96,7 @@
  "rs_voluntary": "koltuğunuzu gönüllü olarak bıraktınız; gönüllüler EU261 tazminatı değil, havayoluyla anlaştıkları hakları alır.",
  "f_via": "Aktarma (IATA)",
  "draft_reply": "Havayoluna yanıt taslağı (bir kişi kontrol edip gönderir)",
- "uk261_note": "Bu uçuş, kuralların Birleşik Krallık sürümü olan UK261 kapsamında; bu yüzden tazminat sterlin olarak ödenir."
+ "uk261_note": "Bu uçuş, kuralların Birleşik Krallık sürümü olan UK261 kapsamında; bu yüzden tazminat sterlin olarak ödenir.",
+ "rs_reroute_7d": "iptal 7-13 gün önceden bildirildi ve alternatif uçuş 4 saat içinde vardı. Bu durumda alternatif uçuş asıl saatten en fazla 2 saat önce kalktıysa tazminat yoktur.",
+ "rs_reroute_lt7": "iptal 7 günden az önce bildirildi ve alternatif uçuş 2 saatten az gecikmeyle vardı. Bu durumda alternatif uçuş asıl saatten en fazla 1 saat önce kalktıysa tazminat yoktur."
 }

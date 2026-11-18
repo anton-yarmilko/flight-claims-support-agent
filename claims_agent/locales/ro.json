@@ -96,5 +96,7 @@
  "rs_voluntary": "ați renunțat voluntar la loc, iar voluntarii primesc beneficiile convenite cu compania, nu compensația EU261.",
  "f_via": "Escală (IATA)",
  "draft_reply": "Ciornă de răspuns către companie (un om o verifică și o trimite)",
- "uk261_note": "Acest zbor intră sub UK261, versiunea britanică a regulilor, așa că despăgubirea se plătește în lire sterline."
+ "uk261_note": "Acest zbor intră sub UK261, versiunea britanică a regulilor, așa că despăgubirea se plătește în lire sterline.",
+ "rs_reroute_7d": "anularea a fost anunțată cu 7-13 zile înainte, iar zborul de înlocuire a sosit în cel mult 4 ore. Atunci nu se acordă despăgubire dacă a plecat cu cel mult 2 ore înainte de ora inițială.",
+ "rs_reroute_lt7": "anularea a fost anunțată cu mai puțin de 7 zile înainte, iar zborul de înlocuire a întârziat mai puțin de 2 ore. Atunci nu se acordă despăgubire dacă a plecat cu cel mult 1 oră înainte de ora inițială."
 }

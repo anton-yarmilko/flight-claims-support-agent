@@ -96,5 +96,7 @@
  "rs_voluntary": "du opgav frivilligt din plads, og frivillige får det aftalte med flyselskabet, ikke EU261-kompensation.",
  "f_via": "Mellemlanding (IATA)",
  "draft_reply": "Udkast til svar til flyselskabet (et menneske tjekker og sender det)",
- "uk261_note": "Denne flyvning hører under UK261, den britiske udgave af reglerne, så kompensationen udbetales i pund."
+ "uk261_note": "Denne flyvning hører under UK261, den britiske udgave af reglerne, så kompensationen udbetales i pund.",
+ "rs_reroute_7d": "aflysningen blev meddelt 7-13 dage før, og erstatningsflyet ankom inden for 4 timer. Så er der ingen kompensation, hvis det afgik højst 2 timer før det oprindelige tidspunkt.",
+ "rs_reroute_lt7": "aflysningen blev meddelt mindre end 7 dage før, og erstatningsflyet var mindre end 2 timer forsinket. Så er der ingen kompensation, hvis det afgik højst 1 time før det oprindelige tidspunkt."
 }

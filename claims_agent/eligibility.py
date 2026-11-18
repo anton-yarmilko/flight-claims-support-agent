@@ -7,7 +7,9 @@ own UK261 does (departing the UK, or arriving in the UK on a UK or EU airline)
 get the UK261 amounts in pounds: GBP 220, 350 or 520. It applies the Article
 7(2)(c) halving for long-haul delays of 3 to 4 hours, and the Article 7(2) halving
 when a cancelled or denied passenger was re-routed and arrived within 2, 3 or 4
-hours, depending on the distance band.
+hours, depending on the distance band. A cancellation announced 7-13 days ahead
+with a replacement arriving within 4 hours, or under 7 days ahead with one arriving
+less than 2 hours late, is not compensated (Article 5(1)(c)(ii) and (iii)).
 """
 
 from __future__ import annotations
@@ -110,6 +112,18 @@ def check(flight: Flight, incident: Incident) -> Verdict:
         and incident.cancellation_notice_days >= 14
     ):
         return no("Cancellation announced 14 or more days before departure.")
+
+    if incident.kind is Disruption.CANCELLATION:
+        notice, late = incident.cancellation_notice_days, incident.reroute_arrival_delay_hours
+        if notice is not None and late is not None:
+            # Article 5(1)(c)(ii) and (iii): early enough notice plus a close replacement flight.
+            if 7 <= notice < 14 and late <= 4:
+                return no("Cancellation announced 7-13 days ahead and the replacement flight arrived within 4 hours "
+                          "(Article 5(1)(c)(ii)); this holds if it left no more than 2 hours before the original time.")
+            if notice < 7 and late < 2:
+                return no("Cancellation announced under 7 days ahead and the replacement flight arrived less than "
+                          "2 hours late (Article 5(1)(c)(iii)); this holds if it left no more than 1 hour before "
+                          "the original time.")
 
     band = compensation_band(flight)
     full = UK_AMOUNTS[band] if regulation == "UK261" else band
