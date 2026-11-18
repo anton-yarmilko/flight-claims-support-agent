@@ -64,3 +64,11 @@ def test_codeshare_into_eu_follows_operating_airline():
     assert not r.eligibility.verdict.eligible
     r = respond("My United flight, operated by Lufthansa, from New York to Frankfurt was delayed 5 hours")
     assert r.eligibility.verdict.amount_eur == 600
+
+
+def test_codeshare_note_in_reply():
+    r = respond("Мій рейс Lufthansa, який виконувала United Airlines, з Нью-Йорка до Франкфурта затримали на 5 годин")
+    assert r.eligibility.operated_by == "United Airlines"
+    assert "United Airlines" in r.text and r.language == "uk"
+    r = respond("My Lufthansa flight from New York to Frankfurt was delayed 5 hours")
+    assert r.eligibility.operated_by is None

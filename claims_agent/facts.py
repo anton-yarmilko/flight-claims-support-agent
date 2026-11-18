@@ -13,7 +13,16 @@ import re
 from dataclasses import asdict, dataclass, field
 from typing import TYPE_CHECKING, Any
 
-from .airports import AIRLINES, AIRPORTS, UK_CARRIERS, airline_in_text, airports_in_text, distance_km, route_in_text
+from .airports import (
+    AIRLINES,
+    AIRPORTS,
+    UK_CARRIERS,
+    airline_in_text,
+    airports_in_text,
+    codeshare_in_text,
+    distance_km,
+    route_in_text,
+)
 from .causes import cause_in_text, departure_only
 from .eligibility import Disruption, Flight, Incident, Verdict, check
 
@@ -38,6 +47,7 @@ class FlightFacts:
     via: str | None = None  # connecting airports (IATA, comma-separated); not used for the distance
     cause: str | None = None  # cause the customer names (causes.CAUSES); adds a note, never changes the verdict
     departure_only: bool | None = None  # delay given for the departure only; EU261 counts the arrival
+    codeshare: bool | None = None  # ticket sold by one airline, flight operated by the airline in `airline`
     sources: dict[str, str] = field(default_factory=dict)
 
     def missing_for_check(self) -> list[str]:
@@ -184,6 +194,7 @@ def extract_facts_rules(text: str, today: dt.date | None = None) -> FlightFacts:
     f.via = ",".join(a.iata for a in via) or None
 
     f.airline = airline_in_text(text)
+    f.codeshare = bool(codeshare_in_text(text)) or None
     m = re.search(r"\b([A-Z0-9]{2})\s?(\d{2,4})\b", text)
     if m and m.group(1) in AIRLINES:
         f.flight_number = f"{m.group(1)}{m.group(2)}"
@@ -377,6 +388,7 @@ class EligibilityResult:
     too_old: bool = False  # flight over TIME_LIMIT_DAYS ago: a person checks the deadline
     cause: str | None = None  # from FlightFacts.cause
     departure_only: bool = False  # from FlightFacts.departure_only
+    operated_by: str | None = None  # operating airline's name on a codeshare
 
     @property
     def total_eur(self) -> int:
@@ -398,6 +410,7 @@ class EligibilityResult:
             "too_old": self.too_old,
             "cause": self.cause,
             "departure_only": self.departure_only,
+            "operated_by": self.operated_by,
         }
 
 
@@ -408,6 +421,8 @@ def check_facts(facts: FlightFacts, *, extraordinary: bool = False, today: dt.da
     result = _check(facts, extraordinary)
     result.cause = facts.cause
     result.departure_only = bool(facts.departure_only)
+    if facts.codeshare and facts.airline in AIRLINES:
+        result.operated_by = AIRLINES[facts.airline][0]
     if when is not None:
         result.flight_date = when.isoformat()
         result.too_old = ((today or dt.date.today()) - when).days > TIME_LIMIT_DAYS

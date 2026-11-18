@@ -104,5 +104,6 @@
  "cause_strike_atc": "Uno sciopero dei controllori di volo o del personale aeroportuale di solito è una circostanza eccezionale, quindi il risarcimento potrebbe non spettare. Un collega verificherà i dettagli.",
  "cause_strike": "Parli di uno sciopero. Se ha scioperato il personale della compagnia, la richiesta di solito regge; se i controllori o l'aeroporto, di solito no.",
  "cause_weather": "Parli del meteo. Le compagnie lo citano spesso, ma le esonera solo se ha davvero colpito il tuo volo. Controlliamo i dati meteo, quindi questo non esclude la tua richiesta.",
- "dep_only": "Parli del ritardo alla partenza. EU261 conta il ritardo all'arrivo a destinazione finale, quindi vale se sei atterrato con 3 ore o più di ritardo."
+ "dep_only": "Parli del ritardo alla partenza. EU261 conta il ritardo all'arrivo a destinazione finale, quindi vale se sei atterrato con 3 ore o più di ritardo.",
+ "codeshare": "Il volo era operato da {airline}, quindi EU261 guarda a {airline} e il reclamo va a {airline}, non alla compagnia che ha venduto il biglietto."
 }

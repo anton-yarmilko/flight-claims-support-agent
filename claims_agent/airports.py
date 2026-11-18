@@ -309,8 +309,7 @@ def _operating(hits: list[tuple[int, int, int, str]], low: str) -> str | None:
     return None
 
 
-def airline_in_text(text: str) -> str | None:
-    """The airline that operated the flight if the text says so, else the one named first."""
+def _airline_hits(text: str) -> tuple[list[tuple[int, int, int, str]], str]:
     text = _NOT_AIRLINE.sub(lambda m: " " * len(m.group()), text)
     low = text.lower()
     hits = [(m.start(), -len(m.group()), m.end(), code)
@@ -318,6 +317,19 @@ def airline_in_text(text: str) -> str | None:
     if not text.isupper():
         hits += [(m.start(), -len(m.group()), m.end(), code)
                  for pattern, code in _CASED_AIRLINES for m in pattern.finditer(text)]
+    return hits, low
+
+
+def codeshare_in_text(text: str) -> str | None:
+    """The operating airline when the text also names a different one (the airline that sold the ticket)."""
+    hits, low = _airline_hits(text)
+    op = _operating(hits, low) if hits else None
+    return op if op and any(h[3] != op for h in hits) else None
+
+
+def airline_in_text(text: str) -> str | None:
+    """The airline that operated the flight if the text says so, else the one named first."""
+    hits, low = _airline_hits(text)
     if hits:
         return _operating(hits, low) or min(hits)[3]
     m = re.search(r"\b([A-Z0-9]{2})\s?(\d{2,4})\b", text)

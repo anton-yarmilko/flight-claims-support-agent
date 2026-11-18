@@ -104,5 +104,6 @@
  "cause_strike_atc": "En strejk bland flygledare eller flygplatspersonal räknas oftast som en extraordinär omständighet, så ersättning kanske inte utgår. En kollega kontrollerar detaljerna.",
  "cause_strike": "Du nämner en strejk. Om det var flygbolagets personal står kravet oftast kvar; om det var flygledare eller flygplatsen, oftast inte.",
  "cause_weather": "Du nämner vädret. Flygbolag hänvisar ofta till det, men det fritar dem bara om det verkligen påverkade ditt flyg. Vi kontrollerar väderdata, så det utesluter inte ditt krav.",
- "dep_only": "Du nämner förseningen vid avgång. EU261 räknar hur sent du kom fram till slutdestinationen, så det gäller om du landade 3 timmar eller mer för sent."
+ "dep_only": "Du nämner förseningen vid avgång. EU261 räknar hur sent du kom fram till slutdestinationen, så det gäller om du landade 3 timmar eller mer för sent.",
+ "codeshare": "Flyget opererades av {airline}, så EU261 utgår från {airline} och kravet går till {airline}, inte till flygbolaget som sålde biljetten."
 }

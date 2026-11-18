@@ -134,8 +134,13 @@ def template_reply(intent: str, lang: str, result: EligibilityResult | None) -> 
                 text += " " + t(lang, "dep_only")
             if result.cause:
                 text += " " + t(lang, "cause_" + result.cause)
+            if result.operated_by:
+                text += " " + t(lang, "codeshare", airline=result.operated_by)
             return text
-        return t(lang, "elig_no", reason=_reason(lang, v.reason))
+        text = t(lang, "elig_no", reason=_reason(lang, v.reason))
+        if result.operated_by:
+            text += " " + t(lang, "codeshare", airline=result.operated_by)
+        return text
     if intent == "fee_question":
         return t(lang, "fee")
     if intent == "claim_status":
@@ -216,7 +221,8 @@ def _check_summary(result: EligibilityResult | None) -> str:
             f"Amount per passenger before fee: {cur} {d['amount_eur']}. Reason: {d['reason']}"
             + (f" Passengers: {d['passengers']}, total before fee: {cur} {d['total_eur']}." if d["passengers"] > 1 and d["eligible"] else "")
             + (f" The customer names the cause; tell them: {t('en', 'cause_' + d['cause'])}" if d["cause"] and d["eligible"] else "")
-            + (f" The customer gave the departure delay only; tell them: {t('en', 'dep_only')}" if d["departure_only"] and d["eligible"] else ""))
+            + (f" The customer gave the departure delay only; tell them: {t('en', 'dep_only')}" if d["departure_only"] and d["eligible"] else "")
+            + (f" Codeshare; tell them: {t('en', 'codeshare', airline=d['operated_by'])}" if d.get("operated_by") else ""))
 
 
 def handoff_note(decision: Decision, message: str, facts: FlightFacts | None, summary: str | None = None,

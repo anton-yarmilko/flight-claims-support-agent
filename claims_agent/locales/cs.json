@@ -104,5 +104,6 @@
  "cause_strike_atc": "Stávka řídících letového provozu nebo personálu letiště se obvykle považuje za mimořádnou okolnost, takže odškodnění nemusí náležet. Kolega prověří podrobnosti.",
  "cause_strike": "Zmiňujete stávku. Pokud stávkovali zaměstnanci letecké společnosti, nárok obvykle trvá; pokud řídící nebo letiště, obvykle ne.",
  "cause_weather": "Zmiňujete počasí. Letecké společnosti se na něj často odvolávají, ale omlouvá je jen tehdy, když skutečně ovlivnilo váš let. Ověřujeme meteorologické záznamy, takže to váš nárok nevylučuje.",
- "dep_only": "Zmiňujete zpoždění odletu. EU261 počítá, s jakým zpožděním jste dorazili do cílové destinace, takže to platí, pokud jste přistáli se zpožděním 3 hodiny a více."
+ "dep_only": "Zmiňujete zpoždění odletu. EU261 počítá, s jakým zpožděním jste dorazili do cílové destinace, takže to platí, pokud jste přistáli se zpožděním 3 hodiny a více.",
+ "codeshare": "Let provozovala {airline}, takže EU261 posuzuje {airline} a nárok se uplatňuje u {airline}, ne u aerolinky, která prodala letenku."
 }
