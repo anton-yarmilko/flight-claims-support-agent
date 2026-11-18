@@ -80,5 +80,8 @@
  "hw_s4": "Küçük ve ucuz bir LLM yanıtı bilgi tabanından ve hesaplamadan yazar.",
  "hw_s5": "Sayı denetimi: yanıtta bilgilerde olmayan bir sayı varsa model bir kez daha dener, sonra güvenli bir şablon kullanılır.",
  "hw_cost": "OpenAI uyumlu her modelle çalışır (burada Groq gpt-oss-20b); anahtar yoksa şablonlarla çevrimdışı çalışır.",
- "ib_csv": "CSV indir"
+ "ib_csv": "CSV indir",
+ "ib_f_all": "Tümü",
+ "copy": "Kopyala",
+ "copied": "Kopyalandı"
 }

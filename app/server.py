@@ -34,6 +34,11 @@ from claims_agent.ticket import read_ticket_image, read_ticket_text  # noqa: E40
 
 INDEX = (Path(__file__).parent / "static" / "index.html").read_bytes()
 MAX_BODY = 8 * 1024 * 1024
+# Text caps keep prompts (and the LLM bill) small and stop someone pasting a book into the chat.
+MAX_MESSAGE = 2000
+MAX_DOCUMENT = 8000
+CSP = ("default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; "
+       "img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'")
 FACT_FIELDS = ("origin", "destination", "airline", "flight_number", "date", "passenger", "booking_ref",
                "disruption", "delay_hours", "notice_days")
 
@@ -83,6 +88,22 @@ LIMITER = RateLimiter(int(os.environ.get("LLM_RATE_PER_VISITOR", "40")),
                       float(os.environ.get("LLM_RATE_WINDOW_SECONDS", "600")))
 
 
+def text_field(body: dict[str, Any], key: str, limit: int) -> str:
+    text = str(body.get(key) or "").strip()
+    if len(text) > limit:
+        raise ValueError(f"{key} is too long ({limit} characters max)")
+    return text
+
+
+def clean_history(raw: Any) -> list[dict[str, str]]:
+    """Last 12 turns, only user/assistant roles, each cut to MAX_MESSAGE characters."""
+    if not isinstance(raw, list):
+        return []
+    turns = [{"role": m["role"], "content": str(m.get("content", ""))[:MAX_MESSAGE]}
+             for m in raw if isinstance(m, dict) and m.get("role") in ("user", "assistant")]
+    return turns[-12:]
+
+
 def facts_from(d: dict[str, Any]) -> FlightFacts:
     f = FlightFacts()
     for k in FACT_FIELDS:
@@ -125,10 +146,10 @@ def _api(path: str, body: dict[str, Any], llm: Any) -> dict[str, Any]:
         return {"llm": llm.model if llm else None, "vision": llm.vision_model if llm else None,
                 "problem": LLM_PROBLEM}
     if path == "/api/chat":
-        msg = str(body.get("message", "")).strip()
+        msg = text_field(body, "message", MAX_MESSAGE)
         if not msg:
             raise ValueError("message is empty")
-        history = [m for m in body.get("history", []) if isinstance(m, dict)][-12:]
+        history = clean_history(body.get("history"))
         out = respond(msg, history, llm=llm, previous_handoffs=int(body.get("previous_handoffs", 0))).to_dict()
         out["eligibility"] = localize_check(out["eligibility"], str(body.get("lang", "en")))
         return out
@@ -136,14 +157,14 @@ def _api(path: str, body: dict[str, Any], llm: Any) -> dict[str, Any]:
         if body.get("image"):
             raw = base64.b64decode(str(body["image"]).split(",", 1)[-1])
             return read_ticket_image(raw, str(body.get("mime") or "image/jpeg"), llm).to_dict()
-        return read_ticket_text(str(body.get("text", "")), llm).to_dict()
+        return read_ticket_text(text_field(body, "text", MAX_DOCUMENT), llm).to_dict()
     if path == "/api/eligibility":
         return localize_check(check_facts(facts_from(body)).to_dict(), str(body.get("lang", "en")))
     if path == "/api/airline-reply":
-        return airline_reply.analyse(str(body.get("text", "")), llm).to_dict()
+        return airline_reply.analyse(text_field(body, "text", MAX_DOCUMENT), llm).to_dict()
     if path == "/api/inbox":
         lines = body.get("messages")
-        items = ([{"message": str(m)} for m in lines if str(m).strip()] if isinstance(lines, list) and lines
+        items = ([{"message": str(m)[:MAX_MESSAGE]} for m in lines if str(m).strip()] if isinstance(lines, list) and lines
                  else inbox.sample_messages())
         return inbox.process(items)
     if path == "/api/letter":
@@ -159,6 +180,10 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(payload)))
         self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Referrer-Policy", "no-referrer")
+        self.send_header("X-Frame-Options", "DENY")
+        if ctype.startswith("text/html"):
+            self.send_header("Content-Security-Policy", CSP)
         self.end_headers()
         self.wfile.write(payload)
 

@@ -80,5 +80,8 @@
  "hw_s4": "A small, cheap LLM writes the reply from the knowledge base and the computed check.",
  "hw_s5": "Number guard: if the reply contains a number that is not in the facts, the model gets one retry, then a safe template is used.",
  "hw_cost": "Works with any OpenAI-compatible model (here Groq gpt-oss-20b) and runs offline with templates when no key is set.",
- "ib_csv": "Download CSV"
+ "ib_csv": "Download CSV",
+ "ib_f_all": "All",
+ "copy": "Copy",
+ "copied": "Copied"
 }

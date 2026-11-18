@@ -25,7 +25,7 @@ threats, GDPR requests, upset customers, weak knowledge-base matches.
 | Knowledge base | `knowledge/*.md` | EU261 rules, fees, stages, documents |
 | Evals | `evals/cases.jsonl`, `evals/judge.py` | Triage cases in all 20 languages; reply checks + optional LLM-as-judge |
 | Inbox | `claims_agent/inbox.py` | Batch triage of a day of mail: AI share, handoff reasons, urgent cases, compensation found |
-| Tests | `tests/` | 170 tests, run in CI with a fake LLM server |
+| Tests | `tests/` | 175 tests, run in CI with a fake LLM server |
 
 ```mermaid
 flowchart LR
@@ -86,11 +86,12 @@ The six tabs:
    claims and the compensation they add up to. Rules only, so it is instant and free. Click a row to
    open it in the chat. **Download CSV** exports every row (language, topic, decision, route,
    amount, drafted reply) for the claims team; it opens directly in Excel.
+   Filter chips show only what goes to a person, urgent cases or eligible claims.
 3. **Ticket reader** - paste a booking email or the text under a boarding-pass barcode (parsed
    offline), or upload a photo (needs a vision model). Then check EU261 or draft the letter.
 4. **Airline reply** - paste the airline's refusal; get the cause, the usual position in EU case
    law and the next step. A claims handler always decides.
-5. **Claim letter** - a ready-to-review letter to the airline from the case facts.
+5. **Claim letter** - a ready-to-review letter to the airline from the case facts. The letter and the handoff note have a Copy button.
 6. **How it works** - the five steps (language, triage rules, facts and EU261 by code, the LLM
    writes, number guard) in plain words, for a non-technical audience.
 
@@ -101,6 +102,10 @@ visitor (first `X-Forwarded-For` hop) and in total over a sliding window: `LLM_R
 (default 40), `LLM_RATE_TOTAL` (600) per `LLM_RATE_WINDOW_SECONDS` (600). Over the cap the request
 still works with the offline templates and the reply shows `(rate limit)`. Inbox and the EU261
 check never use the LLM.
+
+**Input limits and headers:** a chat message is capped at 2,000 characters, a pasted ticket or airline
+letter at 8,000, chat history at the last 12 user/assistant turns (other roles are dropped). The page is
+served with a strict Content-Security-Policy, `X-Frame-Options: DENY` and `Referrer-Policy: no-referrer`.
 
 The LLM client also keeps a small in-memory cache (256 answers, `LLM(cache_size=...)`): the same request
 (for example a sample button pressed twice) is answered instantly and costs no tokens.
@@ -130,7 +135,7 @@ tune the rules from real tickets.
 
 ```bash
 pip install pytest
-pytest -q                     # 170 tests, LLM calls go to a fake local server
+pytest -q                     # 175 tests, LLM calls go to a fake local server
 python -m evals.judge         # reply checks on every eval case (offline: templates)
 
 # with a model, plus a bigger judge model for LLM-as-judge scoring

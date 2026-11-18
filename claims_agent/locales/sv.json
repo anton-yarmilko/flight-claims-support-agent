@@ -80,5 +80,8 @@
  "hw_s4": "En liten, billig LLM skriver svaret utifrån kunskapsbasen och beräkningen.",
  "hw_s5": "Sifferkontroll: om svaret innehåller en siffra som inte finns i fakta får modellen ett försök till, sedan används en säker mall.",
  "hw_cost": "Fungerar med alla OpenAI-kompatibla modeller (här Groq gpt-oss-20b) och offline med mallar utan nyckel.",
- "ib_csv": "Ladda ner CSV"
+ "ib_csv": "Ladda ner CSV",
+ "ib_f_all": "Alla",
+ "copy": "Kopiera",
+ "copied": "Kopierad"
 }

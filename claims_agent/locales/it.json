@@ -80,5 +80,8 @@
  "hw_s4": "Un LLM piccolo ed economico scrive la risposta dalla base di conoscenza e dal calcolo.",
  "hw_s5": "Controllo dei numeri: se la risposta contiene un numero assente dai fatti, il modello ha un altro tentativo, poi si usa un modello sicuro.",
  "hw_cost": "Funziona con qualsiasi modello compatibile OpenAI (qui Groq gpt-oss-20b) e senza chiave offline con modelli di testo.",
- "ib_csv": "Scarica CSV"
+ "ib_csv": "Scarica CSV",
+ "ib_f_all": "Tutti",
+ "copy": "Copia",
+ "copied": "Copiato"
 }

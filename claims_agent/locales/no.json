@@ -80,5 +80,8 @@
  "hw_s4": "En liten, billig LLM skriver svaret fra kunnskapsbasen og utregningen.",
  "hw_s5": "Tallvakt: hvis svaret har et tall som ikke finnes i faktaene, får modellen ett forsøk til, deretter brukes en trygg mal.",
  "hw_cost": "Virker med alle OpenAI-kompatible modeller (her Groq gpt-oss-20b) og offline med maler uten nøkkel.",
- "ib_csv": "Last ned CSV"
+ "ib_csv": "Last ned CSV",
+ "ib_f_all": "Alle",
+ "copy": "Kopier",
+ "copied": "Kopiert"
 }
