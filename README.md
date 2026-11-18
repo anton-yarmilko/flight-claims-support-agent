@@ -166,4 +166,4 @@ Independent portfolio project. The demo web server has no auth or rate limiting:
 locally, not on the internet. Fees and stages in `knowledge/fees-and-process.md` are a demo
 configuration for a fictional service, and the EU261 summary, airport table and case-law notes are simplified - not legal advice.
 
-Built by [Anton Yarmilko](https://www.linkedin.com/in/anton-yarmilko).
+Built by the repository owner.
