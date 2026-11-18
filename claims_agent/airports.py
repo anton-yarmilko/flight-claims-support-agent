@@ -285,15 +285,41 @@ _CASED_AIRLINES = [(re.compile(r"(?<!\w)" + name + r"(?!\w)"), code) for name, c
 _NOT_AIRLINE = re.compile(r"\barab(?:ian)?\s+emirates\b|\bemirati\b", re.I)
 
 
+# "Booked with Lufthansa, operated by United": EU261 looks at the airline that operated the flight.
+# Words after which the operating airline is named...
+_OPERATED_BY = re.compile(
+    r"operated by|operating (?:carrier|airline)|опер(?:ував|увала|ує|ировал|ировала)\w*|викон(?:ував|увала|ує)\w*"
+    r"|выполн(?:ял|яла|яет)\w*|durchgef[üu]hrt von|betrieben von|op[ée]r[ée]e? par|operad[oa] por|operat[oa] da"
+    r"|operat de|obs[łl]ugiwan\w* przez|wykonywan\w* przez|uitgevoerd door|εκτελ\w* από|provozov\w*"
+    r"|utf[öø]rd av|opereras av|udf[øo]rt af|opereret af|operert av|utf[øo]rt av")
+# ...and words before which it is named (Turkish, Hungarian, Finnish).
+_OPERATED_BY_BEFORE = re.compile(r"taraf[ıi]ndan|[áa]ltal (?:[üu]zemeltet|teljes[íi]t)|operoima|liikenn[öo]im[äa]")
+_NEAR = 40
+
+
+def _operating(hits: list[tuple[int, int, int, str]], low: str) -> str | None:
+    for m in _OPERATED_BY.finditer(low):
+        after = [h for h in hits if 0 <= h[0] - m.end() <= _NEAR]
+        if after:
+            return min(after)[3]
+    for m in _OPERATED_BY_BEFORE.finditer(low):
+        before = [h for h in hits if 0 <= m.start() - h[2] <= _NEAR]
+        if before:
+            return max(before)[3]
+    return None
+
+
 def airline_in_text(text: str) -> str | None:
-    """The airline named first in the text (the longer name wins at the same spot)."""
+    """The airline that operated the flight if the text says so, else the one named first."""
     text = _NOT_AIRLINE.sub(lambda m: " " * len(m.group()), text)
     low = text.lower()
-    hits = [(m.start(), -len(m.group()), code) for pattern, code in _AIRLINE_PATTERNS if (m := pattern.search(low))]
+    hits = [(m.start(), -len(m.group()), m.end(), code)
+            for pattern, code in _AIRLINE_PATTERNS for m in pattern.finditer(low)]
     if not text.isupper():
-        hits += [(m.start(), -len(m.group()), code) for pattern, code in _CASED_AIRLINES if (m := pattern.search(text))]
+        hits += [(m.start(), -len(m.group()), m.end(), code)
+                 for pattern, code in _CASED_AIRLINES for m in pattern.finditer(text)]
     if hits:
-        return min(hits)[2]
+        return _operating(hits, low) or min(hits)[3]
     m = re.search(r"\b([A-Z0-9]{2})\s?(\d{2,4})\b", text)
     if m and m.group(1) in AIRLINES:
         return m.group(1)

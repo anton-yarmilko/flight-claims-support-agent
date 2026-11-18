@@ -44,3 +44,23 @@ def test_abu_dhabi_and_etihad():
     assert not r.eligibility.verdict.eligible
     r = respond("Flew Abu Dhabi to Rome with Lufthansa, delay 5 hours")
     assert r.eligibility.verdict.amount_eur == 600
+
+
+@pytest.mark.parametrize("text,code", [
+    ("Booked with Lufthansa, operated by United Airlines", "UA"),
+    ("United Airlines flight operated by Lufthansa", "LH"),
+    ("Квиток Lufthansa, рейс виконувала United Airlines", "UA"),
+    ("Gebucht bei Lufthansa, durchgeführt von United Airlines", "UA"),
+    ("Vol Air France opéré par Delta Air Lines", "DL"),
+    ("Lufthansa bileti, United Airlines tarafından işletilen uçuş", "UA"),
+    ("Flew Ryanair. The airline operated by its own rules", "FR"),
+])
+def test_operating_airline_counts(text, code):
+    assert airline_in_text(text) == code
+
+
+def test_codeshare_into_eu_follows_operating_airline():
+    r = respond("My Lufthansa flight, operated by United Airlines, from New York to Frankfurt was delayed 5 hours")
+    assert not r.eligibility.verdict.eligible
+    r = respond("My United flight, operated by Lufthansa, from New York to Frankfurt was delayed 5 hours")
+    assert r.eligibility.verdict.amount_eur == 600

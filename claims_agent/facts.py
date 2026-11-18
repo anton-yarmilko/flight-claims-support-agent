@@ -243,7 +243,7 @@ EXTRACT_PROMPT = """Extract flight details from the customer's text or ticket. U
 If a field is not stated, use null. Never guess.
 Reply with JSON only:
 {"origin": "<IATA airport code or city>", "destination": "<IATA code or city>",
- "airline": "<airline name or 2-letter code>", "flight_number": "<e.g. FR1234>",
+ "airline": "<airline that operated the flight (not the one that sold the ticket), name or 2-letter code>", "flight_number": "<e.g. FR1234>",
  "date": "<YYYY-MM-DD if known>", "passenger": "<name>", "booking_ref": "<6 chars>",
  "disruption": "delay|cancellation|denied_boarding|null",
  "delay_hours": <number or null>, "notice_days": <number or null>,
