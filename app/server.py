@@ -22,7 +22,8 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from claims_agent import airline_reply  # noqa: E402
-from claims_agent.agent import respond  # noqa: E402
+from claims_agent.agent import MISSING_KEYS, _reason, respond  # noqa: E402
+from claims_agent.i18n import LANGUAGES, native_names, strings, t  # noqa: E402
 from claims_agent.claim_letter import draft_letter  # noqa: E402
 from claims_agent.facts import FlightFacts, check_facts  # noqa: E402
 from claims_agent.llm import LLMError, get_llm  # noqa: E402
@@ -56,6 +57,17 @@ def facts_from(d: dict[str, Any]) -> FlightFacts:
     return f
 
 
+def localize_check(d: dict[str, Any] | None, lang: str) -> dict[str, Any] | None:
+    """Translate the check's reason and missing fields into the UI language."""
+    if not d or lang not in LANGUAGES or lang == "en":
+        return d
+    d = dict(d)
+    d["missing"] = [t(lang, MISSING_KEYS[m]) if m in MISSING_KEYS else m for m in d.get("missing", [])]
+    if d.get("reason"):
+        d["reason"] = _reason(lang, d["reason"])
+    return d
+
+
 def api(path: str, body: dict[str, Any]) -> dict[str, Any]:
     llm = LLM_CLIENT
     if path == "/api/status":
@@ -66,14 +78,16 @@ def api(path: str, body: dict[str, Any]) -> dict[str, Any]:
         if not msg:
             raise ValueError("message is empty")
         history = [m for m in body.get("history", []) if isinstance(m, dict)][-12:]
-        return respond(msg, history, llm=llm, previous_handoffs=int(body.get("previous_handoffs", 0))).to_dict()
+        out = respond(msg, history, llm=llm, previous_handoffs=int(body.get("previous_handoffs", 0))).to_dict()
+        out["eligibility"] = localize_check(out["eligibility"], str(body.get("lang", "en")))
+        return out
     if path == "/api/ticket":
         if body.get("image"):
             raw = base64.b64decode(str(body["image"]).split(",", 1)[-1])
             return read_ticket_image(raw, str(body.get("mime") or "image/jpeg"), llm).to_dict()
         return read_ticket_text(str(body.get("text", "")), llm).to_dict()
     if path == "/api/eligibility":
-        return check_facts(facts_from(body)).to_dict()
+        return localize_check(check_facts(facts_from(body)).to_dict(), str(body.get("lang", "en")))
     if path == "/api/airline-reply":
         return airline_reply.analyse(str(body.get("text", "")), llm).to_dict()
     if path == "/api/letter":
@@ -100,6 +114,10 @@ class Handler(BaseHTTPRequestHandler):
             self._send(200, INDEX, "text/html; charset=utf-8")
         elif self.path == "/api/status":
             self._json(200, api("/api/status", {}))
+        elif self.path == "/api/languages":
+            self._json(200, native_names())
+        elif self.path.startswith("/api/i18n/") and self.path[10:] in LANGUAGES:
+            self._json(200, strings(self.path[10:]))
         else:
             self._json(404, {"error": "not found"})
 

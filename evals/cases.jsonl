@@ -19,3 +19,18 @@
 {"id": "de-gdpr", "message": "Bitte löschen Sie meine Daten gemäß DSGVO", "intent": "gdpr_request", "action": "human_handoff", "language": "de"}
 {"id": "es-fee", "message": "¿Cuánto cobran de comisión si ganan?", "intent": "fee_question", "action": "ai_answer", "language": "es"}
 {"id": "es-documents", "message": "¿Dónde subo mi tarjeta de embarque?", "intent": "documents", "action": "ai_answer", "language": "es"}
+{"id": "fr-eligibility", "message": "Mon vol de Paris à Lisbonne a été retardé de 4 heures, ai-je droit à une indemnisation ?", "intent": "eligibility", "action": "ai_answer", "language": "fr"}
+{"id": "it-cancel", "message": "Il mio volo da Roma a Parigi è stato cancellato 3 giorni prima, ho diritto a un risarcimento?", "intent": "eligibility", "action": "ai_answer", "language": "it"}
+{"id": "pt-fee", "message": "Quanto cobram de comissão se ganharem o meu caso?", "intent": "fee_question", "action": "ai_answer", "language": "pt"}
+{"id": "ro-documents", "message": "Ce documente trebuie să încarc pentru cererea mea?", "intent": "documents", "action": "ai_answer", "language": "ro"}
+{"id": "nl-payment", "message": "De maatschappij heeft betaald maar ik heb het geld niet ontvangen", "intent": "payment_issue", "action": "human_handoff", "language": "nl"}
+{"id": "el-eligibility", "message": "Η πτήση μου από Αθήνα προς Βερολίνο καθυστέρησε 5 ώρες, δικαιούμαι αποζημίωση;", "intent": "eligibility", "action": "ai_answer", "language": "el"}
+{"id": "tr-legal", "message": "Param gelmezse avukatıma gideceğim", "intent": "legal_threat", "action": "human_handoff", "language": "tr"}
+{"id": "hu-fee", "message": "Mekkora a díjuk, ha megnyerik az ügyet?", "intent": "fee_question", "action": "ai_answer", "language": "hu"}
+{"id": "cs-status", "message": "Jaký je stav mého případu? Číslo případu 48213, jak dlouho to potrvá?", "intent": "claim_status", "action": "ai_answer", "language": "cs"}
+{"id": "sr-eligibility", "message": "Moj let iz Beča za Atinu je kasnio 4 sata, da li imam pravo na odštetu?", "intent": "eligibility", "action": "ai_answer", "language": "sr"}
+{"id": "da-angry", "message": "I er svindlere! 30% gebyr er en skandale", "intent": "fee_question", "action": "human_handoff", "language": "da"}
+{"id": "no-eligibility", "message": "Flyet mitt fra Oslo til Barcelona ble forsinket 5 timer, har jeg rett på kompensasjon?", "intent": "eligibility", "action": "ai_answer", "language": "no"}
+{"id": "sv-gdpr", "message": "Radera mina uppgifter enligt GDPR, tack", "intent": "gdpr_request", "action": "human_handoff", "language": "sv"}
+{"id": "fi-eligibility", "message": "Lentoni Helsingistä Ateenaan oli 4 tuntia myöhässä, onko minulla oikeus korvaukseen?", "intent": "eligibility", "action": "ai_answer", "language": "fi"}
+{"id": "ru-documents", "message": "Какие документы нужно загрузить? Посадочный талон подойдёт?", "intent": "documents", "action": "ai_answer", "language": "ru"}

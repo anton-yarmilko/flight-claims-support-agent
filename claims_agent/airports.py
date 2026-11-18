@@ -25,33 +25,33 @@ class Airport:
 
 _A = Airport
 AIRPORTS: dict[str, Airport] = {a.iata: a for a in [
-    _A("LIS", "Lisbon", "PT", True, 38.7742, -9.1342, ("lisboa", "lissabon", "лісабон", "lizbona")),
+    _A("LIS", "Lisbon", "PT", True, 38.7742, -9.1342, ("lisboa", "lissabon", "лісабон", "lizbona", "лиссабон", "lisbonne", "lisbona", "lizbon", "lisszabon", "lisabon", "λισαβόνα")),
     _A("OPO", "Porto", "PT", True, 41.2481, -8.6814, ("порту",)),
     _A("MAD", "Madrid", "ES", True, 40.4719, -3.5626, ("мадрид",)),
-    _A("BCN", "Barcelona", "ES", True, 41.2971, 2.0785, ("барселона",)),
+    _A("BCN", "Barcelona", "ES", True, 41.2971, 2.0785, ("барселона", "barcelone", "βαρκελώνη", "barselona")),
     _A("AGP", "Malaga", "ES", True, 36.6749, -4.4991, ("málaga", "малага")),
     _A("PMI", "Palma de Mallorca", "ES", True, 39.5517, 2.7388, ("palma", "mallorca", "майорка")),
-    _A("CDG", "Paris", "FR", True, 49.0097, 2.5479, ("paryż", "париж", "parís")),
+    _A("CDG", "Paris", "FR", True, 49.0097, 2.5479, ("paryż", "париж", "parís", "parigi", "παρίσι", "párizs", "paříž", "pariz", "pariisi")),
     _A("NCE", "Nice", "FR", True, 43.6584, 7.2159, ("nizza", "ніцца")),
     _A("AMS", "Amsterdam", "NL", True, 52.3105, 4.7683, ("амстердам",)),
     _A("BRU", "Brussels", "BE", True, 50.9014, 4.4844, ("bruxelles", "brüssel", "брюссель", "bruksela")),
     _A("FRA", "Frankfurt", "DE", True, 50.0379, 8.5622, ("франкфурт",)),
-    _A("MUC", "Munich", "DE", True, 48.3538, 11.7861, ("münchen", "мюнхен", "monachium")),
-    _A("BER", "Berlin", "DE", True, 52.3667, 13.5033, ("берлін", "берлин")),
+    _A("MUC", "Munich", "DE", True, 48.3538, 11.7861, ("münchen", "мюнхен", "monachium", "monaco di baviera", "munique", "múnich", "μόναχο", "münih", "mnichov", "minhen")),
+    _A("BER", "Berlin", "DE", True, 52.3667, 13.5033, ("берлін", "берлин", "berlino", "berlín", "berlijn", "βερολίνο")),
     _A("HAM", "Hamburg", "DE", True, 53.6304, 9.9882, ("гамбург",)),
     _A("DUS", "Dusseldorf", "DE", True, 51.2895, 6.7668, ("düsseldorf", "дюссельдорф")),
-    _A("VIE", "Vienna", "AT", True, 48.1103, 16.5697, ("wien", "відень", "вена", "wiedeń", "viena")),
+    _A("VIE", "Vienna", "AT", True, 48.1103, 16.5697, ("wien", "відень", "вена", "wiedeń", "viena", "vienna", "vienne", "wenen", "beč", "viyana", "bécs", "vídeň", "vídně", "βιέννη", "wenen")),
     _A("ZRH", "Zurich", "CH", True, 47.4647, 8.5492, ("zürich", "цюрих")),
     _A("GVA", "Geneva", "CH", True, 46.2381, 6.1090, ("genève", "genf", "женева")),
-    _A("FCO", "Rome", "IT", True, 41.8003, 12.2389, ("roma", "rom", "рим", "rzym")),
+    _A("FCO", "Rome", "IT", True, 41.8003, 12.2389, ("roma", "rom", "рим", "rzym", "rome", "ρώμη", "róma", "řím", "rooma")),
     _A("MXP", "Milan", "IT", True, 45.6306, 8.7281, ("milano", "mailand", "мілан", "mediolan")),
     _A("VCE", "Venice", "IT", True, 45.5053, 12.3519, ("venezia", "венеція")),
-    _A("ATH", "Athens", "GR", True, 37.9364, 23.9445, ("athen", "афіни", "ateny", "atenas")),
-    _A("WAW", "Warsaw", "PL", True, 52.1657, 20.9671, ("warszawa", "варшава", "warschau", "varsovia")),
+    _A("ATH", "Athens", "GR", True, 37.9364, 23.9445, ("athen", "афіни", "ateny", "atenas", "афины", "athènes", "atene", "atena", "athene", "αθήνα", "atina", "atin", "athén", "atény", "ateena")),
+    _A("WAW", "Warsaw", "PL", True, 52.1657, 20.9671, ("warszawa", "варшава", "warschau", "varsovia", "varsovie", "varsavia", "varșovia", "varsó", "varšava", "varşova", "βαρσοβία", "varsova")),
     _A("KRK", "Krakow", "PL", True, 50.0777, 19.7848, ("kraków", "краків", "krakau")),
     _A("GDN", "Gdansk", "PL", True, 54.3776, 18.4662, ("gdańsk", "гданськ")),
     _A("WRO", "Wroclaw", "PL", True, 51.1027, 16.8858, ("wrocław", "вроцлав")),
-    _A("PRG", "Prague", "CZ", True, 50.1008, 14.2600, ("praha", "prag", "прага", "praga")),
+    _A("PRG", "Prague", "CZ", True, 50.1008, 14.2600, ("praha", "prah", "prag", "прага", "praga", "prague")),
     _A("BUD", "Budapest", "HU", True, 47.4369, 19.2556, ("будапешт",)),
     _A("OTP", "Bucharest", "RO", True, 44.5711, 26.0850, ("bucurești", "бухарест")),
     _A("SOF", "Sofia", "BG", True, 42.6967, 23.4114, ("софія",)),
@@ -59,15 +59,15 @@ AIRPORTS: dict[str, Airport] = {a.iata: a for a in [
     _A("KUN", "Kaunas", "LT", True, 54.9639, 24.0848, ("каунас",)),
     _A("RIX", "Riga", "LV", True, 56.9236, 23.9711, ("rīga", "рига")),
     _A("TLL", "Tallinn", "EE", True, 59.4133, 24.8328, ("таллінн",)),
-    _A("HEL", "Helsinki", "FI", True, 60.3172, 24.9633, ("гельсінкі",)),
+    _A("HEL", "Helsinki", "FI", True, 60.3172, 24.9633, ("гельсінкі", "helsing", "хельсинки")),
     _A("ARN", "Stockholm", "SE", True, 59.6519, 17.9186, ("стокгольм", "sztokholm")),
     _A("CPH", "Copenhagen", "DK", True, 55.6180, 12.6560, ("københavn", "kopenhagen", "копенгаген", "kopenhaga")),
     _A("OSL", "Oslo", "NO", True, 60.1939, 11.1004, ("осло",)),
     _A("KEF", "Reykjavik", "IS", True, 63.9850, -22.6056, ("reykjavík", "рейк'явік")),
     _A("DUB", "Dublin", "IE", True, 53.4213, -6.2701, ("дублін",)),
-    _A("LHR", "London", "GB", False, 51.4700, -0.4543, ("londyn", "лондон", "londres", "heathrow")),
+    _A("LHR", "London", "GB", False, 51.4700, -0.4543, ("londyn", "лондон", "londres", "heathrow", "londra", "λονδίνο", "londýn", "lontoo")),
     _A("STN", "London Stansted", "GB", False, 51.8860, 0.2389, ("stansted",)),
-    _A("IST", "Istanbul", "TR", False, 41.2753, 28.7519, ("стамбул", "stambuł", "estambul")),
+    _A("IST", "Istanbul", "TR", False, 41.2753, 28.7519, ("стамбул", "stambuł", "estambul", "istanbul", "κωνσταντινούπολη")),
     _A("AYT", "Antalya", "TR", False, 36.8987, 30.8005, ("анталія",)),
     _A("DXB", "Dubai", "AE", False, 25.2532, 55.3657, ("дубай", "dubaj")),
     _A("DOH", "Doha", "QA", False, 25.2731, 51.6081, ("доха",)),
@@ -112,7 +112,7 @@ def find_airport(token: str) -> Airport | None:
 def airports_in_text(text: str) -> list[Airport]:
     """Airports mentioned in text, in order of appearance (IATA codes or city names)."""
     hits: list[tuple[int, Airport]] = []
-    low = text.lower()
+    low = text.lower().replace("i\u0307", "i")  # Turkish dotted capital I lowercases to i + combining dot
     for a in AIRPORTS.values():
         names = [a.city.lower(), *a.aliases]
         best = None

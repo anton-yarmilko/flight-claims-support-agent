@@ -22,7 +22,8 @@ from functools import lru_cache
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from .facts import EligibilityResult, FlightFacts, check_facts, extract_facts
+from .facts import EligibilityResult, FlightFacts, check_facts, extract_facts, extract_facts_rules, prefer_latest
+from .i18n import t
 from .language import SUPPORTED, detect_language
 from .triage import Action, Decision, triage
 
@@ -38,18 +39,8 @@ def knowledge() -> str:
     return "\n\n".join(parts)
 
 
-HOLDING = {
-    "en": "Thanks, I've passed this to a colleague who will reply personally within one business day. "
-          "You don't need to send anything else for now.",
-    "uk": "Дякую, я передав ваше звернення колезі, який особисто відповість протягом одного робочого дня. "
-          "Поки що нічого додатково надсилати не потрібно.",
-    "pl": "Dziękuję, przekazałem sprawę koledze, który odpowie osobiście w ciągu jednego dnia roboczego. "
-          "Na razie nie trzeba niczego więcej wysyłać.",
-    "de": "Danke, ich habe Ihr Anliegen an einen Kollegen weitergegeben, der sich innerhalb eines Werktags "
-          "persönlich meldet. Sie müssen vorerst nichts weiter schicken.",
-    "es": "Gracias, he pasado su consulta a un compañero que le responderá personalmente en un día hábil. "
-          "Por ahora no necesita enviar nada más.",
-}
+def holding(lang: str) -> str:
+    return t(lang, "holding")
 
 
 @dataclass
@@ -80,68 +71,51 @@ class Reply:
         }
 
 
-# ---------- offline templates (English and Ukrainian; other languages get English) ----------
+# ---------- offline templates (every AirAdvisor language, see locales/) ----------
 
-def _t(lang: str, en: str, uk: str) -> str:
-    return uk if lang == "uk" else en
-
-
-MISSING_UK = {
-    "route (from and to)": "маршрут (звідки і куди)",
-    "what happened (delay, cancellation or denied boarding)": "що сталося (затримка, скасування чи відмова в посадці)",
-    "how late you arrived at the final destination": "на скільки годин ви запізнилися до кінцевого пункту",
-    "a different departure and arrival airport": "різні аеропорти вильоту і прильоту",
-    "the airline (flights into the EU are covered only on EU airlines)": "авіакомпанію (рейси в ЄС покриваються лише для авіакомпаній ЄС)",
+MISSING_KEYS = {
+    "route (from and to)": "m_route",
+    "what happened (delay, cancellation or denied boarding)": "m_what",
+    "how late you arrived at the final destination": "m_delay",
+    "a different departure and arrival airport": "m_airports",
+    "the airline (flights into the EU are covered only on EU airlines)": "m_airline",
 }
+
+REASON_KEYS = {
+    "Route not covered": "rs_not_covered",
+    "extraordinary circumstances": "rs_extraordinary",
+    "under 3 hours": "rs_under_3h",
+    "14 or more days": "rs_notice_14d",
+}
+
+
+def _reason(lang: str, reason: str) -> str:
+    m = re.match(r"Likely eligible: EUR (\d+)", reason)
+    if m:
+        return t(lang, "rs_likely", amount=m.group(1))
+    for marker, key in REASON_KEYS.items():
+        if marker in reason:
+            return t(lang, key)
+    return reason
 
 
 def template_reply(intent: str, lang: str, result: EligibilityResult | None) -> str:
     if intent == "eligibility":
         if result is None or result.verdict is None:
-            items = result.missing if result else ["route (from and to)", "what happened (delay, cancellation or denied boarding)"]
-            if lang == "uk":
-                items = [MISSING_UK.get(i, i) for i in items]
-            need = ", ".join(items)
-            return _t(lang,
-                      f"I can run a quick EU261 check for you. Please tell me {need}.",
-                      f"Я можу швидко перевірити ваш рейс за EU261. Напишіть, будь ласка: {need}.")
+            items = result.missing if result else list(MISSING_KEYS)[:2]
+            need = ", ".join(t(lang, MISSING_KEYS[i]) if i in MISSING_KEYS else i for i in items)
+            return t(lang, "elig_ask", need=need)
         v = result.verdict
         if v.eligible:
-            return _t(lang,
-                      f"Good news: your flight {result.route} ({result.distance_km} km) looks eligible. "
-                      f"Compensation would be EUR {v.amount_eur} per passenger, before our service fee. "
-                      "This is a preliminary check, not a guarantee. To start the claim, send your boarding pass or e-ticket.",
-                      f"Схоже, ваш рейс {result.route} ({result.distance_km} км) має право на компенсацію: "
-                      f"EUR {v.amount_eur} на пасажира до вирахування нашої комісії. "
-                      "Це попередня перевірка, а не гарантія. Щоб подати заявку, надішліть посадковий або e-ticket.")
-        return _t(lang,
-                  f"From what you've told me, this flight is probably not eligible: {v.reason} "
-                  "If any detail is different, tell me and I'll check again.",
-                  f"За вашими даними цей рейс, найімовірніше, не підпадає під компенсацію: {v.reason} "
-                  "Якщо якісь деталі інші, напишіть, і я перевірю ще раз.")
+            return t(lang, "elig_yes", route=result.route, km=result.distance_km, amount=v.amount_eur)
+        return t(lang, "elig_no", reason=_reason(lang, v.reason))
     if intent == "fee_question":
-        return _t(lang,
-                  "We work on a no win, no fee basis. If we get your compensation, our fee is 30% (VAT included). "
-                  "If the airline refuses and the case has to go to court or an external lawyer, the fee is 50%. "
-                  "Baggage and reimbursement claims are 40%.",
-                  "Ми працюємо за принципом «немає виплати, немає комісії». Якщо ми отримаємо компенсацію, комісія 30% (з ПДВ). "
-                  "Якщо авіакомпанія відмовить і справа піде до суду чи зовнішнього юриста, комісія 50%. "
-                  "Для претензій щодо багажу та відшкодувань 40%.")
+        return t(lang, "fee")
     if intent == "claim_status":
-        return _t(lang,
-                  "Every claim moves through these stages: submitted, sent to the airline (a reply usually takes 2-8 weeks), "
-                  "negotiation, and if needed a national authority or court. I can't promise a date, but a colleague can tell "
-                  "you the exact stage of your claim if you share your claim number.",
-                  "Кожна заявка проходить етапи: подано, надіслано авіакомпанії (відповідь зазвичай 2-8 тижнів), "
-                  "переговори і за потреби національний орган чи суд. Дату обіцяти не можу, але колега підкаже точний етап, "
-                  "якщо ви надішлете номер заявки.")
+        return t(lang, "status")
     if intent == "documents":
-        return _t(lang,
-                  "To start a claim we need: the boarding pass or e-ticket for every passenger, an ID document for the lead "
-                  "passenger, and a signed authorisation so we can act for you. You can upload them in your claim form.",
-                  "Для заявки потрібні: посадковий або e-ticket для кожного пасажира, документ, що посвідчує особу головного "
-                  "пасажира, і підписана довіреність, щоб ми могли діяти від вашого імені. Їх можна завантажити у формі заявки.")
-    return HOLDING.get(lang, HOLDING["en"])
+        return t(lang, "documents")
+    return holding(lang)
 
 
 # ---------- LLM reply ----------
@@ -249,18 +223,18 @@ def respond(
                 next_step = str(data.get("next_step") or "") or None
             except LLMError as e:
                 notes.append(f"LLM summary failed: {e}")
-        return Reply(HOLDING.get(lang, HOLDING["en"]), decision, lang, "llm" if llm and not notes else "offline",
+        return Reply(holding(lang), decision, lang, "llm" if llm and not notes else "offline",
                      handoff_note(decision, message, facts, summary, next_step), facts, None, notes)
 
     facts = result = None
     if decision.intent == "eligibility":
         facts = extract_facts(customer_text, llm)
+        if history:
+            facts = prefer_latest(facts, extract_facts_rules(message))
         result = check_facts(facts)
 
     offline = template_reply(decision.intent, lang, result)
     if llm is None:
-        if lang not in {"en", "uk"}:
-            offline += f"\n\n(A colleague can help in {SUPPORTED[lang]} if you prefer.)"
         return Reply(offline, decision, lang, "offline", None, facts, result, notes)
 
     check = _check_summary(result)

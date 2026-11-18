@@ -62,12 +62,13 @@
 <body>
 <header>
   <h1><span>FlyClaim</span> AI demo</h1>
-  <span id="mode">checking model...</span>
+  <span id="mode">...</span>
+  <select id="lang" aria-label="Language" style="width:auto"></select>
   <nav>
-    <button data-tab="chat" class="on">Support chat</button>
-    <button data-tab="ticket">Ticket reader</button>
-    <button data-tab="reply">Airline reply</button>
-    <button data-tab="letter">Claim letter</button>
+    <button data-tab="chat" class="on" data-i18n="tab_chat">Support chat</button>
+    <button data-tab="ticket" data-i18n="tab_ticket">Ticket reader</button>
+    <button data-tab="reply" data-i18n="tab_reply">Airline reply</button>
+    <button data-tab="letter" data-i18n="tab_letter">Claim letter</button>
   </nav>
 </header>
 
@@ -76,19 +77,19 @@
   <section id="chat" class="on">
     <div class="grid">
       <div class="card">
-        <h2>Customer chat</h2>
-        <p class="hint">Write as a customer, in English, Ukrainian, Polish, German or Spanish. Rules decide if the AI may answer; money, legal, GDPR and angry messages go to a person.</p>
+        <h2 data-i18n="chat_title">Customer chat</h2>
+        <p class="hint" data-i18n="chat_hint"></p>
         <div class="chips" id="chatSamples"></div>
         <div id="log"></div>
         <div class="row">
-          <input id="chatInput" placeholder="Type a customer message..." autocomplete="off">
-          <button class="main" id="chatSend">Send</button>
-          <button class="ghost" id="chatReset">New chat</button>
+          <input id="chatInput" data-i18n-ph="chat_ph" autocomplete="off">
+          <button class="main" id="chatSend" data-i18n="send">Send</button>
+          <button class="ghost" id="chatReset" data-i18n="new_chat">New chat</button>
         </div>
       </div>
       <div class="card">
-        <h2>What the agent decided</h2>
-        <div id="decision" class="empty">Send a message to see the triage decision, the EU261 check and the handoff note.</div>
+        <h2 data-i18n="dec_title">What the agent decided</h2>
+        <div id="decision" class="empty" data-i18n="dec_empty"></div>
       </div>
     </div>
   </section>
@@ -97,25 +98,25 @@
   <section id="ticket">
     <div class="grid">
       <div class="card">
-        <h2>Boarding pass / e-ticket</h2>
-        <p class="hint">Paste the booking confirmation, or the text under a boarding-pass barcode, or upload a photo (photos need a vision model).</p>
+        <h2 data-i18n="t_title"></h2>
+        <p class="hint" data-i18n="t_hint"></p>
         <div class="chips">
-          <button class="ghost" data-ticket="M1KOWALSKI/ANNA       EXYZ789 WAWBCNFR 1234 300Y014C0001 100">Barcode text</button>
-          <button class="ghost" data-ticket="Your booking is confirmed. Booking reference: QX7P2K&#10;Passenger: Olena Petrenko&#10;Flight LH1172 Frankfurt (FRA) to Lisbon (LIS)&#10;Date: 2026-09-14, departs 09:40">Booking email</button>
+          <button class="ghost" data-ticket="M1KOWALSKI/ANNA       EXYZ789 WAWBCNFR 1234 300Y014C0001 100" data-i18n="t_barcode">Barcode text</button>
+          <button class="ghost" data-ticket="Your booking is confirmed. Booking reference: QX7P2K&#10;Passenger: Olena Petrenko&#10;Flight LH1172 Frankfurt (FRA) to Lisbon (LIS)&#10;Date: 2026-09-14, departs 09:40" data-i18n="t_email">Booking email</button>
         </div>
-        <textarea id="ticketText" placeholder="Paste ticket text here"></textarea>
+        <textarea id="ticketText" data-i18n-ph="t_ph"></textarea>
         <div class="row">
-          <button class="main" id="ticketRead">Read ticket</button>
+          <button class="main" id="ticketRead" data-i18n="t_read">Read ticket</button>
           <input type="file" id="ticketFile" accept="image/*" style="width:auto">
         </div>
       </div>
       <div class="card">
-        <h2>Extracted flight</h2>
-        <p class="hint">Check and correct the fields, add what happened, then run the check or draft the letter.</p>
+        <h2 data-i18n="x_title"></h2>
+        <p class="hint" data-i18n="x_hint"></p>
         <div class="fields" id="factFields"></div>
         <div class="row">
-          <button class="main" id="ticketCheck">Check EU261</button>
-          <button class="ghost" id="ticketToLetter">Draft claim letter</button>
+          <button class="main" id="ticketCheck" data-i18n="x_check">Check EU261</button>
+          <button class="ghost" id="ticketToLetter" data-i18n="x_letter">Draft claim letter</button>
         </div>
         <div id="ticketOut"></div>
       </div>
@@ -126,8 +127,8 @@
   <section id="reply">
     <div class="grid">
       <div class="card">
-        <h2>Airline's answer to a claim</h2>
-        <p class="hint">Paste the airline's refusal. The agent names the cause, maps it to EU case law and suggests the next step. A claims handler always decides.</p>
+        <h2 data-i18n="r_title"></h2>
+        <p class="hint" data-i18n="r_hint"></p>
         <div class="chips">
           <button class="ghost" data-reply="Dear passenger, we regret to inform you that your flight was delayed due to a technical problem with the aircraft, which constitutes an extraordinary circumstance. Therefore no compensation is due.">Technical fault</button>
           <button class="ghost" data-reply="The cancellation was caused by a strike of French air traffic controllers, outside of our control. Compensation is not payable under Article 5(3).">ATC strike</button>
@@ -135,12 +136,12 @@
           <button class="ghost" data-reply="Your flight was delayed due to adverse weather conditions (heavy snow and de-icing) at the departure airport.">Weather</button>
           <button class="ghost" data-reply="The delay resulted from the late arrival of the incoming aircraft on its previous flight.">Knock-on delay</button>
         </div>
-        <textarea id="replyText" placeholder="Paste the airline's letter"></textarea>
-        <div class="row"><button class="main" id="replyGo">Analyse</button></div>
+        <textarea id="replyText" data-i18n-ph="r_ph"></textarea>
+        <div class="row"><button class="main" id="replyGo" data-i18n="r_go">Analyse</button></div>
       </div>
       <div class="card">
-        <h2>Assessment</h2>
-        <div id="replyOut" class="empty">The cause, the recommendation and the reasoning appear here.</div>
+        <h2 data-i18n="a_title"></h2>
+        <div id="replyOut" class="empty" data-i18n="a_empty"></div>
       </div>
     </div>
   </section>
@@ -149,19 +150,19 @@
   <section id="letter">
     <div class="grid">
       <div class="card">
-        <h2>Case facts</h2>
-        <p class="hint">Fill in by hand, or come here from the ticket reader. Amounts and articles come from the check, never from the model.</p>
+        <h2 data-i18n="l_title"></h2>
+        <p class="hint" data-i18n="l_hint"></p>
         <div class="fields" id="letterFields"></div>
-        <div class="row"><button class="main" id="letterGo">Draft letter</button></div>
+        <div class="row"><button class="main" id="letterGo" data-i18n="l_go">Draft letter</button></div>
       </div>
       <div class="card">
-        <h2>Letter to the airline</h2>
-        <div id="letterOut" class="empty">The draft appears here. A person reviews and sends it.</div>
+        <h2 data-i18n="lo_title"></h2>
+        <div id="letterOut" class="empty" data-i18n="lo_empty"></div>
       </div>
     </div>
   </section>
 </main>
-<footer>Demo for a flight-compensation claims service. Simplified EU261 rules, not legal advice.</footer>
+<footer data-i18n="footer"></footer>
 
 <script>
 const $ = (s) => document.querySelector(s);
@@ -182,22 +183,60 @@ document.querySelectorAll("nav button").forEach((b) => b.onclick = () => {
   b.classList.add("on"); $("#" + b.dataset.tab).classList.add("on");
 });
 
-// status
-fetch("/api/status").then((r) => r.json()).then((s) => {
-  $("#mode").textContent = s.llm ? `LLM: ${s.llm}` : (s.problem ? `offline: ${s.problem}` : "offline mode (templates, no LLM)");
+// ---------- i18n ----------
+let L = {}, LANG = "en", STATUS = {};
+const T = (k) => L[k] ?? k;
+const store = {get: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
+               set: (k, v) => { try { localStorage.setItem(k, v); } catch {} }};
+function renderMode() { $("#mode").textContent = STATUS.llm ? `LLM: ${STATUS.llm}` : (STATUS.problem ? `offline: ${STATUS.problem}` : T("mode_offline")); }
+async function setLang(code) {
+  L = await (await fetch(`/api/i18n/${code}`)).json();
+  LANG = code; store.set("lang", code);
+  document.documentElement.lang = code; $("#lang").value = code;
+  document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = T(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-ph]").forEach((el) => { el.placeholder = T(el.dataset.i18nPh); });
+  renderMode(); buildSamples(); relabelFields();
+}
+fetch("/api/status").then((r) => r.json()).then((s) => { STATUS = s; renderMode(); });
+fetch("/api/languages").then((r) => r.json()).then((langs) => {
+  $("#lang").innerHTML = Object.entries(langs).map(([c, n]) => `<option value="${c}">${esc(n)}</option>`).join("");
+  const nav = (navigator.language || "en").slice(0, 2).toLowerCase().replace("nb", "no").replace("nn", "no");
+  const saved = store.get("lang");
+  setLang(saved && langs[saved] ? saved : (langs[nav] ? nav : "en"));
 });
+$("#lang").onchange = (e) => setLang(e.target.value);
 
 // ---------- chat ----------
-const SAMPLES = [
-  "My flight from Lisbon to Berlin was delayed 4 hours. Am I entitled to compensation?",
-  "Мій рейс з Варшави до Барселони затримали на 5 годин. Чи маю право на компенсацію?",
-  "Ile bierzecie prowizji?",
-  "Mein Flug von München nach Athen wurde annulliert, 3 Tage vorher.",
-  "30% fee?! This is a scam!!!",
-  "The airline paid but I haven't received my money",
-];
+// One eligibility question per language; the one in the selected language comes first.
+const SAMPLE_BY_LANG = {
+  en: "My flight from Lisbon to Berlin was delayed 4 hours. Am I entitled to compensation?",
+  es: "Mi vuelo de Madrid a Roma se retrasó 5 horas. ¿Tengo derecho a compensación?",
+  de: "Mein Flug von München nach Athen wurde annulliert, 3 Tage vorher.",
+  fr: "Mon vol de Paris à Lisbonne a été retardé de 4 heures, ai-je droit à une indemnisation ?",
+  ro: "Zborul meu din București spre Londra a fost întârziat 4 ore, am dreptul la compensație?",
+  pt: "O meu voo de Lisboa para Paris atrasou 6 horas. Tenho direito a indemnização?",
+  pl: "Mój lot z Warszawy do Barcelony był opóźniony 4 godziny. Czy należy mi się odszkodowanie?",
+  sr: "Moj let iz Beča za Atinu je kasnio 4 sata, da li imam pravo na odštetu?",
+  el: "Η πτήση μου από Αθήνα προς Βερολίνο καθυστέρησε 5 ώρες, δικαιούμαι αποζημίωση;",
+  tr: "İstanbul'dan Viyana'ya TK1885 uçuşum 4 saat rötar yaptı, tazminat hakkım var mı?",
+  hu: "A járatom Budapestről Párizsba 4 órát késett, jár nekem kártérítés?",
+  da: "Mit fly fra København til Rom blev forsinket 4 timer, har jeg ret til kompensation?",
+  no: "Flyet mitt fra Oslo til Barcelona ble forsinket 5 timer, har jeg rett på kompensasjon?",
+  fi: "Lentoni Helsingistä Ateenaan oli 4 tuntia myöhässä, onko minulla oikeus korvaukseen?",
+  nl: "Mijn vlucht van Amsterdam naar Lissabon had 4 uur vertraging, heb ik recht op compensatie?",
+  sv: "Mitt flyg från Stockholm till Barcelona blev försenat 4 timmar, har jag rätt till ersättning?",
+  cs: "Můj let z Prahy do Londýna měl zpoždění 4 hodiny, mám nárok na odškodnění?",
+  it: "Il mio volo da Roma a Parigi è stato cancellato 3 giorni prima, ho diritto a un risarcimento?",
+  uk: "Мій рейс з Варшави до Барселони затримали на 5 годин. Чи маю право на компенсацію?",
+  ru: "Мой рейс из Лиссабона в Берлин задержали на 5 часов, имею ли я право на компенсацию?",
+};
+const EXTRA_SAMPLES = ["30% fee?! This is a scam!!!", "Ile bierzecie prowizji?", "Je n'ai pas reçu mon argent", "Avukatıma gideceğim"];
 let history = [], handoffs = 0;
-SAMPLES.forEach((s) => { const b = document.createElement("button"); b.className = "ghost"; b.textContent = s.length > 34 ? s.slice(0, 32) + "..." : s; b.title = s; b.onclick = () => { $("#chatInput").value = s; send(); }; $("#chatSamples").append(b); });
+function buildSamples() {
+  $("#chatSamples").innerHTML = "";
+  const list = [SAMPLE_BY_LANG[LANG] || SAMPLE_BY_LANG.en, ...(LANG === "en" ? [] : [SAMPLE_BY_LANG.en]), ...EXTRA_SAMPLES];
+  list.forEach((s) => { const b = document.createElement("button"); b.className = "ghost"; b.textContent = s.length > 34 ? s.slice(0, 32) + "..." : s; b.title = s; b.onclick = () => { $("#chatInput").value = s; send(); }; $("#chatSamples").append(b); });
+}
 
 function addMsg(role, text, meta, handoff) {
   const d = document.createElement("div");
@@ -208,17 +247,17 @@ function addMsg(role, text, meta, handoff) {
 }
 
 function decisionHtml(r) {
-  const act = r.action === "ai_answer" ? `<span class="badge ok">AI answers</span>` : `<span class="badge warn">Handed to a person</span>`;
-  const pri = r.priority === "high" ? `<span class="badge bad">high priority</span>` : "";
+  const act = r.action === "ai_answer" ? `<span class="badge ok">${esc(T("ai_answers"))}</span>` : `<span class="badge warn">${esc(T("handed"))}</span>`;
+  const pri = r.priority === "high" ? `<span class="badge bad">${esc(T("high"))}</span>` : "";
   let h = `${act}${pri}<span class="badge">intent: ${esc(r.intent)}${r.intent_source === "llm" ? " (LLM)" : ""}</span><span class="badge">language: ${esc(r.language)}</span><span class="badge">${esc(r.mode)}</span>`;
-  if (r.reasons.length) h += `<p><b>Why:</b></p><ul>${r.reasons.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
+  if (r.reasons.length) h += `<p><b>${esc(T("why"))}:</b></p><ul>${r.reasons.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
   if (r.eligibility) {
     const e = r.eligibility;
-    h += `<p><b>EU261 check</b></p>`;
-    if (e.eligible === null) h += `<p class="empty">Waiting for: ${esc(e.missing.join(", "))}</p>`;
-    else h += `<dl><dt>Route</dt><dd>${esc(e.route)} (${e.distance_km} km)</dd><dt>Eligible</dt><dd>${e.eligible ? "yes" : "no"}</dd><dt>Amount</dt><dd>EUR ${e.amount_eur} per passenger</dd><dt>Reason</dt><dd>${esc(e.reason)}</dd></dl>`;
+    h += `<p><b>${esc(T("check_title"))}</b></p>`;
+    if (e.eligible === null) h += `<p class="empty">${esc(T("waiting"))}: ${esc(e.missing.join(", "))}</p>`;
+    else h += `<dl><dt>${esc(T("route"))}</dt><dd>${esc(e.route)} (${e.distance_km} km)</dd><dt>${esc(T("eligible"))}</dt><dd>${esc(T(e.eligible ? "yes" : "no"))}</dd><dt>${esc(T("amount"))}</dt><dd>EUR ${e.amount_eur} ${esc(T("per_pax"))}</dd><dt>${esc(T("reason"))}</dt><dd>${esc(e.reason)}</dd></dl>`;
   }
-  if (r.handoff_note) h += `<p><b>Note for the support team</b></p><pre>${esc(r.handoff_note)}</pre>`;
+  if (r.handoff_note) h += `<p><b>${esc(T("note_title"))}</b></p><pre>${esc(r.handoff_note)}</pre>`;
   if (r.notes.length) h += `<p class="src">${r.notes.map(esc).join("<br>")}</p>`;
   return h;
 }
@@ -229,7 +268,7 @@ async function send() {
   $("#chatInput").value = "";
   addMsg("user", text);
   await busy($("#chatSend"), async () => {
-    const r = await post("/api/chat", {message: text, history, previous_handoffs: handoffs});
+    const r = await post("/api/chat", {message: text, history, previous_handoffs: handoffs, lang: LANG});
     history.push({role: "user", content: text}, {role: "assistant", content: r.text});
     if (r.action === "human_handoff") handoffs++;
     addMsg("bot", r.text, `${r.intent} · ${r.mode}`, r.action === "human_handoff");
@@ -238,15 +277,19 @@ async function send() {
 }
 $("#chatSend").onclick = send;
 $("#chatInput").onkeydown = (e) => { if (e.key === "Enter") send(); };
-$("#chatReset").onclick = () => { history = []; handoffs = 0; $("#log").innerHTML = ""; $("#decision").className = "empty"; $("#decision").textContent = "New conversation."; };
+$("#chatReset").onclick = () => { history = []; handoffs = 0; $("#log").innerHTML = ""; $("#decision").className = "empty"; $("#decision").textContent = T("new_conv"); };
 
 // ---------- fact forms (shared by ticket and letter) ----------
-const FIELDS = [["passenger","Passenger"],["booking_ref","Booking ref"],["flight_number","Flight number"],["date","Date (YYYY-MM-DD)"],
-  ["origin","From (IATA)"],["destination","To (IATA)"],["airline","Airline (IATA code)"],["disruption","What happened"],["delay_hours","Arrival delay, hours"],["notice_days","Cancellation notice, days"]];
+const FIELDS = [["passenger","f_passenger"],["booking_ref","f_booking"],["flight_number","f_flight"],["date","f_date"],
+  ["origin","f_from"],["destination","f_to"],["airline","f_airline"],["disruption","f_what"],["delay_hours","f_delay"],["notice_days","f_notice"]];
+function relabelFields() {
+  document.querySelectorAll("[data-flabel]").forEach((el) => { el.firstChild.textContent = T(el.dataset.flabel) + " "; });
+  document.querySelectorAll("[data-dopt]").forEach((el) => { el.textContent = T(el.dataset.dopt); });
+}
 function buildFields(el, prefix) {
   el.innerHTML = FIELDS.map(([k, l]) => k === "disruption"
-    ? `<div><label>${l}</label><select id="${prefix}_${k}"><option value="">-</option><option value="delay">Delay</option><option value="cancellation">Cancellation</option><option value="denied_boarding">Denied boarding</option></select></div>`
-    : `<div><label>${l} <span class="src" id="${prefix}_${k}_src"></span></label><input id="${prefix}_${k}"></div>`).join("");
+    ? `<div><label data-flabel="${l}">${esc(T(l))} </label><select id="${prefix}_${k}"><option value="">-</option><option value="delay" data-dopt="d_delay"></option><option value="cancellation" data-dopt="d_cancel"></option><option value="denied_boarding" data-dopt="d_denied"></option></select></div>`
+    : `<div><label data-flabel="${l}">${esc(T(l))} <span class="src" id="${prefix}_${k}_src"></span></label><input id="${prefix}_${k}"></div>`).join("");
 }
 buildFields($("#factFields"), "t"); buildFields($("#letterFields"), "l");
 const readFacts = (p) => Object.fromEntries(FIELDS.map(([k]) => [k, $(`#${p}_${k}`).value.trim()]));
@@ -259,7 +302,7 @@ document.querySelectorAll("[data-ticket]").forEach((b) => b.onclick = () => { $(
 function showTicket(r) {
   FIELDS.forEach(([k]) => { $(`#t_${k}`).value = ""; });
   writeFacts("t", r.facts);
-  $("#ticketOut").innerHTML = `<p class="src">Read from: ${esc(r.method)}${r.notes.length ? "<br>" + r.notes.map(esc).join("<br>") : ""}</p>`;
+  $("#ticketOut").innerHTML = `<p class="src">${esc(T("read_from"))}: ${esc(r.method)}${r.notes.length ? "<br>" + r.notes.map(esc).join("<br>") : ""}</p>`;
 }
 $("#ticketRead").onclick = () => busy($("#ticketRead"), async () => showTicket(await post("/api/ticket", {text: $("#ticketText").value})));
 $("#ticketFile").onchange = () => {
@@ -269,33 +312,33 @@ $("#ticketFile").onchange = () => {
   fr.readAsDataURL(file);
 };
 $("#ticketCheck").onclick = () => busy($("#ticketCheck"), async () => {
-  const e = await post("/api/eligibility", readFacts("t"));
+  const e = await post("/api/eligibility", {...readFacts("t"), lang: LANG});
   $("#ticketOut").innerHTML = e.eligible === null
-    ? `<p class="empty">Add: ${esc(e.missing.join(", "))}</p>`
-    : `<p class="big" style="color:var(--${e.eligible ? "ok" : "bad"})">${e.eligible ? "EUR " + e.amount_eur + " per passenger" : "Not eligible"}</p><p>${esc(e.reason)}</p><p class="src">${esc(e.route)} · ${e.distance_km} km</p>`;
+    ? `<p class="empty">${esc(T("add"))}: ${esc(e.missing.join(", "))}</p>`
+    : `<p class="big" style="color:var(--${e.eligible ? "ok" : "bad"})">${e.eligible ? "EUR " + e.amount_eur + " " + esc(T("per_pax")) : esc(T("not_elig"))}</p><p>${esc(e.reason)}</p><p class="src">${esc(e.route)} · ${e.distance_km} km</p>`;
 });
 $("#ticketToLetter").onclick = () => { writeFacts("l", readFacts("t")); document.querySelector('[data-tab="letter"]').click(); $("#letterGo").click(); };
 
 // ---------- airline reply ----------
 document.querySelectorAll("[data-reply]").forEach((b) => b.onclick = () => { $("#replyText").value = b.dataset.reply; $("#replyGo").click(); });
-const REC = {contest: ["bad", "Contest the refusal"], review: ["warn", "Ask for evidence, then decide"], unlikely: ["ok", "Refusal probably valid"]};
+const REC = {contest: ["bad", "rec_contest"], review: ["warn", "rec_review"], unlikely: ["ok", "rec_unlikely"]};
 $("#replyGo").onclick = () => busy($("#replyGo"), async () => {
   const a = await post("/api/airline-reply", {text: $("#replyText").value});
   const [cls, label] = REC[a.recommendation];
   $("#replyOut").className = "";
-  $("#replyOut").innerHTML = `<p class="big">${esc(a.label)}</p><span class="badge ${cls}">${label}</span><span class="badge">found by: ${esc(a.source)}</span>
-    ${a.summary ? `<p><b>Airline says:</b> ${esc(a.summary)}</p>` : ""}${a.matched ? `<p class="src">Matched: "${esc(a.matched)}"</p>` : ""}
-    <p><b>Why:</b> ${esc(a.why)}</p><p><b>Next step:</b> ${esc(a.next_step)}</p>
-    ${a.notes.length ? `<p class="src">${a.notes.map(esc).join("<br>")}</p>` : ""}<p class="src">A claims handler confirms every assessment. Not legal advice.</p>`;
+  $("#replyOut").innerHTML = `<p class="big">${esc(a.label)}</p><span class="badge ${cls}">${esc(T(label))}</span><span class="badge">${esc(T("found_by"))}: ${esc(a.source)}</span>
+    ${a.summary ? `<p><b>${esc(T("airline_says"))}:</b> ${esc(a.summary)}</p>` : ""}${a.matched ? `<p class="src">Matched: "${esc(a.matched)}"</p>` : ""}
+    <p><b>${esc(T("why"))}:</b> ${esc(a.why)}</p><p><b>${esc(T("next_step"))}:</b> ${esc(a.next_step)}</p>
+    ${a.notes.length ? `<p class="src">${a.notes.map(esc).join("<br>")}</p>` : ""}<p class="src">${esc(T("footer"))}</p>`;
 });
 
 // ---------- letter ----------
 $("#letterGo").onclick = () => busy($("#letterGo"), async () => {
-  const L = await post("/api/letter", readFacts("l"));
+  const D = await post("/api/letter", readFacts("l"));
   $("#letterOut").className = "";
-  $("#letterOut").innerHTML = `${L.ready ? '<span class="badge ok">ready for review</span>' : '<span class="badge warn">incomplete</span>'}<span class="badge">${esc(L.mode)}</span>
-    ${L.missing.length ? `<p class="empty">Missing: ${esc(L.missing.join(", "))}</p>` : ""}<pre>${esc(L.text)}</pre>
-    ${L.notes.length ? `<p class="src">${L.notes.map(esc).join("<br>")}</p>` : ""}`;
+  $("#letterOut").innerHTML = `<span class="badge ${D.ready ? "ok" : "warn"}">${esc(T(D.ready ? "ready" : "incomplete"))}</span><span class="badge">${esc(D.mode)}</span>
+    ${D.missing.length ? `<p class="empty">${esc(T("missing"))}: ${esc(D.missing.join(", "))}</p>` : ""}<pre>${esc(D.text)}</pre>
+    ${D.notes.length ? `<p class="src">${D.notes.map(esc).join("<br>")}</p>` : ""}`;
 });
 </script>
 </body>

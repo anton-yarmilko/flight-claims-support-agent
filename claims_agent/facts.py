@@ -47,11 +47,17 @@ class FlightFacts:
         return asdict(self)
 
 
-_HOURS = r"(\d+(?:[.,]\d+)?)\s*(?:hours?|hrs?|h\b|годин\w*|год\b|godzin\w*|godz\b|stunden?|std\b|horas?)"
-_MINUTES = r"(\d+)\s*(?:minutes?|mins?|хвилин\w*|хв\b|minut\w*|min\b|minuten)"
-_CANCEL = r"cancel|скасува|odwo[łl]a|annull|gestrichen|cancela"
-_DENIED = r"denied boarding|overbook|відмовили в посадці|овербукінг|odm[óo]wiono wej|nadrezerwac|[üu]berbuch|nicht mitgenommen|denegaron el embarque"
-_DELAY = r"delay|late|затрим|запізн|op[óo][źz]ni|versp[äa]t|retras"
+_HOURS = (r"(\d+(?:[.,]\d+)?)\s*(?:hours?|hrs?|h\b|годин\w*|год\b|час\w*|godzin\w*|godz\b|stunden?|std\b|horas?"
+          r"|heures?|ore\b|ora\b|uur|ώρ\w*|saat|[óo]r[áa]\w*|hodin\w*|sat[ai]?\b|timer|timmar|tunti\w*|tunnin)")
+_MINUTES = r"(\d+)\s*(?:minutes?|mins?|хвилин\w*|хв\b|минут\w*|minut\w*|min\b|minuten|minuti|minutos|λεπτ\w*|dakika|perc\w*|minuuttia)"
+_CANCEL = (r"cancel|скасува|отмен|odwo[łl]a|annul|gestrichen|anulat|geannuleerd|annulering|ακυρ|iptal|t[öo]r[öo]lt"
+           r"|zru[šs]en|otkaz|aflys|kansell|innstilt|inst[äa]lld|peruttu|peruutettiin")
+_DENIED = (r"denied boarding|overbook|відмовили в посадці|овербук|отказали в посадке|odm[óo]wiono wej|nadrezerwac"
+           r"|[üu]berbuch|nicht mitgenommen|denegaron el embarque|refus d.embarquement|surr[ée]servation|negato l.imbarco"
+           r"|recusa de embarque|refuz la [îi]mbarcare|instapweigering|άρνηση επιβίβασης|u[çc]a[ğg]a al[ıi]nmad|nepustili"
+           r"|nisu me pustili|n[æa]gtet boarding|nektet ombordstigning|nekad ombordstigning|ei p[äa][äa]ssyt koneeseen")
+_DELAY = (r"delay|late|затрим|запізн|задерж|опозда|op[óo][źz]ni|versp[äa]t|retras|retard|ritard|atras|[îi]nt[âa]rzi"
+          r"|vertraag|vertraging|καθυστ|r[öo]tar|gecik|k[ée]s|zpo[žz]d|kasn|forsink|f[öo]rsen|my[öo]h[äa]|viiv[äa]s")
 _DATE = r"\b(\d{4}-\d{2}-\d{2}|\d{1,2}[./]\d{1,2}[./]\d{2,4}|\d{1,2}\s?(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s?\d{2,4})\b"
 
 
@@ -90,7 +96,7 @@ def extract_facts_rules(text: str) -> FlightFacts:
     if f.delay_hours is not None and f.disruption is None:
         f.disruption = "delay"
 
-    n = re.search(r"(\d+)\s*(?:days?|днів|дні|dni|tage?n?|d[íi]as)\s*(?:before|in advance|до|przed|vorher|vor|antes)", low)
+    n = re.search(r"(\d+)\s*(?:days?|днів|дні|дней|дня|dni|tage?n?|d[íi]as|jours?|giorni|zile|dagen|dage|dager|dagar|ημέρες|g[üu]n|nap\w*|dn[íi]|dana|p[äa]iv[äa][äa])\s*(?:before|in advance|до|przed|vorher|vor|antes|avant|prima|înainte|voor|før|före|πριν|önce|előtt|předem|pre|ennen)", low)
     if n:
         f.notice_days = int(n.group(1))
 
@@ -185,6 +191,22 @@ def extract_facts(text: str, llm: "LLM | None" = None) -> FlightFacts:
             facts = merge_llm_facts(facts, data)
         except LLMError:
             pass
+    return facts
+
+
+def prefer_latest(facts: FlightFacts, latest: FlightFacts) -> FlightFacts:
+    """Let what the customer said last win over earlier turns.
+
+    The conversation is read as one text, so an older route would otherwise beat
+    a new one. The route only switches when the new message names both ends.
+    """
+    for k, v in vars(latest).items():
+        if v in (None, "", [], {}) or k in ("origin", "destination", "sources"):
+            continue
+        setattr(facts, k, v)
+    if latest.origin and latest.destination:
+        facts.origin, facts.destination = latest.origin, latest.destination
+    facts.sources = {**facts.sources, **latest.sources}
     return facts
 
 

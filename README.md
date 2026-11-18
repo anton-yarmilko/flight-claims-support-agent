@@ -16,15 +16,15 @@ threats, GDPR requests, upset customers, weak knowledge-base matches.
 | Web demo | `app/server.py`, `app/static/index.html` | Chat, ticket reader, airline-reply analysis, claim letter |
 | Chat agent | `claims_agent/agent.py` | Triage, then an LLM reply from the knowledge base or a handoff note |
 | LLM client | `claims_agent/llm.py` | Any OpenAI-compatible model (Groq, OpenRouter, Gemini, Ollama, OpenAI); offline without one |
-| Triage | `claims_agent/triage.py` | Intent + AI-or-human decision, EN/UK/PL/DE/ES keywords, LLM only as a fallback |
+| Triage | `claims_agent/triage.py` | Intent + AI-or-human decision, keywords in all 20 languages, LLM only as a fallback |
 | Eligibility | `claims_agent/eligibility.py`, `facts.py`, `airports.py` | EU261 check on facts pulled from the conversation |
 | Ticket reader | `claims_agent/ticket.py` | Boarding-pass barcode text, e-ticket text, or a photo via a vision model |
 | Airline reply | `claims_agent/airline_reply.py` | Names the refusal cause, maps it to EU case law, suggests contest / review |
 | Claim letter | `claims_agent/claim_letter.py` | EU261 demand letter; amounts come from the check, never from the model |
 | Claude skill | `skill/SKILL.md` | The same rules as a skill for Claude Code |
 | Knowledge base | `knowledge/*.md` | EU261 rules, fees, stages, documents |
-| Evals | `evals/cases.jsonl`, `evals/judge.py` | Triage cases in 5 languages; reply checks + optional LLM-as-judge |
-| Tests | `tests/` | 72 tests, run in CI with a fake LLM server |
+| Evals | `evals/cases.jsonl`, `evals/judge.py` | Triage cases in all 20 languages; reply checks + optional LLM-as-judge |
+| Tests | `tests/` | 159 tests, run in CI with a fake LLM server |
 
 ```mermaid
 flowchart LR
@@ -58,10 +58,25 @@ override the defaults. See `.env.example`.
 
 ![Support chat: Ukrainian eligibility question answered, angry payment message handed to a person](docs/demo-chat.png)
 
+## Languages
+
+The demo covers the 20 languages on the airadvisor.com language switcher (23 entries; English
+UK/US, French/Canadian French and German/Austrian German share one translation): English,
+Spanish, German, French, Romanian, Portuguese, Polish, Serbian (Latin), Greek, Turkish, Hungarian,
+Danish, Norwegian, Finnish, Dutch, Swedish, Czech, Italian, Ukrainian and Russian.
+
+- The UI language is picked in the header (saved in the browser, defaults to the browser language).
+  Strings live in `claims_agent/locales/<code>.json`; English fills any missing key.
+- The chat answers in the language the customer writes in, detected offline
+  (`claims_agent/language.py`), whatever the UI language is.
+- The airline-reply analysis and the claim letter stay in English: they are for the claims team.
+
+![Language switcher: the same chat in Ukrainian](docs/demo-languages.png)
+
 The four tabs:
 
-1. **Support chat** - write as a customer in English, Ukrainian, Polish, German or Spanish. The
-   side panel shows the triage decision, the EU261 check and the handoff note.
+1. **Support chat** - write as a customer in any of the 20 languages. The side panel shows the
+   triage decision, the EU261 check and the handoff note.
 2. **Ticket reader** - paste a booking email or the text under a boarding-pass barcode (parsed
    offline), or upload a photo (needs a vision model). Then check EU261 or draft the letter.
 3. **Airline reply** - paste the airline's refusal; get the cause, the usual position in EU case
@@ -93,7 +108,7 @@ tune the rules from real tickets.
 
 ```bash
 pip install pytest
-pytest -q                     # 72 tests, LLM calls go to a fake local server
+pytest -q                     # 159 tests, LLM calls go to a fake local server
 python -m evals.judge         # reply checks on every eval case (offline: templates)
 
 # with a model, plus a bigger judge model for LLM-as-judge scoring
