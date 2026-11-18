@@ -92,5 +92,6 @@
  "download": ".txt letöltése",
  "m_future": "egy már lezajlott járat dátuma (ez a dátum a jövőben van)",
  "rs_halved": "Valószínűleg jogosult: utasonként EUR {amount} a díj levonása előtt. Ez a szokásos összeg fele, mert a pótjárat {h} órán belül megérkezett.",
- "elig_half": "Ez a szokásos összeg fele, mert a pótjárat {h} órán belül megérkezett."
+ "elig_half": "Ez a szokásos összeg fele, mert a pótjárat {h} órán belül megérkezett.",
+ "rs_voluntary": "önként lemondott a helyéről, az önkéntesek pedig a légitársasággal egyeztetett juttatást kapják, nem EU261 kártérítést."
 }

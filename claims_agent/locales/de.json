@@ -92,5 +92,6 @@
  "download": "Als .txt laden",
  "m_future": "das Datum eines bereits durchgeführten Flugs (dieses Datum liegt in der Zukunft)",
  "rs_halved": "Wahrscheinlich berechtigt: EUR {amount} pro Passagier vor der Servicegebühr. Das ist die Hälfte, weil der Ersatzflug innerhalb von {h} Stunden ankam.",
- "elig_half": "Das ist die Hälfte, weil der Ersatzflug innerhalb von {h} Stunden ankam."
+ "elig_half": "Das ist die Hälfte, weil der Ersatzflug innerhalb von {h} Stunden ankam.",
+ "rs_voluntary": "Sie haben Ihren Platz freiwillig abgegeben; Freiwillige erhalten die mit der Airline vereinbarten Leistungen, keine EU261-Entschädigung."
 }
