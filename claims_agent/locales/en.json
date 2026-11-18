@@ -98,5 +98,10 @@
  "draft_reply": "Draft reply to the airline (a person checks and sends it)",
  "uk261_note": "This flight falls under UK261, the UK's version of the rules, so compensation is paid in pounds.",
  "rs_reroute_7d": "the cancellation was announced 7-13 days ahead and the replacement flight arrived within 4 hours. That rules out compensation if it left no more than 2 hours before the original time.",
- "rs_reroute_lt7": "the cancellation was announced less than 7 days ahead and the replacement flight arrived less than 2 hours late. That rules out compensation if it left no more than 1 hour before the original time."
+ "rs_reroute_lt7": "the cancellation was announced less than 7 days ahead and the replacement flight arrived less than 2 hours late. That rules out compensation if it left no more than 1 hour before the original time.",
+ "cause_technical": "You mention a technical problem. That is usually not an extraordinary circumstance, so it does not stop the claim.",
+ "cause_strike_staff": "A strike by the airline's own staff is usually not an extraordinary circumstance, so it does not stop the claim.",
+ "cause_strike_atc": "A strike by air traffic control or airport staff usually counts as an extraordinary circumstance, so compensation may not be due. A colleague will check the details.",
+ "cause_strike": "You mention a strike. If it was the airline's own staff, the claim usually stands; if it was air traffic control or the airport, it usually does not.",
+ "cause_weather": "You mention the weather. Airlines often cite it, but it only excuses them if it really affected your flight. We check the weather records, so this does not rule out your claim."
 }

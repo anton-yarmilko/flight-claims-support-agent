@@ -98,5 +98,10 @@
  "draft_reply": "Projekt odpowiedzi do linii (sprawdza i wysyła człowiek)",
  "uk261_note": "Ten lot podlega UK261, brytyjskiej wersji przepisów, więc odszkodowanie jest wypłacane w funtach.",
  "rs_reroute_7d": "odwołanie ogłoszono 7-13 dni wcześniej, a lot zastępczy przyleciał w ciągu 4 godzin. Wtedy odszkodowanie nie przysługuje, jeśli wyleciał nie więcej niż 2 godziny przed pierwotną godziną.",
- "rs_reroute_lt7": "odwołanie ogłoszono mniej niż 7 dni wcześniej, a lot zastępczy spóźnił się mniej niż 2 godziny. Wtedy odszkodowanie nie przysługuje, jeśli wyleciał nie więcej niż 1 godzinę przed pierwotną godziną."
+ "rs_reroute_lt7": "odwołanie ogłoszono mniej niż 7 dni wcześniej, a lot zastępczy spóźnił się mniej niż 2 godziny. Wtedy odszkodowanie nie przysługuje, jeśli wyleciał nie więcej niż 1 godzinę przed pierwotną godziną.",
+ "cause_technical": "Wspominasz o usterce technicznej. Zwykle nie jest to okoliczność nadzwyczajna, więc nie blokuje roszczenia.",
+ "cause_strike_staff": "Strajk własnego personelu linii zwykle nie jest okolicznością nadzwyczajną, więc nie blokuje roszczenia.",
+ "cause_strike_atc": "Strajk kontrolerów ruchu lotniczego lub pracowników lotniska zwykle uznaje się za okoliczność nadzwyczajną, więc odszkodowanie może się nie należeć. Kolega sprawdzi szczegóły.",
+ "cause_strike": "Wspominasz o strajku. Jeśli strajkował personel linii, roszczenie zwykle jest zasadne; jeśli kontrolerzy lub lotnisko, zwykle nie.",
+ "cause_weather": "Wspominasz o pogodzie. Linie często się na nią powołują, ale zwalnia je to tylko wtedy, gdy pogoda naprawdę wpłynęła na Twój lot. Sprawdzamy dane pogodowe, więc to nie przekreśla roszczenia."
 }

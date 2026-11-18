@@ -98,5 +98,10 @@
  "draft_reply": "Bozza di risposta alla compagnia (una persona la controlla e la invia)",
  "uk261_note": "Questo volo rientra nel UK261, la versione britannica delle regole, quindi il risarcimento è in sterline.",
  "rs_reroute_7d": "la cancellazione è stata comunicata 7-13 giorni prima e il volo sostitutivo è arrivato entro 4 ore. In questo caso non spetta il risarcimento se è partito al massimo 2 ore prima dell'orario originale.",
- "rs_reroute_lt7": "la cancellazione è stata comunicata meno di 7 giorni prima e il volo sostitutivo è arrivato con meno di 2 ore di ritardo. In questo caso non spetta il risarcimento se è partito al massimo 1 ora prima dell'orario originale."
+ "rs_reroute_lt7": "la cancellazione è stata comunicata meno di 7 giorni prima e il volo sostitutivo è arrivato con meno di 2 ore di ritardo. In questo caso non spetta il risarcimento se è partito al massimo 1 ora prima dell'orario originale.",
+ "cause_technical": "Parli di un problema tecnico. Di solito non è una circostanza eccezionale, quindi non impedisce la richiesta.",
+ "cause_strike_staff": "Uno sciopero del personale della compagnia stessa di solito non è una circostanza eccezionale, quindi non impedisce la richiesta.",
+ "cause_strike_atc": "Uno sciopero dei controllori di volo o del personale aeroportuale di solito è una circostanza eccezionale, quindi il risarcimento potrebbe non spettare. Un collega verificherà i dettagli.",
+ "cause_strike": "Parli di uno sciopero. Se ha scioperato il personale della compagnia, la richiesta di solito regge; se i controllori o l'aeroporto, di solito no.",
+ "cause_weather": "Parli del meteo. Le compagnie lo citano spesso, ma le esonera solo se ha davvero colpito il tuo volo. Controlliamo i dati meteo, quindi questo non esclude la tua richiesta."
 }

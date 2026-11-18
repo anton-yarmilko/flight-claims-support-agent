@@ -98,5 +98,10 @@
  "draft_reply": "Conceptantwoord aan de maatschappij (een mens controleert en verstuurt het)",
  "uk261_note": "Deze vlucht valt onder UK261, de Britse versie van de regels, dus de compensatie wordt in ponden betaald.",
  "rs_reroute_7d": "de annulering werd 7-13 dagen vooraf gemeld en de vervangende vlucht kwam binnen 4 uur aan. Dan is er geen compensatie als die hooguit 2 uur vóór de oorspronkelijke tijd vertrok.",
- "rs_reroute_lt7": "de annulering werd minder dan 7 dagen vooraf gemeld en de vervangende vlucht kwam minder dan 2 uur te laat aan. Dan is er geen compensatie als die hooguit 1 uur vóór de oorspronkelijke tijd vertrok."
+ "rs_reroute_lt7": "de annulering werd minder dan 7 dagen vooraf gemeld en de vervangende vlucht kwam minder dan 2 uur te laat aan. Dan is er geen compensatie als die hooguit 1 uur vóór de oorspronkelijke tijd vertrok.",
+ "cause_technical": "U noemt een technisch probleem. Dat is meestal geen buitengewone omstandigheid, dus het staat de claim niet in de weg.",
+ "cause_strike_staff": "Een staking van het eigen personeel van de maatschappij is meestal geen buitengewone omstandigheid, dus het staat de claim niet in de weg.",
+ "cause_strike_atc": "Een staking van luchtverkeersleiders of luchthavenpersoneel geldt meestal als buitengewone omstandigheid, dus mogelijk is er geen compensatie. Een collega bekijkt de details.",
+ "cause_strike": "U noemt een staking. Staakte het personeel van de maatschappij, dan staat de claim meestal; staakten luchtverkeersleiders of de luchthaven, dan meestal niet.",
+ "cause_weather": "U noemt het weer. Maatschappijen beroepen zich er vaak op, maar het ontslaat hen alleen als het uw vlucht echt raakte. Wij controleren de weergegevens, dus dit sluit uw claim niet uit."
 }

@@ -98,5 +98,10 @@
  "draft_reply": "Utkast til svar til flyselskapet (et menneske sjekker og sender det)",
  "uk261_note": "Denne flyvningen faller inn under UK261, den britiske versjonen av reglene, så kompensasjonen betales i pund.",
  "rs_reroute_7d": "kanselleringen ble varslet 7-13 dager før, og erstatningsflyet ankom innen 4 timer. Da gis det ingen kompensasjon hvis det gikk høyst 2 timer før opprinnelig tid.",
- "rs_reroute_lt7": "kanselleringen ble varslet mindre enn 7 dager før, og erstatningsflyet var mindre enn 2 timer forsinket. Da gis det ingen kompensasjon hvis det gikk høyst 1 time før opprinnelig tid."
+ "rs_reroute_lt7": "kanselleringen ble varslet mindre enn 7 dager før, og erstatningsflyet var mindre enn 2 timer forsinket. Da gis det ingen kompensasjon hvis det gikk høyst 1 time før opprinnelig tid.",
+ "cause_technical": "Du nevner et teknisk problem. Det er som regel ikke en ekstraordinær omstendighet, så det hindrer ikke kravet.",
+ "cause_strike_staff": "En streik blant flyselskapets egne ansatte er som regel ikke en ekstraordinær omstendighet, så den hindrer ikke kravet.",
+ "cause_strike_atc": "En streik blant flygeledere eller flyplassansatte regnes som regel som en ekstraordinær omstendighet, så det kan hende du ikke har krav på kompensasjon. En kollega sjekker detaljene.",
+ "cause_strike": "Du nevner en streik. Var det flyselskapets ansatte, står kravet som regel seg; var det flygeledere eller flyplassen, som regel ikke.",
+ "cause_weather": "Du nevner været. Flyselskaper viser ofte til det, men det fritar dem bare hvis det virkelig rammet flyvningen din. Vi sjekker værdata, så det utelukker ikke kravet ditt."
 }

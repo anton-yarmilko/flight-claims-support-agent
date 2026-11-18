@@ -98,5 +98,10 @@
  "draft_reply": "Borrador de respuesta a la aerolínea (una persona lo revisa y envía)",
  "uk261_note": "Este vuelo se rige por el UK261, la versión británica de las normas, así que la compensación se paga en libras.",
  "rs_reroute_7d": "la cancelación se anunció con 7-13 días de antelación y el vuelo alternativo llegó dentro de 4 horas. En ese caso no hay compensación si salió como mucho 2 horas antes de la hora original.",
- "rs_reroute_lt7": "la cancelación se anunció con menos de 7 días de antelación y el vuelo alternativo llegó con menos de 2 horas de retraso. En ese caso no hay compensación si salió como mucho 1 hora antes de la hora original."
+ "rs_reroute_lt7": "la cancelación se anunció con menos de 7 días de antelación y el vuelo alternativo llegó con menos de 2 horas de retraso. En ese caso no hay compensación si salió como mucho 1 hora antes de la hora original.",
+ "cause_technical": "Mencionas un problema técnico. Normalmente no es una circunstancia extraordinaria, así que no impide la reclamación.",
+ "cause_strike_staff": "Una huelga del propio personal de la aerolínea normalmente no es una circunstancia extraordinaria, así que no impide la reclamación.",
+ "cause_strike_atc": "Una huelga de controladores aéreos o del personal del aeropuerto suele considerarse circunstancia extraordinaria, así que puede no haber compensación. Un compañero revisará los detalles.",
+ "cause_strike": "Mencionas una huelga. Si fue del personal de la aerolínea, la reclamación suele proceder; si fue de controladores o del aeropuerto, normalmente no.",
+ "cause_weather": "Mencionas el tiempo. Las aerolíneas lo alegan a menudo, pero solo las exime si de verdad afectó a tu vuelo. Revisamos los registros meteorológicos, así que esto no descarta tu reclamación."
 }

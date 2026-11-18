@@ -98,5 +98,10 @@
  "draft_reply": "Válaszvázlat a légitársaságnak (ember ellenőrzi és küldi el)",
  "uk261_note": "Erre a járatra az UK261, a szabályok brit változata vonatkozik, ezért a kártérítést fontban fizetik.",
  "rs_reroute_7d": "a törlést 7-13 nappal előre jelezték, és a pótjárat 4 órán belül megérkezett. Ilyenkor nem jár kártérítés, ha legfeljebb 2 órával az eredeti időpont előtt indult.",
- "rs_reroute_lt7": "a törlést 7 napnál rövidebb idővel előre jelezték, és a pótjárat kevesebb mint 2 órát késett. Ilyenkor nem jár kártérítés, ha legfeljebb 1 órával az eredeti időpont előtt indult."
+ "rs_reroute_lt7": "a törlést 7 napnál rövidebb idővel előre jelezték, és a pótjárat kevesebb mint 2 órát késett. Ilyenkor nem jár kártérítés, ha legfeljebb 1 órával az eredeti időpont előtt indult.",
+ "cause_technical": "Műszaki hibát említ. Ez általában nem rendkívüli körülmény, így nem akadálya az igénynek.",
+ "cause_strike_staff": "A légitársaság saját személyzetének sztrájkja általában nem rendkívüli körülmény, így nem akadálya az igénynek.",
+ "cause_strike_atc": "A légiforgalmi irányítók vagy a repülőtéri személyzet sztrájkja általában rendkívüli körülménynek számít, így lehet, hogy nem jár kártérítés. Egy kolléga ellenőrzi a részleteket.",
+ "cause_strike": "Sztrájkot említ. Ha a légitársaság személyzete sztrájkolt, az igény általában megáll; ha az irányítók vagy a repülőtér, általában nem.",
+ "cause_weather": "Az időjárást említi. A légitársaságok gyakran hivatkoznak rá, de csak akkor mentesíti őket, ha valóban érintette a járatát. Ellenőrizzük az időjárási adatokat, így ez nem zárja ki az igényét."
 }
