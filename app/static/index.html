@@ -296,11 +296,17 @@ const SAMPLE_BY_LANG = {
   uk: "Мій рейс з Варшави до Барселони затримали на 5 годин. Чи маю право на компенсацію?",
   ru: "Мой рейс из Лиссабона в Берлин задержали на 5 часов, имею ли я право на компенсацию?",
 };
+// Show-case chips: UK261 in pounds, a named cause, a cancellation exemption (Article 5(1)(c)).
+const FEATURE_SAMPLES = [
+  "My BA flight from London to New York landed 6 hours late. Can I claim?",
+  "Ryanair Warsaw to Barcelona arrived 5 hours late because of a technical problem. Compensation?",
+  "Our flight Warsaw to Lisbon was cancelled 10 days before departure, the new flight arrived 3 hours late.",
+];
 const EXTRA_SAMPLES = ["30% fee?! This is a scam!!!", "Ile bierzecie prowizji?", "Je n'ai pas reçu mon argent", "Avukatıma gideceğim"];
 let history = [], handoffs = 0;
 function buildSamples() {
   $("#chatSamples").innerHTML = "";
-  const list = [SAMPLE_BY_LANG[LANG] || SAMPLE_BY_LANG.en, ...(LANG === "en" ? [] : [SAMPLE_BY_LANG.en]), ...EXTRA_SAMPLES];
+  const list = [SAMPLE_BY_LANG[LANG] || SAMPLE_BY_LANG.en, ...(LANG === "en" ? [] : [SAMPLE_BY_LANG.en]), ...FEATURE_SAMPLES, ...EXTRA_SAMPLES];
   list.forEach((s) => { const b = document.createElement("button"); b.className = "ghost"; b.textContent = s.length > 34 ? s.slice(0, 32) + "..." : s; b.title = s; b.onclick = () => { $("#chatInput").value = s; send(); }; $("#chatSamples").append(b); });
 }
 
@@ -319,9 +325,9 @@ function decisionHtml(r) {
   if (r.reasons.length) h += `<p><b>${esc(T("why"))}:</b></p><ul>${r.reasons.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
   if (r.eligibility) {
     const e = r.eligibility;
-    h += `<p><b>${esc(T("check_title"))}</b></p>`;
+    h += `<p><b>${esc(T("check_title").replace("EU261", e.regulation || "EU261"))}</b></p>`;
     if (e.eligible === null) h += `<p class="empty">${esc(T("waiting"))}: ${esc(e.missing.join(", "))}</p>`;
-    else h += `<dl><dt>${esc(T("route"))}</dt><dd>${esc(e.route)} (${e.distance_km} km)</dd><dt>${esc(T("eligible"))}</dt><dd>${esc(T(e.eligible ? "yes" : "no"))}</dd><dt>${esc(T("amount"))}</dt><dd>${e.currency || "EUR"} ${e.amount_eur} ${esc(T("per_pax"))}${e.regulation === "UK261" ? " · UK261" : ""}</dd>${e.passengers > 1 && e.eligible ? `<dt>${esc(T("total"))}</dt><dd><b>${e.currency || "EUR"} ${e.total_eur}</b> (${e.passengers} × ${e.amount_eur})</dd>` : ""}<dt>${esc(T("reason"))}</dt><dd>${esc(e.reason)}</dd></dl>${e.cause && e.eligible ? `<p style="color:var(--${e.cause === "strike_atc" ? "warn" : "muted"})">${esc(T("cause_" + e.cause))}</p>` : ""}${e.too_old ? `<p style="color:var(--warn)"><b>${esc(T("too_old"))}</b></p>` : ""}`;
+    else h += `<dl><dt>${esc(T("route"))}</dt><dd>${esc(e.route)} (${e.distance_km} km)</dd><dt>${esc(T("eligible"))}</dt><dd>${esc(T(e.eligible ? "yes" : "no"))}</dd><dt>${esc(T("amount"))}</dt><dd>${e.eligible ? `${e.currency || "EUR"} ${e.amount_eur} ${esc(T("per_pax"))}${e.regulation === "UK261" ? " · UK261" : ""}` : "—"}</dd>${e.passengers > 1 && e.eligible ? `<dt>${esc(T("total"))}</dt><dd><b>${e.currency || "EUR"} ${e.total_eur}</b> (${e.passengers} × ${e.amount_eur})</dd>` : ""}<dt>${esc(T("reason"))}</dt><dd>${esc(e.reason)}</dd></dl>${e.departure_only && e.eligible ? `<p style="color:var(--muted)">${esc(T("dep_only"))}</p>` : ""}${e.cause && e.eligible ? `<p style="color:var(--${e.cause === "strike_atc" ? "warn" : "muted"})">${esc(T("cause_" + e.cause))}</p>` : ""}${e.too_old ? `<p style="color:var(--warn)"><b>${esc(T("too_old"))}</b></p>` : ""}`;
   }
   if (r.handoff_note) h += `<p><b>${esc(T("note_title"))}</b> ${copyBtn("handoffNote")}</p><pre id="handoffNote">${esc(r.handoff_note)}</pre>`;
   if (r.notes.length) h += `<p class="src">${r.notes.map(esc).join("<br>")}</p>`;
