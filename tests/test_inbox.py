@@ -15,7 +15,7 @@ def test_sample_inbox_stats_add_up():
     assert s["languages"] == 20
     assert s["agrees"] == s["labelled"] > 0
     assert sum(s["handoff_reasons"].values()) >= s["human"]
-    assert s["eur"] == sum(r["amount"] for r in out["rows"]) > 0
+    assert s["eur"] + s["gbp"] == sum(r["amount"] for r in out["rows"]) and s["eur"] > 0
 
 
 def test_inbox_endpoint_takes_own_messages():

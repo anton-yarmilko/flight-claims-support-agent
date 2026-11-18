@@ -321,7 +321,7 @@ function decisionHtml(r) {
     const e = r.eligibility;
     h += `<p><b>${esc(T("check_title"))}</b></p>`;
     if (e.eligible === null) h += `<p class="empty">${esc(T("waiting"))}: ${esc(e.missing.join(", "))}</p>`;
-    else h += `<dl><dt>${esc(T("route"))}</dt><dd>${esc(e.route)} (${e.distance_km} km)</dd><dt>${esc(T("eligible"))}</dt><dd>${esc(T(e.eligible ? "yes" : "no"))}</dd><dt>${esc(T("amount"))}</dt><dd>EUR ${e.amount_eur} ${esc(T("per_pax"))}</dd>${e.passengers > 1 && e.eligible ? `<dt>${esc(T("total"))}</dt><dd><b>EUR ${e.total_eur}</b> (${e.passengers} × ${e.amount_eur})</dd>` : ""}<dt>${esc(T("reason"))}</dt><dd>${esc(e.reason)}</dd></dl>${e.too_old ? `<p style="color:var(--warn)"><b>${esc(T("too_old"))}</b></p>` : ""}`;
+    else h += `<dl><dt>${esc(T("route"))}</dt><dd>${esc(e.route)} (${e.distance_km} km)</dd><dt>${esc(T("eligible"))}</dt><dd>${esc(T(e.eligible ? "yes" : "no"))}</dd><dt>${esc(T("amount"))}</dt><dd>${e.currency || "EUR"} ${e.amount_eur} ${esc(T("per_pax"))}${e.regulation === "UK261" ? " · UK261" : ""}</dd>${e.passengers > 1 && e.eligible ? `<dt>${esc(T("total"))}</dt><dd><b>${e.currency || "EUR"} ${e.total_eur}</b> (${e.passengers} × ${e.amount_eur})</dd>` : ""}<dt>${esc(T("reason"))}</dt><dd>${esc(e.reason)}</dd></dl>${e.too_old ? `<p style="color:var(--warn)"><b>${esc(T("too_old"))}</b></p>` : ""}`;
   }
   if (r.handoff_note) h += `<p><b>${esc(T("note_title"))}</b> ${copyBtn("handoffNote")}</p><pre id="handoffNote">${esc(r.handoff_note)}</pre>`;
   if (r.notes.length) h += `<p class="src">${r.notes.map(esc).join("<br>")}</p>`;
@@ -383,7 +383,7 @@ $("#ticketCheck").onclick = () => busy($("#ticketCheck"), async () => {
   const e = await post("/api/eligibility", {...readFacts("t"), lang: LANG});
   $("#ticketOut").innerHTML = e.eligible === null
     ? `<p class="empty">${esc(T("add"))}: ${esc(e.missing.join(", "))}</p>`
-    : `<p class="big" style="color:var(--${e.eligible ? "ok" : "bad"})">${e.eligible ? "EUR " + e.amount_eur + " " + esc(T("per_pax")) : esc(T("not_elig"))}</p>${e.eligible && e.passengers > 1 ? `<p><b>${esc(T("total"))}: EUR ${e.total_eur}</b> (${e.passengers} × ${e.amount_eur})</p>` : ""}<p>${esc(e.reason)}</p><p class="src">${esc(e.route)} · ${e.distance_km} km</p>${e.too_old ? `<p style="color:var(--warn)"><b>${esc(T("too_old"))}</b></p>` : ""}`;
+    : `<p class="big" style="color:var(--${e.eligible ? "ok" : "bad"})">${e.eligible ? (e.currency || "EUR") + " " + e.amount_eur + " " + esc(T("per_pax")) : esc(T("not_elig"))}</p>${e.eligible && e.regulation === "UK261" ? `<p class="src">UK261</p>` : ""}${e.eligible && e.passengers > 1 ? `<p><b>${esc(T("total"))}: ${e.currency || "EUR"} ${e.total_eur}</b> (${e.passengers} × ${e.amount_eur})</p>` : ""}<p>${esc(e.reason)}</p><p class="src">${esc(e.route)} · ${e.distance_km} km</p>${e.too_old ? `<p style="color:var(--warn)"><b>${esc(T("too_old"))}</b></p>` : ""}`;
 });
 $("#ticketToLetter").onclick = () => { writeFacts("l", readFacts("t")); document.querySelector('[data-tab="letter"]').click(); $("#letterGo").click(); };
 
@@ -403,14 +403,14 @@ function renderInbox() {
     if (!FILTERS[INBOX_FILTER](r)) return "";
     const dec = r.action === "ai_answer" ? `<span class="badge ok">${esc(T("ai_answers"))}</span>`
       : `<span class="badge ${r.priority === "high" ? "bad" : "warn"}">${esc(T("handed"))}</span><br><span class="src">${r.handoff.map((c) => esc(T("hr_" + c))).join(", ")}</span>`;
-    const res = r.eligible ? `<span class="num">EUR ${r.amount}</span><br><span class="src">${esc(r.route || "")}</span>`
+    const res = r.eligible ? `<span class="num">${r.currency || "EUR"} ${r.amount}</span><br><span class="src">${esc(r.route || "")}</span>`
       : r.eligible === false ? `<span class="src">${esc(T("not_elig"))}</span>` : r.missing ? `<span class="src">${esc(T("ib_needs"))}</span>` : "";
     return `<tr data-i="${i}"><td class="msgcell">${esc(r.message)}</td><td>${esc(r.language)}</td><td>${esc(r.intent)}</td><td>${dec}</td><td>${res}</td></tr>`;
   }).join("");
   $("#inboxCsv").hidden = false;
   $("#inboxOut").className = "";
   $("#inboxOut").innerHTML = `<div class="kpis">${kpi(s.total, "ib_total")}${kpi(`${s.ai} · ${pct(s.ai)}%`, "ib_ai", "ok")}${kpi(s.human, "ib_human", "warn")}
-    ${kpi(s.urgent, "ib_urgent")}${kpi(s.eligible, "ib_eligible")}${kpi(`EUR ${s.eur.toLocaleString(LANG)}`, "ib_eur", "ok")}${kpi(s.languages, "ib_langs")}
+    ${kpi(s.urgent, "ib_urgent")}${kpi(s.eligible, "ib_eligible")}${kpi(`EUR ${s.eur.toLocaleString(LANG)}${s.gbp ? ` + GBP ${s.gbp.toLocaleString(LANG)}` : ""}`, "ib_eur", "ok")}${kpi(s.languages, "ib_langs")}
     ${s.labelled ? kpi(`${s.agrees}/${s.labelled}`, "ib_agree") : ""}</div>
     ${reasons ? `<h2>${esc(T("ib_reasons"))}</h2><div class="bars">${reasons}</div>` : ""}
     <p class="hint">${esc(T("ib_open"))}</p><div class="chips" role="group">${filters}</div>
@@ -424,9 +424,9 @@ function renderInbox() {
 function inboxCsv() {
   // Semicolon-separated with a BOM, so Excel opens it in any locale with the right letters.
   const cell = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  const head = ["message", "language", "intent", "action", "priority", "handoff", "route", "eligible", "passengers", "amount_eur", "reply"];
+  const head = ["message", "language", "intent", "action", "priority", "handoff", "route", "eligible", "passengers", "amount", "currency", "reply"];
   const lines = INBOX.rows.map((r) => [r.message, r.language, r.intent, r.action, r.priority, (r.handoff || []).join(", "),
-    r.route, r.eligible == null ? "" : r.eligible ? "yes" : "no", r.passengers ?? 1, r.amount ?? "", r.reply].map(cell).join(";"));
+    r.route, r.eligible == null ? "" : r.eligible ? "yes" : "no", r.passengers ?? 1, r.amount ?? "", r.currency || "", r.reply].map(cell).join(";"));
   const blob = new Blob(["\ufeff" + [head.join(";"), ...lines].join("\r\n")], {type: "text/csv;charset=utf-8"});
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob); a.download = "flyclaim-inbox.csv"; a.click();

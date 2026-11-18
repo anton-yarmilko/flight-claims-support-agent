@@ -100,12 +100,12 @@ REASON_KEYS = {
 
 
 def _reason(lang: str, reason: str) -> str:
-    m = re.match(r"Likely eligible: EUR (\d+) .*within (\d) hours", reason)
+    m = re.match(r"Likely eligible: ([A-Z]{3}) (\d+) .*within (\d) hours", reason)
     if m:
-        return t(lang, "rs_halved", amount=m.group(1), h=m.group(2))
-    m = re.match(r"Likely eligible: EUR (\d+)", reason)
+        return t(lang, "rs_halved", cur=m.group(1), amount=m.group(2), h=m.group(3))
+    m = re.match(r"Likely eligible: ([A-Z]{3}) (\d+)", reason)
     if m:
-        return t(lang, "rs_likely", amount=m.group(1))
+        return t(lang, "rs_likely", cur=m.group(1), amount=m.group(2))
     for marker, key in REASON_KEYS.items():
         if marker in reason:
             return t(lang, key)
@@ -120,12 +120,14 @@ def template_reply(intent: str, lang: str, result: EligibilityResult | None) -> 
             return t(lang, "elig_ask", need=need)
         v = result.verdict
         if v.eligible:
-            text = t(lang, "elig_yes", route=result.route, km=result.distance_km, amount=v.amount_eur)
+            text = t(lang, "elig_yes", route=result.route, km=result.distance_km, amount=v.amount_eur, cur=v.currency)
+            if v.regulation == "UK261":
+                text += " " + t(lang, "uk261_note")
             half = re.search(r"within (\d) hours", v.reason)
             if half:
                 text += " " + t(lang, "elig_half", h=half.group(1))
             if result.passengers > 1:
-                text += " " + t(lang, "elig_total", n=result.passengers, total=result.total_eur)
+                text += " " + t(lang, "elig_total", n=result.passengers, total=result.total_eur, cur=v.currency)
             return text
         return t(lang, "elig_no", reason=_reason(lang, v.reason))
     if intent == "fee_question":
@@ -183,9 +185,10 @@ def _check_summary(result: EligibilityResult | None) -> str:
     d = result.to_dict()
     if result.verdict is None:
         return f"Check could not run yet. Missing: {', '.join(result.missing)}."
-    return (f"Route {d['route']}, {d['distance_km']} km. Eligible: {d['eligible']}. "
-            f"Amount per passenger before fee: EUR {d['amount_eur']}. Reason: {d['reason']}"
-            + (f" Passengers: {d['passengers']}, total before fee: EUR {d['total_eur']}." if d["passengers"] > 1 and d["eligible"] else ""))
+    cur = d["currency"]
+    return (f"Route {d['route']}, {d['distance_km']} km. Regulation: {d['regulation']}. Eligible: {d['eligible']}. "
+            f"Amount per passenger before fee: {cur} {d['amount_eur']}. Reason: {d['reason']}"
+            + (f" Passengers: {d['passengers']}, total before fee: {cur} {d['total_eur']}." if d["passengers"] > 1 and d["eligible"] else ""))
 
 
 def handoff_note(decision: Decision, message: str, facts: FlightFacts | None, summary: str | None = None,

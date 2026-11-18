@@ -147,10 +147,15 @@ AIRLINES: dict[str, tuple[str, bool]] = {
     "A3": ("Aegean Airlines", True), "EI": ("Aer Lingus", True), "TK": ("Turkish Airlines", False),
     "EK": ("Emirates", False), "QR": ("Qatar Airways", False), "PS": ("Ukraine International", False),
     "UA": ("United Airlines", False), "DL": ("Delta Air Lines", False), "AA": ("American Airlines", False),
+    "VS": ("Virgin Atlantic", False), "LS": ("Jet2", False), "BY": ("TUI Airways", False),
 }
+
+# UK airlines for UK261 (flights into the UK are covered on UK and EU airlines).
+UK_CARRIERS = frozenset({"BA", "U2", "VS", "LS", "BY"})
 
 AIRLINE_NAMES = {name.lower(): code for code, (name, _) in AIRLINES.items()}
 AIRLINE_NAMES.update({"wizz": "W6", "wizzair": "W6", "wizz air": "W6", "easyjet": "U2", "lot": "LO",
+                      "virgin": "VS", "jet2.com": "LS", "tui": "BY",
                       "райанейр": "FR", "візейр": "W6", "люфтганза": "LH", "мау": "PS"})
 
 
