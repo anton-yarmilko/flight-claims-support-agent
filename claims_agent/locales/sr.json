@@ -89,5 +89,6 @@
  "f_pax": "Putnici",
  "hr_old": "let stariji od 2 godine",
  "too_old": "Let je stariji od 2 godine. Rokovi zavise od zemlje, pa ovaj slučaj proverava kolega.",
- "download": "Preuzmi .txt"
+ "download": "Preuzmi .txt",
+ "m_future": "datum leta koji je već obavljen (ovaj datum je u budućnosti)"
 }

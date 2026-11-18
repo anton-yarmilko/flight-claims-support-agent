@@ -89,5 +89,6 @@
  "f_pax": "Cestující",
  "hr_old": "let starší než 2 roky",
  "too_old": "Let je starší než 2 roky. Lhůty závisí na zemi, proto tento případ prověří kolega.",
- "download": "Stáhnout .txt"
+ "download": "Stáhnout .txt",
+ "m_future": "datum letu, který už proběhl (toto datum je v budoucnosti)"
 }

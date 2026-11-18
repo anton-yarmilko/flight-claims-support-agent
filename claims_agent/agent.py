@@ -22,7 +22,15 @@ from functools import lru_cache
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from .facts import EligibilityResult, FlightFacts, check_facts, extract_facts, extract_facts_rules, prefer_latest
+from .facts import (
+    FUTURE_FLIGHT,
+    EligibilityResult,
+    FlightFacts,
+    check_facts,
+    extract_facts,
+    extract_facts_rules,
+    prefer_latest,
+)
 from .i18n import t
 from .language import SUPPORTED, detect_language
 from .triage import Action, Decision, triage
@@ -79,6 +87,7 @@ MISSING_KEYS = {
     "how late you arrived at the final destination": "m_delay",
     "a different departure and arrival airport": "m_airports",
     "the airline (flights into the EU are covered only on EU airlines)": "m_airline",
+    FUTURE_FLIGHT: "m_future",
 }
 
 REASON_KEYS = {
@@ -173,7 +182,7 @@ def _check_summary(result: EligibilityResult | None) -> str:
 
 
 def handoff_note(decision: Decision, message: str, facts: FlightFacts | None, summary: str | None = None,
-                 next_step: str | None = None) -> str:
+                 next_step: str | None = None, result: EligibilityResult | None = None) -> str:
     known = []
     if facts:
         for key in ("origin", "destination", "airline", "flight_number", "date", "disruption", "delay_hours", "booking_ref"):
@@ -186,7 +195,8 @@ def handoff_note(decision: Decision, message: str, facts: FlightFacts | None, su
         f"WHY:\n{why}\n"
         f"CUSTOMER WANTS: {summary or message.strip()[:200]}\n"
         f"FACTS SO FAR: {', '.join(known) or 'none yet'}\n"
-        f"SUGGESTED NEXT STEP: {next_step or _default_next_step(decision.intent)}"
+        + (f"EU261 CHECK: {_check_summary(result)}\n" if result is not None and result.verdict is not None else "")
+        + f"SUGGESTED NEXT STEP: {next_step or _default_next_step(decision.intent)}"
     )
 
 
@@ -206,7 +216,8 @@ Reply with JSON only: {"customer_wants": "<one sentence in English>", "next_step
 TOO_OLD_REASON = "Flight is over 2 years old: the claim deadline depends on the country, a person checks it."
 
 
-def _handoff(decision: Decision, message: str, lang: str, facts: FlightFacts | None, llm: LLM | None) -> Reply:
+def _handoff(decision: Decision, message: str, lang: str, facts: FlightFacts | None, llm: LLM | None,
+             result: EligibilityResult | None = None) -> Reply:
     from .llm import LLMError
 
     notes: list[str] = []
@@ -222,7 +233,7 @@ def _handoff(decision: Decision, message: str, lang: str, facts: FlightFacts | N
     if TOO_OLD_REASON in decision.reasons and not next_step:
         next_step = "Check the claim deadline for the departure country and airline before accepting the case."
     return Reply(holding(lang), decision, lang, "llm" if llm and not notes else "offline",
-                 handoff_note(decision, message, facts, summary, next_step), facts, None, notes)
+                 handoff_note(decision, message, facts, summary, next_step, result), facts, result, notes)
 
 
 def respond(
@@ -241,7 +252,10 @@ def respond(
     notes: list[str] = []
 
     if decision.action is Action.HUMAN_HANDOFF:
-        return _handoff(decision, message, lang, extract_facts(customer_text), llm)
+        facts = extract_facts(customer_text)
+        # Give the colleague the EU261 numbers too when the message already has them.
+        result = None if facts.missing_for_check() else check_facts(facts)
+        return _handoff(decision, message, lang, facts, llm, result)
 
     facts = result = None
     if decision.intent == "eligibility":
@@ -252,9 +266,7 @@ def respond(
         if result.too_old:
             decision = Decision(decision.intent, Action.HUMAN_HANDOFF, [*decision.reasons, TOO_OLD_REASON],
                                 decision.priority, decision.source)
-            reply = _handoff(decision, message, lang, facts, llm)
-            reply.eligibility = result
-            return reply
+            return _handoff(decision, message, lang, facts, llm, result)
 
     offline = template_reply(decision.intent, lang, result)
     if llm is None:

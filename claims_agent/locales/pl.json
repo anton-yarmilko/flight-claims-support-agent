@@ -89,5 +89,6 @@
  "f_pax": "Pasażerowie",
  "hr_old": "lot sprzed ponad 2 lat",
  "too_old": "Lot odbył się ponad 2 lata temu. Terminy zależą od kraju, więc tę sprawę sprawdzi konsultant.",
- "download": "Pobierz .txt"
+ "download": "Pobierz .txt",
+ "m_future": "datę lotu, który już się odbył (ta data jest w przyszłości)"
 }

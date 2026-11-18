@@ -89,5 +89,6 @@
  "f_pax": "Matkustajat",
  "hr_old": "yli 2 vuotta vanha lento",
  "too_old": "Lento on yli 2 vuotta vanha. Määräajat riippuvat maasta, joten kollega tarkistaa tapauksen.",
- "download": "Lataa .txt"
+ "download": "Lataa .txt",
+ "m_future": "jo toteutuneen lennon päivämäärä (tämä päivämäärä on tulevaisuudessa)"
 }

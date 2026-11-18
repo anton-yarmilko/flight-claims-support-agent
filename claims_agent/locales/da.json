@@ -89,5 +89,6 @@
  "f_pax": "Passagerer",
  "hr_old": "fly over 2 år gammelt",
  "too_old": "Flyvningen er over 2 år gammel. Fristerne afhænger af landet, så en kollega tjekker sagen.",
- "download": "Download .txt"
+ "download": "Download .txt",
+ "m_future": "datoen for en flyvning, der allerede har fundet sted (denne dato ligger i fremtiden)"
 }

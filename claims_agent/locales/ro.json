@@ -89,5 +89,6 @@
  "f_pax": "Pasageri",
  "hr_old": "zbor mai vechi de 2 ani",
  "too_old": "Zborul are peste 2 ani. Termenele depind de țară, așa că un coleg verifică acest caz.",
- "download": "Descarcă .txt"
+ "download": "Descarcă .txt",
+ "m_future": "data unui zbor care a avut deja loc (această dată este în viitor)"
 }
