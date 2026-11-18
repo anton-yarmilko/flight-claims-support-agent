@@ -177,6 +177,9 @@ class Handler(BaseHTTPRequestHandler):
 
     def _send(self, status: int, payload: bytes, ctype: str) -> None:
         self.send_response(status)
+        started = getattr(self, "_started", None)
+        if started is not None:  # how long the app took, visible in the browser's network panel
+            self.send_header("Server-Timing", f"app;dur={(time.perf_counter() - started) * 1000:.0f}")
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(payload)))
         self.send_header("X-Content-Type-Options", "nosniff")
@@ -196,7 +199,12 @@ class Handler(BaseHTTPRequestHandler):
         return fwd or self.client_address[0]
 
     def do_GET(self) -> None:
-        if self.path in ("/", "/index.html"):
+        self._started = time.perf_counter()
+        if self.path == "/api/health":
+            llm = LLM_CLIENT
+            self._json(200, {"ok": True, "llm": llm.model if llm else None,
+                             "llm_cache": {"size": len(llm._cache), "hits": llm.hits} if llm else None})
+        elif self.path in ("/", "/index.html"):
             self._send(200, INDEX, "text/html; charset=utf-8")
         elif self.path == "/api/status":
             self._json(200, api("/api/status", {}))
@@ -208,6 +216,7 @@ class Handler(BaseHTTPRequestHandler):
             self._json(404, {"error": "not found"})
 
     def do_POST(self) -> None:
+        self._started = time.perf_counter()
         length = int(self.headers.get("Content-Length") or 0)
         if length > MAX_BODY:
             return self._json(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, {"error": "request too large (8 MB max)"})

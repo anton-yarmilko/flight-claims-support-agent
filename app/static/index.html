@@ -177,6 +177,8 @@
           <button class="ghost" data-reply="Unfortunately our pilots' strike meant that flight had to be cancelled. As this was beyond our control we cannot offer compensation.">Pilots' strike</button>
           <button class="ghost" data-reply="Your flight was delayed due to adverse weather conditions (heavy snow and de-icing) at the departure airport.">Weather</button>
           <button class="ghost" data-reply="The delay resulted from the late arrival of the incoming aircraft on its previous flight.">Knock-on delay</button>
+          <button class="ghost" data-reply="Unfortunately the captain fell ill shortly before departure and no replacement crew was available. This is an extraordinary circumstance.">Crew illness</button>
+          <button class="ghost" data-reply="During the previous landing a screw on the runway damaged a tyre, which had to be replaced before the flight could depart.">Runway debris</button>
         </div>
         <textarea id="replyText" data-i18n-ph="r_ph" data-i18n-aria="r_ph" maxlength="8000"></textarea>
         <div class="row"><button class="main" id="replyGo" data-i18n="r_go">Analyse</button></div>
@@ -332,10 +334,12 @@ async function send() {
   $("#chatInput").value = "";
   addMsg("user", text);
   await busy($("#chatSend"), async () => {
+    const t0 = performance.now();
     const r = await post("/api/chat", {message: text, history, previous_handoffs: handoffs, lang: LANG});
+    const secs = ((performance.now() - t0) / 1000).toFixed(1);
     history.push({role: "user", content: text}, {role: "assistant", content: r.text});
     if (r.action === "human_handoff") handoffs++;
-    addMsg("bot", r.text, `${r.intent} · ${r.mode}`, r.action === "human_handoff");
+    addMsg("bot", r.text, `${r.intent} · ${r.mode} · ${secs} s`, r.action === "human_handoff");
     $("#decision").className = ""; $("#decision").innerHTML = decisionHtml(r);
   });
 }

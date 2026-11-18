@@ -227,6 +227,11 @@ def test_image_with_vision_model_validates_fields(fake):
     ("Heavy snow and de-icing at the airport.", "weather", "review"),
     ("A bird strike on the previous landing required inspection.", "bird_strike", "unlikely"),
     ("Late arrival of the incoming aircraft.", "knock_on", "review"),
+    ("Airspace closed because of the volcanic ash cloud.", "volcanic_ash", "unlikely"),
+    ("A screw found on the runway damaged the tyre.", "foreign_object", "review"),
+    ("The captain fell ill shortly before departure.", "crew_illness", "contest"),
+    ("A failure of the airport fuel supply system prevented refuelling.", "airport_fuel", "review"),
+    ("Crew shortage due to operational reasons.", "operational", "contest"),
 ])
 def test_airline_reply_rules(letter, category, rec):
     a = airline_reply.analyse(letter)

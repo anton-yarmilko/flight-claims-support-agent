@@ -25,7 +25,7 @@ threats, GDPR requests, upset customers, weak knowledge-base matches.
 | Knowledge base | `knowledge/*.md` | EU261 rules, fees, stages, documents |
 | Evals | `evals/cases.jsonl`, `evals/judge.py` | Triage cases in all 20 languages; reply checks + optional LLM-as-judge |
 | Inbox | `claims_agent/inbox.py` | Batch triage of a day of mail: AI share, handoff reasons, urgent cases, compensation found |
-| Tests | `tests/` | 175 tests, run in CI with a fake LLM server |
+| Tests | `tests/` | 181 tests, run in CI with a fake LLM server |
 
 ```mermaid
 flowchart LR
@@ -90,7 +90,9 @@ The six tabs:
 3. **Ticket reader** - paste a booking email or the text under a boarding-pass barcode (parsed
    offline), or upload a photo (needs a vision model). Then check EU261 or draft the letter.
 4. **Airline reply** - paste the airline's refusal; get the cause, the usual position in EU case
-   law and the next step. A claims handler always decides.
+   law and the next step. A claims handler always decides. Thirteen causes are recognised, including
+   sudden crew illness (C-156/22), runway debris (C-501/17), volcanic ash (C-12/11) and airport fuel
+   failures (C-308/21).
 5. **Claim letter** - a ready-to-review letter to the airline from the case facts. The letter and the handoff note have a Copy button.
 6. **How it works** - the five steps (language, triage rules, facts and EU261 by code, the LLM
    writes, number guard) in plain words, for a non-technical audience.
@@ -106,6 +108,9 @@ check never use the LLM.
 **Input limits and headers:** a chat message is capped at 2,000 characters, a pasted ticket or airline
 letter at 8,000, chat history at the last 12 user/assistant turns (other roles are dropped). The page is
 served with a strict Content-Security-Policy, `X-Frame-Options: DENY` and `Referrer-Policy: no-referrer`.
+
+**Monitoring:** `GET /api/health` returns `{"ok": true, ...}` with the LLM model and cache counts, for an
+uptime checker. Every response carries a `Server-Timing` header, and each chat reply shows how long it took.
 
 The LLM client also keeps a small in-memory cache (256 answers, `LLM(cache_size=...)`): the same request
 (for example a sample button pressed twice) is answered instantly and costs no tokens.
@@ -135,7 +140,7 @@ tune the rules from real tickets.
 
 ```bash
 pip install pytest
-pytest -q                     # 175 tests, LLM calls go to a fake local server
+pytest -q                     # 181 tests, LLM calls go to a fake local server
 python -m evals.judge         # reply checks on every eval case (offline: templates)
 
 # with a model, plus a bigger judge model for LLM-as-judge scoring
