@@ -86,5 +86,8 @@
  "copied": "Copiato",
  "elig_total": "Per {n} passeggeri sono in totale EUR {total}.",
  "total": "Totale",
- "f_pax": "Passeggeri"
+ "f_pax": "Passeggeri",
+ "hr_old": "volo di oltre 2 anni fa",
+ "too_old": "Il volo risale a più di 2 anni fa. I termini dipendono dal paese, quindi un collega verifica il caso.",
+ "download": "Scarica .txt"
 }

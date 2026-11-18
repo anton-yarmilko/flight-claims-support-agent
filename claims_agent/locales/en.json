@@ -86,5 +86,8 @@
  "copied": "Copied",
  "elig_total": "For {n} passengers that is EUR {total} in total.",
  "total": "Total",
- "f_pax": "Passengers"
+ "f_pax": "Passengers",
+ "hr_old": "flight over 2 years old",
+ "too_old": "The flight is over 2 years old. Claim deadlines depend on the country, so a colleague checks this case.",
+ "download": "Download .txt"
 }

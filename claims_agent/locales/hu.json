@@ -86,5 +86,8 @@
  "copied": "Másolva",
  "elig_total": "{n} utas esetén ez összesen EUR {total}.",
  "total": "Összesen",
- "f_pax": "Utasok"
+ "f_pax": "Utasok",
+ "hr_old": "2 évnél régebbi járat",
+ "too_old": "A járat több mint 2 éve volt. A határidők országonként eltérnek, ezért ezt az ügyet egy kolléga ellenőrzi.",
+ "download": ".txt letöltése"
 }

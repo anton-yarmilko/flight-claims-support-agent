@@ -8,6 +8,7 @@ not accepted silently: every field records where it came from.
 
 from __future__ import annotations
 
+import datetime as dt
 import re
 from dataclasses import asdict, dataclass, field
 from typing import TYPE_CHECKING, Any
@@ -286,6 +287,31 @@ def prefer_latest(facts: FlightFacts, latest: FlightFacts) -> FlightFacts:
     return facts
 
 
+# The knowledge base: "If a customer asks about a flight older than 2 years, hand off."
+# Claim deadlines differ by country, so the bot never says a claim is too late; a person checks.
+TIME_LIMIT_DAYS = 730
+_MONTHS = {m: i for i, m in enumerate(("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"), 1)}
+
+
+def parse_date(text: str | None) -> dt.date | None:
+    """A flight date as the extractor or the LLM gives it: ISO, day-first numeric, or '12 Mar 2024'."""
+    if not text:
+        return None
+    s = text.strip().lower()
+    try:
+        if m := re.fullmatch(r"(\d{4})-(\d{2})-(\d{2})", s):
+            return dt.date(int(m[1]), int(m[2]), int(m[3]))
+        if m := re.fullmatch(r"(\d{1,2})[./](\d{1,2})[./](\d{2}|\d{4})", s):
+            year = int(m[3]) + (2000 if len(m[3]) == 2 else 0)
+            return dt.date(year, int(m[2]), int(m[1]))
+        if (m := re.fullmatch(r"(\d{1,2})\s?([a-z]{3})[a-z]*\.?\s?(\d{2}|\d{4})", s)) and m[2] in _MONTHS:
+            year = int(m[3]) + (2000 if len(m[3]) == 2 else 0)
+            return dt.date(year, _MONTHS[m[2]], int(m[1]))
+    except ValueError:
+        return None
+    return None
+
+
 @dataclass
 class EligibilityResult:
     verdict: Verdict | None
@@ -293,6 +319,8 @@ class EligibilityResult:
     missing: list[str]
     route: str | None = None
     passengers: int = 1
+    flight_date: str | None = None  # ISO, when the date could be read
+    too_old: bool = False  # flight over TIME_LIMIT_DAYS ago: a person checks the deadline
 
     @property
     def total_eur(self) -> int:
@@ -308,10 +336,21 @@ class EligibilityResult:
             "distance_km": self.distance_km,
             "route": self.route,
             "missing": self.missing,
+            "flight_date": self.flight_date,
+            "too_old": self.too_old,
         }
 
 
-def check_facts(facts: FlightFacts, *, extraordinary: bool = False) -> EligibilityResult:
+def check_facts(facts: FlightFacts, *, extraordinary: bool = False, today: dt.date | None = None) -> EligibilityResult:
+    result = _check(facts, extraordinary)
+    when = parse_date(facts.date)
+    if when is not None:
+        result.flight_date = when.isoformat()
+        result.too_old = ((today or dt.date.today()) - when).days > TIME_LIMIT_DAYS
+    return result
+
+
+def _check(facts: FlightFacts, extraordinary: bool) -> EligibilityResult:
     missing = facts.missing_for_check()
     if facts.origin and facts.destination and facts.origin == facts.destination:
         missing.append("a different departure and arrival airport")
