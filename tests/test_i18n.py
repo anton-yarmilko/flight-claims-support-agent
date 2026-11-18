@@ -88,7 +88,7 @@ def test_i18n_endpoints_data():
 def test_positive_reason_is_translated():
     out = localize_check({"eligible": True, "missing": [],
                           "reason": "Likely eligible: EUR 400 per passenger before the service fee."}, "uk")
-    assert out["reason"] == t("uk", "rs_likely", amount="400")
+    assert out["reason"] == t("uk", "rs_likely", cur="EUR", amount="400")
 
 
 def test_new_route_in_a_later_message_wins_over_history():

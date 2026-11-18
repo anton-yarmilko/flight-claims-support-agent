@@ -38,3 +38,5 @@
 {"id": "uk-connection", "message": "Летіли з Варшави через Франкфурт до Лісабона, запізнилися на 5 годин. Чи є компенсація?", "intent": "eligibility", "action": "ai_answer", "language": "uk", "amount_eur": 400}
 {"id": "reroute-half", "message": "My flight Warsaw to Berlin was cancelled and the new flight arrived 1 hour late. Can I get compensation?", "intent": "eligibility", "action": "ai_answer", "amount_eur": 125}
 {"id": "old-flight", "message": "My flight Warsaw to Lisbon on 2021-06-10 arrived 5 hours late. Can I claim compensation?", "intent": "eligibility", "action": "human_handoff", "triage_action": "ai_answer"}
+{"id": "uk261-london", "message": "My British Airways flight from London to New York landed 6 hours late. Can I claim?", "intent": "eligibility", "action": "ai_answer", "amount_eur": 520}
+{"id": "uk261-into-uk-ua", "message": "Наш рейс British Airways з Нью-Йорка до Лондона затримали на 5 годин. Чи є компенсація?", "intent": "eligibility", "action": "ai_answer", "language": "uk", "amount_eur": 520}

@@ -13,7 +13,7 @@ import re
 from dataclasses import asdict, dataclass, field
 from typing import TYPE_CHECKING, Any
 
-from .airports import AIRLINES, AIRPORTS, airline_in_text, airports_in_text, distance_km, route_in_text
+from .airports import AIRLINES, AIRPORTS, UK_CARRIERS, airline_in_text, airports_in_text, distance_km, route_in_text
 from .eligibility import Disruption, Flight, Incident, Verdict, check
 
 if TYPE_CHECKING:
@@ -379,6 +379,8 @@ class EligibilityResult:
         return {
             "eligible": self.verdict.eligible if self.verdict else None,
             "amount_eur": self.verdict.amount_eur if self.verdict else None,
+            "currency": self.verdict.currency if self.verdict else "EUR",
+            "regulation": self.verdict.regulation if self.verdict else None,
             "passengers": self.passengers,
             "total_eur": self.total_eur,
             "reason": self.verdict.reason if self.verdict else None,
@@ -410,11 +412,13 @@ def _check(facts: FlightFacts, extraordinary: bool) -> EligibilityResult:
 
     o, d = AIRPORTS[facts.origin], AIRPORTS[facts.destination]  # type: ignore[index]
     km = distance_km(o, d)
-    if not o.eu and d.eu and not facts.airline:
+    o_uk, d_uk = o.country == "GB", d.country == "GB"
+    if not (o.eu or o_uk) and (d.eu or d_uk) and not facts.airline:
         return EligibilityResult(None, km, ["the airline (flights into the EU are covered only on EU airlines)"],
                                  f"{o.city} - {d.city}")
     eu_carrier = AIRLINES.get(facts.airline or "", ("", False))[1]
-    flight = Flight(departs_eu=o.eu, arrives_eu=d.eu, eu_carrier=eu_carrier, distance_km=km, intra_eu=o.eu and d.eu)
+    flight = Flight(departs_eu=o.eu, arrives_eu=d.eu, eu_carrier=eu_carrier, distance_km=km, intra_eu=o.eu and d.eu,
+                    departs_uk=o_uk, arrives_uk=d_uk, uk_carrier=(facts.airline or "") in UK_CARRIERS)
     incident = Incident(
         kind=Disruption(facts.disruption),
         arrival_delay_hours=facts.delay_hours or 0.0,

@@ -80,6 +80,9 @@ def draft_letter(facts: FlightFacts, *, service_name: str = "FlyClaim", llm: LLM
     amount = result.verdict.amount_eur
     pax = result.passengers
     total = result.total_eur
+    cur = result.verdict.currency
+    reg = ("Regulation (EC) No 261/2004 as retained in UK law (UK261)" if result.verdict.regulation == "UK261"
+           else "Regulation (EC) No 261/2004")
     paragraph = _what_happened(facts)
     mode, notes = "template", []
     if llm is not None:
@@ -99,7 +102,7 @@ def draft_letter(facts: FlightFacts, *, service_name: str = "FlyClaim", llm: LLM
     passenger = facts.passenger or "[PASSENGER NAME]"
     letter = f"""To: {airline}, Customer Relations / Claims
 Date: {(today or dt.date.today()).isoformat()}
-Subject: Compensation claim under Regulation (EC) No 261/2004 - flight {facts.flight_number or '[FLIGHT]'} on {facts.date or '[DATE]'}
+Subject: Compensation claim under {reg} - flight {facts.flight_number or '[FLIGHT]'} on {facts.date or '[DATE]'}
 
 Dear Sir or Madam,
 
@@ -107,11 +110,11 @@ Dear Sir or Madam,
 
 The passenger held a confirmed reservation on flight {facts.flight_number or '[FLIGHT]'} from {o.city} ({o.iata}) to {d.city} ({d.iata}){_connection(facts)} on {facts.date or '[DATE]'}. {paragraph}
 
-Under {ARTICLE[facts.disruption or 'delay']} of Regulation (EC) No 261/2004, and given a flight distance of {result.distance_km} km, {"the passenger is" if pax == 1 else f"each of the {pax} passengers is"} entitled to compensation of EUR {amount}{"" if pax == 1 else f", EUR {total} in total"}.
+Under {ARTICLE[facts.disruption or 'delay']} of {reg}, and given a flight distance of {result.distance_km} km, {"the passenger is" if pax == 1 else f"each of the {pax} passengers is"} entitled to compensation of {cur} {amount}{"" if pax == 1 else f", {cur} {total} in total"}.
 
 If you consider that extraordinary circumstances apply, please provide the specific evidence (cause, time and why it could not have been avoided by all reasonable measures).
 
-Please pay EUR {total} within 14 days to the account given in the attached authorisation, or reply to this letter with your position.
+Please pay {cur} {total} within 14 days to the account given in the attached authorisation, or reply to this letter with your position.
 
 Yours faithfully,
 {service_name} claims team
