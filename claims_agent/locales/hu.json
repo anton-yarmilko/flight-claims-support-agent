@@ -70,5 +70,14 @@
  "hr_gdpr": "adatvédelmi kérés",
  "hr_legal": "jogi fenyegetés",
  "hr_anger": "dühös ügyfél",
- "hr_unknown": "nem egyértelmű kérés"
+ "hr_unknown": "nem egyértelmű kérés",
+ "tab_how": "Hogyan működik",
+ "hw_title": "Hogyan működik",
+ "hw_intro": "A szabályok döntenek, az LLM csak fogalmaz. Így a válaszok biztonságosak, olcsók és kiszámíthatók.",
+ "hw_s1": "Felismeri az ügyfél nyelvét (20 nyelv).",
+ "hw_s2": "Osztályozási szabályok: pénz, jogi fenyegetés, GDPR és dühös ügyfelek azonnal emberhez kerülnek.",
+ "hw_s3": "Kinyeri a járat adatait; az EU261 összeget a kód számolja, nem a modell.",
+ "hw_s4": "Egy kicsi, olcsó LLM írja meg a választ a tudásbázisból és a számításból.",
+ "hw_s5": "Számőr: ha a válaszban olyan szám van, ami nincs a tényekben, a modell még egyszer próbálkozhat, utána biztonságos sablon jön.",
+ "hw_cost": "Bármely OpenAI-kompatibilis modellel működik (itt Groq gpt-oss-20b), kulcs nélkül pedig offline, sablonokkal."
 }

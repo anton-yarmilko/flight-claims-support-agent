@@ -70,5 +70,14 @@
  "hr_gdpr": "privacyverzoek",
  "hr_legal": "juridische dreiging",
  "hr_anger": "boze klant",
- "hr_unknown": "onduidelijk verzoek"
+ "hr_unknown": "onduidelijk verzoek",
+ "tab_how": "Hoe het werkt",
+ "hw_title": "Hoe het werkt",
+ "hw_intro": "Regels beslissen, het LLM schrijft alleen. Zo blijven antwoorden veilig, goedkoop en voorspelbaar.",
+ "hw_s1": "Herkent de taal van de klant (20 talen).",
+ "hw_s2": "Triageregels: geld, juridische dreigingen, AVG en boze klanten gaan direct naar een mens.",
+ "hw_s3": "Haalt de vluchtgegevens eruit; het EU261-bedrag wordt door code berekend, niet door het model.",
+ "hw_s4": "Een klein, goedkoop LLM schrijft het antwoord op basis van de kennisbank en de berekening.",
+ "hw_s5": "Cijferbewaking: staat er een getal in het antwoord dat niet in de feiten staat, dan krijgt het model één nieuwe poging en daarna wordt een veilig sjabloon gebruikt.",
+ "hw_cost": "Werkt met elk OpenAI-compatibel model (hier Groq gpt-oss-20b) en zonder sleutel offline met sjablonen."
 }

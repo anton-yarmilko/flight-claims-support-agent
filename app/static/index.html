@@ -70,6 +70,16 @@
   tbody tr { cursor: pointer; } tbody tr:hover { background: var(--bg); }
   td.msgcell { max-width: 380px; }
   .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  @media (max-width: 600px) {
+    header { padding: 10px 12px; gap: 8px; }
+    nav { margin-left: 0; width: 100%; flex-wrap: nowrap; overflow-x: auto; }
+    nav button { white-space: nowrap; }
+    #log { height: auto; min-height: 140px; max-height: 60vh; }
+    .fields { grid-template-columns: 1fr; }
+  }
+  .steps { counter-reset: step; list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .steps li { counter-increment: step; position: relative; padding: 10px 12px 10px 46px; border: 1px solid var(--line); border-radius: 10px; }
+  .steps li::before { content: counter(step); position: absolute; left: 12px; top: 10px; width: 24px; height: 24px; border-radius: 99px; background: var(--brand); color: var(--brand-ink); font-size: 13px; display: grid; place-items: center; }
   footer { text-align: center; color: var(--muted); font-size: 12px; padding: 20px; }
 </style>
 </head>
@@ -84,6 +94,7 @@
     <button data-tab="ticket" data-i18n="tab_ticket">Ticket reader</button>
     <button data-tab="reply" data-i18n="tab_reply">Airline reply</button>
     <button data-tab="letter" data-i18n="tab_letter">Claim letter</button>
+    <button data-tab="how" data-i18n="tab_how">How it works</button>
   </nav>
 </header>
 
@@ -188,6 +199,18 @@
         <h2 data-i18n="lo_title"></h2>
         <div id="letterOut" class="empty" data-i18n="lo_empty"></div>
       </div>
+    </div>
+  </section>
+  <!-- how it works -->
+  <section id="how">
+    <div class="card" style="max-width:760px">
+      <h2 data-i18n="hw_title">How it works</h2>
+      <p class="hint" data-i18n="hw_intro"></p>
+      <ol class="steps">
+        <li data-i18n="hw_s1"></li><li data-i18n="hw_s2"></li><li data-i18n="hw_s3"></li>
+        <li data-i18n="hw_s4"></li><li data-i18n="hw_s5"></li>
+      </ol>
+      <p class="hint" style="margin-top:12px" data-i18n="hw_cost"></p>
     </div>
   </section>
 </main>

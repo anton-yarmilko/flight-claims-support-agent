@@ -13,6 +13,9 @@ import base64
 import json
 import os
 import sys
+import threading
+import time
+from collections import deque
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -39,6 +42,45 @@ try:
     LLM_PROBLEM = None
 except LLMError as e:  # bad config: run offline and say why on the page
     LLM_CLIENT, LLM_PROBLEM = None, str(e)
+
+
+LLM_PATHS = {"/api/chat", "/api/ticket", "/api/airline-reply", "/api/letter"}
+
+
+class RateLimiter:
+    """Sliding-window cap on LLM calls, per visitor and in total.
+
+    The public demo pays for every LLM call, so one visitor (or a bot) must not
+    burn the free quota. Over the limit the request still works, just with the
+    offline templates instead of the LLM. Memory is per server process.
+    """
+
+    def __init__(self, per_client: int, total: int, window: float = 600.0) -> None:
+        self.per_client, self.total, self.window = per_client, total, window
+        self._hits: dict[str, deque[float]] = {}
+        self._all: deque[float] = deque()
+        self._lock = threading.Lock()
+
+    def allow(self, client: str, now: float | None = None) -> bool:
+        now = time.monotonic() if now is None else now
+        cutoff = now - self.window
+        with self._lock:
+            mine = self._hits.setdefault(client, deque())
+            for q in (mine, self._all):
+                while q and q[0] <= cutoff:
+                    q.popleft()
+            if len(mine) >= self.per_client or len(self._all) >= self.total:
+                return False
+            mine.append(now)
+            self._all.append(now)
+            if len(self._hits) > 10_000:  # drop idle visitors so memory stays small
+                self._hits = {k: v for k, v in self._hits.items() if v}
+            return True
+
+
+LIMITER = RateLimiter(int(os.environ.get("LLM_RATE_PER_VISITOR", "40")),
+                      int(os.environ.get("LLM_RATE_TOTAL", "600")),
+                      float(os.environ.get("LLM_RATE_WINDOW_SECONDS", "600")))
 
 
 def facts_from(d: dict[str, Any]) -> FlightFacts:
@@ -68,8 +110,17 @@ def localize_check(d: dict[str, Any] | None, lang: str) -> dict[str, Any] | None
     return d
 
 
-def api(path: str, body: dict[str, Any]) -> dict[str, Any]:
+def api(path: str, body: dict[str, Any], client: str = "local") -> dict[str, Any]:
     llm = LLM_CLIENT
+    if llm and path in LLM_PATHS and not LIMITER.allow(client):
+        out = _api(path, body, None)
+        if isinstance(out, dict) and "mode" in out:
+            out["mode"] = f"{out['mode']} (rate limit)"
+        return out
+    return _api(path, body, llm)
+
+
+def _api(path: str, body: dict[str, Any], llm: Any) -> dict[str, Any]:
     if path == "/api/status":
         return {"llm": llm.model if llm else None, "vision": llm.vision_model if llm else None,
                 "problem": LLM_PROBLEM}
@@ -114,6 +165,11 @@ class Handler(BaseHTTPRequestHandler):
     def _json(self, status: int, data: Any) -> None:
         self._send(status, json.dumps(data, ensure_ascii=False).encode(), "application/json; charset=utf-8")
 
+    def _client(self) -> str:
+        """Visitor id for the rate limit: first X-Forwarded-For hop behind a proxy, else the socket address."""
+        fwd = (self.headers.get("X-Forwarded-For") or "").split(",")[0].strip()
+        return fwd or self.client_address[0]
+
     def do_GET(self) -> None:  # noqa: N802
         if self.path in ("/", "/index.html"):
             self._send(200, INDEX, "text/html; charset=utf-8")
@@ -134,7 +190,7 @@ class Handler(BaseHTTPRequestHandler):
             body = json.loads(self.rfile.read(length) or b"{}")
             if not isinstance(body, dict):
                 raise ValueError("JSON object expected")
-            self._json(200, api(self.path, body))
+            self._json(200, api(self.path, body, self._client()))
         except KeyError:
             self._json(404, {"error": "unknown endpoint"})
         except (ValueError, TypeError) as e:

@@ -70,5 +70,14 @@
  "hr_gdpr": "Datenschutzanfrage",
  "hr_legal": "rechtliche Drohung",
  "hr_anger": "verärgerter Kunde",
- "hr_unknown": "unklare Anfrage"
+ "hr_unknown": "unklare Anfrage",
+ "tab_how": "So funktioniert es",
+ "hw_title": "So funktioniert es",
+ "hw_intro": "Regeln entscheiden, das LLM schreibt nur. So bleiben Antworten sicher, günstig und vorhersehbar.",
+ "hw_s1": "Erkennt die Sprache des Kunden (20 Sprachen).",
+ "hw_s2": "Triage-Regeln: Geld, rechtliche Drohungen, DSGVO und verärgerte Kunden gehen direkt an einen Menschen.",
+ "hw_s3": "Extrahiert die Flugdaten; der EU261-Betrag wird vom Code berechnet, nicht vom Modell.",
+ "hw_s4": "Ein kleines, günstiges LLM schreibt die Antwort aus der Wissensbasis und der Berechnung.",
+ "hw_s5": "Zahlenwächter: Enthält die Antwort eine Zahl, die nicht in den Fakten steht, bekommt das Modell einen zweiten Versuch, danach wird eine sichere Vorlage genutzt.",
+ "hw_cost": "Läuft mit jedem OpenAI-kompatiblen Modell (hier Groq gpt-oss-20b) und ohne Schlüssel offline mit Vorlagen."
 }

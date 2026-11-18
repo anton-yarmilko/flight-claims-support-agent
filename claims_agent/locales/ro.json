@@ -70,5 +70,14 @@
  "hr_gdpr": "cerere GDPR",
  "hr_legal": "amenințare juridică",
  "hr_anger": "client supărat",
- "hr_unknown": "cerere neclară"
+ "hr_unknown": "cerere neclară",
+ "tab_how": "Cum funcționează",
+ "hw_title": "Cum funcționează",
+ "hw_intro": "Regulile decid, LLM-ul doar scrie. Astfel răspunsurile sunt sigure, ieftine și previzibile.",
+ "hw_s1": "Detectează limba clientului (20 de limbi).",
+ "hw_s2": "Reguli de triaj: bani, amenințări juridice, GDPR și clienți furioși ajung direct la un om.",
+ "hw_s3": "Extrage datele zborului; suma EU261 este calculată de cod, nu de model.",
+ "hw_s4": "Un LLM mic și ieftin scrie răspunsul din baza de cunoștințe și din calcul.",
+ "hw_s5": "Verificarea cifrelor: dacă răspunsul conține un număr care nu e în date, modelul mai are o încercare, apoi se folosește un șablon sigur.",
+ "hw_cost": "Funcționează cu orice model compatibil OpenAI (aici Groq gpt-oss-20b) și offline cu șabloane fără cheie."
 }

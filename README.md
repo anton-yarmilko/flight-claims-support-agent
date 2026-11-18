@@ -25,7 +25,7 @@ threats, GDPR requests, upset customers, weak knowledge-base matches.
 | Knowledge base | `knowledge/*.md` | EU261 rules, fees, stages, documents |
 | Evals | `evals/cases.jsonl`, `evals/judge.py` | Triage cases in all 20 languages; reply checks + optional LLM-as-judge |
 | Inbox | `claims_agent/inbox.py` | Batch triage of a day of mail: AI share, handoff reasons, urgent cases, compensation found |
-| Tests | `tests/` | 163 tests, run in CI with a fake LLM server |
+| Tests | `tests/` | 168 tests, run in CI with a fake LLM server |
 
 ```mermaid
 flowchart LR
@@ -77,7 +77,7 @@ Danish, Norwegian, Finnish, Dutch, Swedish, Czech, Italian, Ukrainian and Russia
 **Public demo:** https://flyclaim-ai-demo.vercel.app (offline mode, no LLM key, so replies come from
 templates). `api/index.py` and `vercel.json` serve the same app as one Vercel Python function.
 
-The five tabs:
+The six tabs:
 
 1. **Support chat** - write as a customer in any of the 20 languages. The side panel shows the
    triage decision, the EU261 check and the handoff note.
@@ -90,6 +90,16 @@ The five tabs:
 4. **Airline reply** - paste the airline's refusal; get the cause, the usual position in EU case
    law and the next step. A claims handler always decides.
 5. **Claim letter** - a ready-to-review letter to the airline from the case facts.
+6. **How it works** - the five steps (language, triage rules, facts and EU261 by code, the LLM
+   writes, number guard) in plain words, for a non-technical audience.
+
+The page works on phones (one-column layout, scrollable tab bar).
+
+**Cost guard on the public demo:** LLM calls (chat, ticket, airline reply, letter) are capped per
+visitor (first `X-Forwarded-For` hop) and in total over a sliding window: `LLM_RATE_PER_VISITOR`
+(default 40), `LLM_RATE_TOTAL` (600) per `LLM_RATE_WINDOW_SECONDS` (600). Over the cap the request
+still works with the offline templates and the reply shows `(rate limit)`. Inbox and the EU261
+check never use the LLM.
 
 ## How the LLM is kept in its lane
 
@@ -116,7 +126,7 @@ tune the rules from real tickets.
 
 ```bash
 pip install pytest
-pytest -q                     # 163 tests, LLM calls go to a fake local server
+pytest -q                     # 168 tests, LLM calls go to a fake local server
 python -m evals.judge         # reply checks on every eval case (offline: templates)
 
 # with a model, plus a bigger judge model for LLM-as-judge scoring

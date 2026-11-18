@@ -70,5 +70,14 @@
  "hr_gdpr": "demande RGPD",
  "hr_legal": "menace juridique",
  "hr_anger": "client mécontent",
- "hr_unknown": "demande peu claire"
+ "hr_unknown": "demande peu claire",
+ "tab_how": "Comment ça marche",
+ "hw_title": "Comment ça marche",
+ "hw_intro": "Les règles décident, le LLM ne fait que rédiger. Les réponses restent sûres, peu coûteuses et prévisibles.",
+ "hw_s1": "Détecte la langue du client (20 langues).",
+ "hw_s2": "Règles de tri : argent, menaces juridiques, RGPD et clients en colère vont directement à une personne.",
+ "hw_s3": "Extrait les données du vol ; le montant EU261 est calculé par le code, pas par le modèle.",
+ "hw_s4": "Un petit LLM peu coûteux rédige la réponse à partir de la base de connaissances et du calcul.",
+ "hw_s5": "Contrôle des chiffres : si la réponse contient un nombre absent des faits, le modèle a un nouvel essai, puis un modèle sûr est utilisé.",
+ "hw_cost": "Fonctionne avec tout modèle compatible OpenAI (ici Groq gpt-oss-20b) et hors ligne avec des modèles sans clé."
 }

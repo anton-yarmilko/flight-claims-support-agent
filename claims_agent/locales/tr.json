@@ -70,5 +70,14 @@
  "hr_gdpr": "veri koruma talebi",
  "hr_legal": "hukuki tehdit",
  "hr_anger": "kızgın müşteri",
- "hr_unknown": "belirsiz talep"
+ "hr_unknown": "belirsiz talep",
+ "tab_how": "Nasıl çalışır",
+ "hw_title": "Nasıl çalışır",
+ "hw_intro": "Kurallar karar verir, LLM yalnızca yazar. Böylece yanıtlar güvenli, ucuz ve öngörülebilir olur.",
+ "hw_s1": "Müşterinin dilini algılar (20 dil).",
+ "hw_s2": "Triyaj kuralları: para, hukuki tehditler, KVKK/GDPR ve kızgın müşteriler doğrudan bir kişiye gider.",
+ "hw_s3": "Uçuş bilgilerini çıkarır; EU261 tutarını model değil kod hesaplar.",
+ "hw_s4": "Küçük ve ucuz bir LLM yanıtı bilgi tabanından ve hesaplamadan yazar.",
+ "hw_s5": "Sayı denetimi: yanıtta bilgilerde olmayan bir sayı varsa model bir kez daha dener, sonra güvenli bir şablon kullanılır.",
+ "hw_cost": "OpenAI uyumlu her modelle çalışır (burada Groq gpt-oss-20b); anahtar yoksa şablonlarla çevrimdışı çalışır."
 }

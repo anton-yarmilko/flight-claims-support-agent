@@ -70,5 +70,14 @@
  "hr_gdpr": "pedido de proteção de dados",
  "hr_legal": "ameaça legal",
  "hr_anger": "cliente irritado",
- "hr_unknown": "pedido pouco claro"
+ "hr_unknown": "pedido pouco claro",
+ "tab_how": "Como funciona",
+ "hw_title": "Como funciona",
+ "hw_intro": "As regras decidem, o LLM só escreve. Assim as respostas são seguras, baratas e previsíveis.",
+ "hw_s1": "Deteta a língua do cliente (20 línguas).",
+ "hw_s2": "Regras de triagem: dinheiro, ameaças legais, RGPD e clientes irritados vão diretamente para uma pessoa.",
+ "hw_s3": "Extrai os dados do voo; o valor EU261 é calculado pelo código, não pelo modelo.",
+ "hw_s4": "Um LLM pequeno e barato escreve a resposta a partir da base de conhecimento e do cálculo.",
+ "hw_s5": "Controlo de números: se a resposta tiver um número que não está nos factos, o modelo tem mais uma tentativa e depois é usado um modelo seguro.",
+ "hw_cost": "Funciona com qualquer modelo compatível com OpenAI (aqui Groq gpt-oss-20b) e offline com modelos de texto sem chave."
 }

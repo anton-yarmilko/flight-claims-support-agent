@@ -70,5 +70,14 @@
  "hr_gdpr": "žádost o ochranu údajů",
  "hr_legal": "právní hrozba",
  "hr_anger": "rozzlobený zákazník",
- "hr_unknown": "nejasný požadavek"
+ "hr_unknown": "nejasný požadavek",
+ "tab_how": "Jak to funguje",
+ "hw_title": "Jak to funguje",
+ "hw_intro": "Pravidla rozhodují, LLM jen píše. Odpovědi jsou tak bezpečné, levné a předvídatelné.",
+ "hw_s1": "Rozpozná jazyk zákazníka (20 jazyků).",
+ "hw_s2": "Pravidla třídění: peníze, právní hrozby, GDPR a rozzlobení zákazníci jdou rovnou k člověku.",
+ "hw_s3": "Vytáhne údaje o letu; částku podle EU261 počítá kód, ne model.",
+ "hw_s4": "Malý levný LLM napíše odpověď ze znalostní báze a výpočtu.",
+ "hw_s5": "Hlídač čísel: pokud odpověď obsahuje číslo, které není ve faktech, model dostane ještě jeden pokus a pak se použije bezpečná šablona.",
+ "hw_cost": "Funguje s jakýmkoli modelem kompatibilním s OpenAI (zde Groq gpt-oss-20b) a bez klíče offline se šablonami."
 }

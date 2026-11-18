@@ -70,5 +70,14 @@
  "hr_gdpr": "tietosuojapyyntö",
  "hr_legal": "oikeudellinen uhkaus",
  "hr_anger": "suuttunut asiakas",
- "hr_unknown": "epäselvä pyyntö"
+ "hr_unknown": "epäselvä pyyntö",
+ "tab_how": "Miten se toimii",
+ "hw_title": "Miten se toimii",
+ "hw_intro": "Säännöt päättävät, LLM vain kirjoittaa. Siksi vastaukset ovat turvallisia, edullisia ja ennustettavia.",
+ "hw_s1": "Tunnistaa asiakkaan kielen (20 kieltä).",
+ "hw_s2": "Lajittelusäännöt: raha, oikeudelliset uhkaukset, GDPR ja vihaiset asiakkaat ohjataan suoraan ihmiselle.",
+ "hw_s3": "Poimii lennon tiedot; EU261-summan laskee koodi, ei malli.",
+ "hw_s4": "Pieni ja edullinen LLM kirjoittaa vastauksen tietopankin ja laskelman pohjalta.",
+ "hw_s5": "Lukuvahti: jos vastauksessa on luku, jota ei ole tiedoissa, malli saa yhden uuden yrityksen, sitten käytetään turvallista pohjaa.",
+ "hw_cost": "Toimii minkä tahansa OpenAI-yhteensopivan mallin kanssa (tässä Groq gpt-oss-20b) ja ilman avainta offline-pohjilla."
 }

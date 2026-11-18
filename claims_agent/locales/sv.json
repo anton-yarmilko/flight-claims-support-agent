@@ -70,5 +70,14 @@
  "hr_gdpr": "dataskyddsbegäran",
  "hr_legal": "juridiskt hot",
  "hr_anger": "upprörd kund",
- "hr_unknown": "oklar förfrågan"
+ "hr_unknown": "oklar förfrågan",
+ "tab_how": "Så fungerar det",
+ "hw_title": "Så fungerar det",
+ "hw_intro": "Regler bestämmer, LLM:en skriver bara. Det håller svaren säkra, billiga och förutsägbara.",
+ "hw_s1": "Känner igen kundens språk (20 språk).",
+ "hw_s2": "Triageregler: pengar, juridiska hot, GDPR och arga kunder går direkt till en människa.",
+ "hw_s3": "Plockar ut flygdata; EU261-beloppet räknas ut av koden, inte av modellen.",
+ "hw_s4": "En liten, billig LLM skriver svaret utifrån kunskapsbasen och beräkningen.",
+ "hw_s5": "Sifferkontroll: om svaret innehåller en siffra som inte finns i fakta får modellen ett försök till, sedan används en säker mall.",
+ "hw_cost": "Fungerar med alla OpenAI-kompatibla modeller (här Groq gpt-oss-20b) och offline med mallar utan nyckel."
 }
