@@ -53,3 +53,9 @@ def test_too_long_message_is_a_400(live):
     with pytest.raises(urllib.error.HTTPError) as e:
         urllib.request.urlopen(req)
     assert e.value.code == 400
+
+
+def test_health_and_server_timing(live):
+    with urllib.request.urlopen(live + "/api/health") as r:
+        assert json.loads(r.read())["ok"] is True
+        assert r.headers["Server-Timing"].startswith("app;dur=")

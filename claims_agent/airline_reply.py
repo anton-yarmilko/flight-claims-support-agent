@@ -43,6 +43,14 @@ CATEGORIES: list[Category] = [
              r"bird ?strike|collision with (a )?bird",
              "unlikely", "A bird strike is extraordinary (CJEU C-315/15 Pešková), though delay beyond the "
              "necessary inspection may still be claimable."),
+    Category("volcanic_ash", "Volcanic ash / airspace closure",
+             r"volcan\w*|ash cloud|eruption",
+             "unlikely", "A volcanic eruption that closes airspace is extraordinary (CJEU C-12/11 McDonagh), "
+             "but the airline still owed care (meals, hotel) during the wait."),
+    Category("airport_fuel", "Airport fuel supply failure",
+             r"fuel (supply|system|shortage)|refuel(l)?ing (system|failure)|airport (systems?|infrastructure) (failure|outage)",
+             "review", "A failure of the airport's own fuel supply system can be extraordinary (CJEU C-308/21 SATA), "
+             "but the airline must show it took reasonable measures. Ask for the airport's notice."),
     Category("weather", "Weather",
              r"\b(weather|storms?|snow\w*|fog|thunder\w*|wind|ice|icing|de-?icing|visibility|hurricane)\b",
              "review", "Severe weather can be extraordinary, but it must have affected this flight. Check historic "
@@ -58,6 +66,15 @@ CATEGORIES: list[Category] = [
     Category("security_medical", "Security, medical or political event",
              r"security (threat|alert|incident)|bomb|medical emergency|unruly|disruptive passenger|political|war|airspace closed",
              "unlikely", "Security threats, medical emergencies and unruly passengers are usually extraordinary."),
+    Category("foreign_object", "Foreign object or third-party damage",
+             r"foreign object|\bfod\b|debris|screw (on|found)|object on the runway|damaged by (a )?(ground|third)|ground (vehicle|equipment) (hit|struck|damaged)",
+             "review", "Damage caused by a foreign object on the runway or by a third party can be extraordinary "
+             "(CJEU C-501/17 Germanwings, screw in a tyre). Ask for the damage report and how long the repair took."),
+    Category("crew_illness", "Sudden crew illness or absence",
+             r"(crew|pilot|co-?pilot|captain|cabin crew) (member )?(fell|became|was|were) (ill|sick|unwell|unfit)|illness of (the |a )?(crew|pilot|co-?pilot|captain)"
+             r"|(crew|pilot|co-?pilot|captain)'?s? (sudden )?(illness|death|absence)",
+             "contest", "A crew member's sudden illness or death is part of the airline's normal activity and is not "
+             "extraordinary (CJEU C-156/22 to C-158/22 TAP, 2023)."),
     Category("technical", "Technical problem",
              r"\b(technical|mechanical|maintenance|engines?|repairs?|fault|defects?|aircraft (problem|issue)|spare parts?|hydraulic)\b",
              "contest", "Technical problems are usually not extraordinary: maintenance is part of normal airline "
