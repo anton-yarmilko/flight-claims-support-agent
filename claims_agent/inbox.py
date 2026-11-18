@@ -57,7 +57,8 @@ def process(items: list[dict[str, str]]) -> dict[str, Any]:
             "handoff": handoff_reasons(r.decision.reasons) if r.decision.action.value == "human_handoff" else [],
             "route": check.route if check else None,
             "eligible": verdict.eligible if verdict else None,
-            "amount": verdict.amount_eur if verdict and verdict.eligible else 0,
+            "amount": check.total_eur if check else 0,
+            "passengers": check.passengers if check else 1,
             "missing": bool(check and check.missing),
             "reply": r.text,
         }

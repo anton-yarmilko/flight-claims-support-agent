@@ -83,5 +83,8 @@
  "ib_csv": "Download CSV",
  "ib_f_all": "Alle",
  "copy": "Kopiér",
- "copied": "Kopieret"
+ "copied": "Kopieret",
+ "elig_total": "For {n} passagerer er det i alt EUR {total}.",
+ "total": "I alt",
+ "f_pax": "Passagerer"
 }

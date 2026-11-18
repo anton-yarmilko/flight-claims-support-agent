@@ -83,5 +83,8 @@
  "ib_csv": "Descarcă CSV",
  "ib_f_all": "Toate",
  "copy": "Copiază",
- "copied": "Copiat"
+ "copied": "Copiat",
+ "elig_total": "Pentru {n} pasageri înseamnă EUR {total} în total.",
+ "total": "Total",
+ "f_pax": "Pasageri"
 }

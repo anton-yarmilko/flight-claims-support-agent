@@ -107,7 +107,10 @@ def template_reply(intent: str, lang: str, result: EligibilityResult | None) -> 
             return t(lang, "elig_ask", need=need)
         v = result.verdict
         if v.eligible:
-            return t(lang, "elig_yes", route=result.route, km=result.distance_km, amount=v.amount_eur)
+            text = t(lang, "elig_yes", route=result.route, km=result.distance_km, amount=v.amount_eur)
+            if result.passengers > 1:
+                text += " " + t(lang, "elig_total", n=result.passengers, total=result.total_eur)
+            return text
         return t(lang, "elig_no", reason=_reason(lang, v.reason))
     if intent == "fee_question":
         return t(lang, "fee")
@@ -165,7 +168,8 @@ def _check_summary(result: EligibilityResult | None) -> str:
     if result.verdict is None:
         return f"Check could not run yet. Missing: {', '.join(result.missing)}."
     return (f"Route {d['route']}, {d['distance_km']} km. Eligible: {d['eligible']}. "
-            f"Amount per passenger before fee: EUR {d['amount_eur']}. Reason: {d['reason']}")
+            f"Amount per passenger before fee: EUR {d['amount_eur']}. Reason: {d['reason']}"
+            + (f" Passengers: {d['passengers']}, total before fee: EUR {d['total_eur']}." if d["passengers"] > 1 and d["eligible"] else ""))
 
 
 def handoff_note(decision: Decision, message: str, facts: FlightFacts | None, summary: str | None = None,

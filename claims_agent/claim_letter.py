@@ -68,6 +68,8 @@ def draft_letter(facts: FlightFacts, *, service_name: str = "FlyClaim", llm: LLM
     o, d = AIRPORTS[facts.origin], AIRPORTS[facts.destination]  # type: ignore[index]
     airline = AIRLINES.get(facts.airline or "", (facts.airline or "[AIRLINE]", False))[0]
     amount = result.verdict.amount_eur
+    pax = result.passengers
+    total = result.total_eur
     paragraph = _what_happened(facts)
     mode, notes = "template", []
     if llm is not None:
@@ -95,11 +97,11 @@ Dear Sir or Madam,
 
 The passenger held a confirmed reservation on flight {facts.flight_number or '[FLIGHT]'} from {o.city} ({o.iata}) to {d.city} ({d.iata}) on {facts.date or '[DATE]'}. {paragraph}
 
-Under {ARTICLE[facts.disruption or 'delay']} of Regulation (EC) No 261/2004, and given a flight distance of {result.distance_km} km, the passenger is entitled to compensation of EUR {amount}.
+Under {ARTICLE[facts.disruption or 'delay']} of Regulation (EC) No 261/2004, and given a flight distance of {result.distance_km} km, {"the passenger is" if pax == 1 else f"each of the {pax} passengers is"} entitled to compensation of EUR {amount}{"" if pax == 1 else f", EUR {total} in total"}.
 
 If you consider that extraordinary circumstances apply, please provide the specific evidence (cause, time and why it could not have been avoided by all reasonable measures).
 
-Please pay EUR {amount} within 14 days to the account given in the attached authorisation, or reply to this letter with your position.
+Please pay EUR {total} within 14 days to the account given in the attached authorisation, or reply to this letter with your position.
 
 Yours faithfully,
 {service_name} claims team

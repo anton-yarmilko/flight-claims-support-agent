@@ -83,5 +83,8 @@
  "ib_csv": "Lataa CSV",
  "ib_f_all": "Kaikki",
  "copy": "Kopioi",
- "copied": "Kopioitu"
+ "copied": "Kopioitu",
+ "elig_total": "{n} matkustajalle se on yhteensä EUR {total}.",
+ "total": "Yhteensä",
+ "f_pax": "Matkustajat"
 }
