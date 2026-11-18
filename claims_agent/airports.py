@@ -154,7 +154,7 @@ AIRLINES: dict[str, tuple[str, bool]] = {
 UK_CARRIERS = frozenset({"BA", "U2", "VS", "LS", "BY"})
 
 AIRLINE_NAMES = {name.lower(): code for code, (name, _) in AIRLINES.items()}
-AIRLINE_NAMES.update({"wizz": "W6", "wizzair": "W6", "wizz air": "W6", "easyjet": "U2", "lot": "LO",
+AIRLINE_NAMES.update({"wizz": "W6", "wizzair": "W6", "wizz air": "W6", "easyjet": "U2", "pll lot": "LO", "lot polish": "LO",
                       "virgin": "VS", "jet2.com": "LS", "tui": "BY",
                       "райанейр": "FR", "візейр": "W6", "люфтганза": "LH", "мау": "PS"})
 
@@ -276,11 +276,19 @@ _AIRLINE_PATTERNS = [(re.compile(r"(?<!\w)" + re.escape(name) + r"(?!\w)"), code
                      for name, code in sorted(AIRLINE_NAMES.items(), key=lambda kv: -len(kv[0]))]
 
 
+# Names that are common words in lower case ("lot" is Polish for "flight"): only count in capitals.
+_CASED_AIRLINES = [(re.compile(r"(?<!\w)" + name + r"(?!\w)"), code) for name, code in (("LOT", "LO"), ("TAP", "TP"))]
+
+
 def airline_in_text(text: str) -> str | None:
     low = text.lower()
     for pattern, code in _AIRLINE_PATTERNS:
         if pattern.search(low):
             return code
+    if not text.isupper():
+        for pattern, code in _CASED_AIRLINES:
+            if pattern.search(text):
+                return code
     m = re.search(r"\b([A-Z0-9]{2})\s?(\d{2,4})\b", text)
     if m and m.group(1) in AIRLINES:
         return m.group(1)
