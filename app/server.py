@@ -21,7 +21,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from claims_agent import airline_reply  # noqa: E402
+from claims_agent import airline_reply, inbox  # noqa: E402
 from claims_agent.agent import MISSING_KEYS, _reason, respond  # noqa: E402
 from claims_agent.i18n import LANGUAGES, native_names, strings, t  # noqa: E402
 from claims_agent.claim_letter import draft_letter  # noqa: E402
@@ -90,6 +90,11 @@ def api(path: str, body: dict[str, Any]) -> dict[str, Any]:
         return localize_check(check_facts(facts_from(body)).to_dict(), str(body.get("lang", "en")))
     if path == "/api/airline-reply":
         return airline_reply.analyse(str(body.get("text", "")), llm).to_dict()
+    if path == "/api/inbox":
+        lines = body.get("messages")
+        items = ([{"message": str(m)} for m in lines if str(m).strip()] if isinstance(lines, list) and lines
+                 else inbox.sample_messages())
+        return inbox.process(items)
     if path == "/api/letter":
         return draft_letter(facts_from(body), llm=llm).to_dict()
     raise KeyError(path)

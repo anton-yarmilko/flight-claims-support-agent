@@ -17,14 +17,15 @@ threats, GDPR requests, upset customers, weak knowledge-base matches.
 | Chat agent | `claims_agent/agent.py` | Triage, then an LLM reply from the knowledge base or a handoff note |
 | LLM client | `claims_agent/llm.py` | Any OpenAI-compatible model (Groq, OpenRouter, Gemini, Ollama, OpenAI); offline without one |
 | Triage | `claims_agent/triage.py` | Intent + AI-or-human decision, keywords in all 20 languages, LLM only as a fallback |
-| Eligibility | `claims_agent/eligibility.py`, `facts.py`, `airports.py` | EU261 check on facts pulled from the conversation |
+| Eligibility | `claims_agent/eligibility.py`, `facts.py`, `airports.py` | EU261 check on facts pulled from the conversation, incl. the 50% rule for long-haul delays of 3-4 h |
 | Ticket reader | `claims_agent/ticket.py` | Boarding-pass barcode text, e-ticket text, or a photo via a vision model |
 | Airline reply | `claims_agent/airline_reply.py` | Names the refusal cause, maps it to EU case law, suggests contest / review |
 | Claim letter | `claims_agent/claim_letter.py` | EU261 demand letter; amounts come from the check, never from the model |
 | Claude skill | `skill/SKILL.md` | The same rules as a skill for Claude Code |
 | Knowledge base | `knowledge/*.md` | EU261 rules, fees, stages, documents |
 | Evals | `evals/cases.jsonl`, `evals/judge.py` | Triage cases in all 20 languages; reply checks + optional LLM-as-judge |
-| Tests | `tests/` | 159 tests, run in CI with a fake LLM server |
+| Inbox | `claims_agent/inbox.py` | Batch triage of a day of mail: AI share, handoff reasons, urgent cases, compensation found |
+| Tests | `tests/` | 163 tests, run in CI with a fake LLM server |
 
 ```mermaid
 flowchart LR
@@ -73,15 +74,19 @@ Danish, Norwegian, Finnish, Dutch, Swedish, Czech, Italian, Ukrainian and Russia
 
 ![Language switcher: the same chat in Ukrainian](docs/demo-languages.png)
 
-The four tabs:
+The five tabs:
 
 1. **Support chat** - write as a customer in any of the 20 languages. The side panel shows the
    triage decision, the EU261 check and the handoff note.
-2. **Ticket reader** - paste a booking email or the text under a boarding-pass barcode (parsed
+2. **Inbox** - runs a day of customer mail (the 36 eval messages in 20 languages, or your own, one per
+   line) through triage: share answered by AI, what goes to a person and why, urgent cases, eligible
+   claims and the compensation they add up to. Rules only, so it is instant and free. Click a row to
+   open it in the chat.
+3. **Ticket reader** - paste a booking email or the text under a boarding-pass barcode (parsed
    offline), or upload a photo (needs a vision model). Then check EU261 or draft the letter.
-3. **Airline reply** - paste the airline's refusal; get the cause, the usual position in EU case
+4. **Airline reply** - paste the airline's refusal; get the cause, the usual position in EU case
    law and the next step. A claims handler always decides.
-4. **Claim letter** - a ready-to-review letter to the airline from the case facts.
+5. **Claim letter** - a ready-to-review letter to the airline from the case facts.
 
 ## How the LLM is kept in its lane
 
@@ -108,7 +113,7 @@ tune the rules from real tickets.
 
 ```bash
 pip install pytest
-pytest -q                     # 159 tests, LLM calls go to a fake local server
+pytest -q                     # 163 tests, LLM calls go to a fake local server
 python -m evals.judge         # reply checks on every eval case (offline: templates)
 
 # with a model, plus a bigger judge model for LLM-as-judge scoring

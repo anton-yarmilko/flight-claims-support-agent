@@ -56,6 +56,20 @@
   .src { font-size: 11px; color: var(--muted); }
   .big { font-size: 22px; font-weight: 600; }
   .empty { color: var(--muted); font-size: 14px; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin: 12px 0; }
+  .kpi { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  .kpi b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
+  .kpi span { font-size: 12px; color: var(--muted); }
+  .kpi.ok b { color: var(--ok); } .kpi.warn b { color: var(--warn); }
+  .bars { display: grid; grid-template-columns: max-content 1fr max-content; gap: 6px 10px; align-items: center; font-size: 13px; margin-bottom: 12px; max-width: 640px; }
+  .bar { height: 8px; border-radius: 99px; background: var(--warn); }
+  .tablewrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--line); padding: 6px 8px; }
+  td { border-bottom: 1px solid var(--line); padding: 6px 8px; vertical-align: top; }
+  tbody tr { cursor: pointer; } tbody tr:hover { background: var(--bg); }
+  td.msgcell { max-width: 380px; }
+  .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
   footer { text-align: center; color: var(--muted); font-size: 12px; padding: 20px; }
 </style>
 </head>
@@ -66,6 +80,7 @@
   <select id="lang" aria-label="Language" style="width:auto"></select>
   <nav>
     <button data-tab="chat" class="on" data-i18n="tab_chat">Support chat</button>
+    <button data-tab="inbox" data-i18n="tab_inbox">Inbox</button>
     <button data-tab="ticket" data-i18n="tab_ticket">Ticket reader</button>
     <button data-tab="reply" data-i18n="tab_reply">Airline reply</button>
     <button data-tab="letter" data-i18n="tab_letter">Claim letter</button>
@@ -91,6 +106,20 @@
         <h2 data-i18n="dec_title">What the agent decided</h2>
         <div id="decision" class="empty" data-i18n="dec_empty"></div>
       </div>
+    </div>
+  </section>
+
+  <!-- inbox: a batch of mail through triage -->
+  <section id="inbox">
+    <div class="card">
+      <h2 data-i18n="ib_title"></h2>
+      <p class="hint" data-i18n="ib_hint"></p>
+      <div class="row" style="margin-top:0">
+        <button class="main" id="inboxSample" data-i18n="ib_sample">Run sample inbox</button>
+        <button class="ghost" id="inboxMine" data-i18n="ib_mine">Run my messages</button>
+      </div>
+      <textarea id="inboxText" data-i18n-ph="ib_ph" style="min-height:70px;margin-top:10px"></textarea>
+      <div id="inboxOut" class="empty" data-i18n="ib_empty" style="margin-top:12px"></div>
     </div>
   </section>
 
@@ -195,7 +224,7 @@ async function setLang(code) {
   document.documentElement.lang = code; $("#lang").value = code;
   document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = T(el.dataset.i18n); });
   document.querySelectorAll("[data-i18n-ph]").forEach((el) => { el.placeholder = T(el.dataset.i18nPh); });
-  renderMode(); buildSamples(); relabelFields();
+  renderMode(); buildSamples(); relabelFields(); renderInbox();
 }
 fetch("/api/status").then((r) => r.json()).then((s) => { STATUS = s; renderMode(); });
 fetch("/api/languages").then((r) => r.json()).then((langs) => {
@@ -318,6 +347,41 @@ $("#ticketCheck").onclick = () => busy($("#ticketCheck"), async () => {
     : `<p class="big" style="color:var(--${e.eligible ? "ok" : "bad"})">${e.eligible ? "EUR " + e.amount_eur + " " + esc(T("per_pax")) : esc(T("not_elig"))}</p><p>${esc(e.reason)}</p><p class="src">${esc(e.route)} · ${e.distance_km} km</p>`;
 });
 $("#ticketToLetter").onclick = () => { writeFacts("l", readFacts("t")); document.querySelector('[data-tab="letter"]').click(); $("#letterGo").click(); };
+
+// ---------- inbox ----------
+let INBOX = null;
+function renderInbox() {
+  if (!INBOX) return;
+  const s = INBOX.stats, pct = (n) => s.total ? Math.round(100 * n / s.total) : 0;
+  const kpi = (v, k, cls = "") => `<div class="kpi ${cls}"><b>${esc(v)}</b><span>${esc(T(k))}</span></div>`;
+  const max = Math.max(1, ...Object.values(s.handoff_reasons));
+  const reasons = Object.entries(s.handoff_reasons).map(([c, n]) =>
+    `<span>${esc(T("hr_" + c))}</span><div class="bar" style="width:${Math.round(100 * n / max)}%"></div><span class="num">${n}</span>`).join("");
+  const rows = INBOX.rows.map((r, i) => {
+    const dec = r.action === "ai_answer" ? `<span class="badge ok">${esc(T("ai_answers"))}</span>`
+      : `<span class="badge ${r.priority === "high" ? "bad" : "warn"}">${esc(T("handed"))}</span><br><span class="src">${r.handoff.map((c) => esc(T("hr_" + c))).join(", ")}</span>`;
+    const res = r.eligible ? `<span class="num">EUR ${r.amount}</span><br><span class="src">${esc(r.route || "")}</span>`
+      : r.eligible === false ? `<span class="src">${esc(T("not_elig"))}</span>` : r.missing ? `<span class="src">${esc(T("ib_needs"))}</span>` : "";
+    return `<tr data-i="${i}"><td class="msgcell">${esc(r.message)}</td><td>${esc(r.language)}</td><td>${esc(r.intent)}</td><td>${dec}</td><td>${res}</td></tr>`;
+  }).join("");
+  $("#inboxOut").className = "";
+  $("#inboxOut").innerHTML = `<div class="kpis">${kpi(s.total, "ib_total")}${kpi(`${s.ai} · ${pct(s.ai)}%`, "ib_ai", "ok")}${kpi(s.human, "ib_human", "warn")}
+    ${kpi(s.urgent, "ib_urgent")}${kpi(s.eligible, "ib_eligible")}${kpi(`EUR ${s.eur.toLocaleString(LANG)}`, "ib_eur", "ok")}${kpi(s.languages, "ib_langs")}
+    ${s.labelled ? kpi(`${s.agrees}/${s.labelled}`, "ib_agree") : ""}</div>
+    ${reasons ? `<h2>${esc(T("ib_reasons"))}</h2><div class="bars">${reasons}</div>` : ""}
+    <p class="hint">${esc(T("ib_open"))}</p>
+    <div class="tablewrap"><table><thead><tr><th>${esc(T("ib_msg"))}</th><th>${esc(T("ib_lang"))}</th><th>${esc(T("ib_intent"))}</th><th>${esc(T("ib_decision"))}</th><th>${esc(T("ib_result"))}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  $("#inboxOut").querySelectorAll("tbody tr").forEach((tr) => tr.onclick = () => {
+    $("#chatReset").click(); $("#chatInput").value = INBOX.rows[+tr.dataset.i].message;
+    document.querySelector('[data-tab="chat"]').click(); send();
+  });
+}
+$("#inboxSample").onclick = () => busy($("#inboxSample"), async () => { INBOX = await post("/api/inbox", {}); renderInbox(); });
+$("#inboxMine").onclick = () => busy($("#inboxMine"), async () => {
+  const lines = $("#inboxText").value.split("\n").map((x) => x.trim()).filter(Boolean);
+  if (!lines.length) { $("#inboxText").focus(); return; }
+  INBOX = await post("/api/inbox", {messages: lines}); renderInbox();
+});
 
 // ---------- airline reply ----------
 document.querySelectorAll("[data-reply]").forEach((b) => b.onclick = () => { $("#replyText").value = b.dataset.reply; $("#replyGo").click(); });
