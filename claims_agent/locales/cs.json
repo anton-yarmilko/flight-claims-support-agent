@@ -98,5 +98,10 @@
  "draft_reply": "Návrh odpovědi aerolince (člověk ho zkontroluje a odešle)",
  "uk261_note": "Tento let spadá pod UK261, britskou verzi pravidel, proto se odškodnění vyplácí v librách.",
  "rs_reroute_7d": "zrušení bylo oznámeno 7-13 dní předem a náhradní let přiletěl do 4 hodin. Pak odškodnění nenáleží, pokud odletěl nejvýše 2 hodiny před původním časem.",
- "rs_reroute_lt7": "zrušení bylo oznámeno méně než 7 dní předem a náhradní let měl zpoždění méně než 2 hodiny. Pak odškodnění nenáleží, pokud odletěl nejvýše 1 hodinu před původním časem."
+ "rs_reroute_lt7": "zrušení bylo oznámeno méně než 7 dní předem a náhradní let měl zpoždění méně než 2 hodiny. Pak odškodnění nenáleží, pokud odletěl nejvýše 1 hodinu před původním časem.",
+ "cause_technical": "Zmiňujete technickou závadu. Obvykle to není mimořádná okolnost, takže nároku nebrání.",
+ "cause_strike_staff": "Stávka vlastních zaměstnanců letecké společnosti obvykle není mimořádná okolnost, takže nároku nebrání.",
+ "cause_strike_atc": "Stávka řídících letového provozu nebo personálu letiště se obvykle považuje za mimořádnou okolnost, takže odškodnění nemusí náležet. Kolega prověří podrobnosti.",
+ "cause_strike": "Zmiňujete stávku. Pokud stávkovali zaměstnanci letecké společnosti, nárok obvykle trvá; pokud řídící nebo letiště, obvykle ne.",
+ "cause_weather": "Zmiňujete počasí. Letecké společnosti se na něj často odvolávají, ale omlouvá je jen tehdy, když skutečně ovlivnilo váš let. Ověřujeme meteorologické záznamy, takže to váš nárok nevylučuje."
 }

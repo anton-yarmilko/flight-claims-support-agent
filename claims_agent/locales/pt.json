@@ -98,5 +98,10 @@
  "draft_reply": "Rascunho de resposta à companhia (uma pessoa revê e envia)",
  "uk261_note": "Este voo está abrangido pelo UK261, a versão britânica das regras, por isso a compensação é paga em libras.",
  "rs_reroute_7d": "o cancelamento foi anunciado com 7-13 dias de antecedência e o voo alternativo chegou dentro de 4 horas. Nesse caso não há compensação se partiu no máximo 2 horas antes da hora original.",
- "rs_reroute_lt7": "o cancelamento foi anunciado com menos de 7 dias de antecedência e o voo alternativo chegou com menos de 2 horas de atraso. Nesse caso não há compensação se partiu no máximo 1 hora antes da hora original."
+ "rs_reroute_lt7": "o cancelamento foi anunciado com menos de 7 dias de antecedência e o voo alternativo chegou com menos de 2 horas de atraso. Nesse caso não há compensação se partiu no máximo 1 hora antes da hora original.",
+ "cause_technical": "Menciona um problema técnico. Normalmente não é uma circunstância extraordinária, por isso não impede a reclamação.",
+ "cause_strike_staff": "Uma greve do pessoal da própria companhia normalmente não é uma circunstância extraordinária, por isso não impede a reclamação.",
+ "cause_strike_atc": "Uma greve de controladores aéreos ou do pessoal do aeroporto costuma ser uma circunstância extraordinária, por isso a compensação pode não ser devida. Um colega vai verificar os detalhes.",
+ "cause_strike": "Menciona uma greve. Se foi do pessoal da companhia, a reclamação normalmente procede; se foi dos controladores ou do aeroporto, normalmente não.",
+ "cause_weather": "Menciona o tempo. As companhias invocam-no muitas vezes, mas só as isenta se afetou mesmo o seu voo. Verificamos os registos meteorológicos, por isso isto não exclui a sua reclamação."
 }

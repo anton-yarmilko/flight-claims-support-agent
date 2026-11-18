@@ -14,6 +14,7 @@ from dataclasses import asdict, dataclass, field
 from typing import TYPE_CHECKING, Any
 
 from .airports import AIRLINES, AIRPORTS, UK_CARRIERS, airline_in_text, airports_in_text, distance_km, route_in_text
+from .causes import cause_in_text
 from .eligibility import Disruption, Flight, Incident, Verdict, check
 
 if TYPE_CHECKING:
@@ -35,6 +36,7 @@ class FlightFacts:
     passengers: int | None = None  # people on the booking; compensation is per passenger
     voluntary: bool | None = None  # denied boarding: gave up the seat voluntarily
     via: str | None = None  # connecting airports (IATA, comma-separated); not used for the distance
+    cause: str | None = None  # cause the customer names (causes.CAUSES); adds a note, never changes the verdict
     sources: dict[str, str] = field(default_factory=dict)
 
     def missing_for_check(self) -> list[str]:
@@ -215,6 +217,7 @@ def extract_facts_rules(text: str, today: dt.date | None = None) -> FlightFacts:
         f.notice_days = int(n.group(1))
 
     f.passengers = passengers_in(low)
+    f.cause = cause_in_text(low)
 
     d = re.search(_DATE, low)
     if d:
@@ -370,6 +373,7 @@ class EligibilityResult:
     passengers: int = 1
     flight_date: str | None = None  # ISO, when the date could be read
     too_old: bool = False  # flight over TIME_LIMIT_DAYS ago: a person checks the deadline
+    cause: str | None = None  # from FlightFacts.cause
 
     @property
     def total_eur(self) -> int:
@@ -389,6 +393,7 @@ class EligibilityResult:
             "missing": self.missing,
             "flight_date": self.flight_date,
             "too_old": self.too_old,
+            "cause": self.cause,
         }
 
 
@@ -397,6 +402,7 @@ def check_facts(facts: FlightFacts, *, extraordinary: bool = False, today: dt.da
     if when is not None and when > (today or dt.date.today()):
         return EligibilityResult(None, None, [FUTURE_FLIGHT], flight_date=when.isoformat())
     result = _check(facts, extraordinary)
+    result.cause = facts.cause
     if when is not None:
         result.flight_date = when.isoformat()
         result.too_old = ((today or dt.date.today()) - when).days > TIME_LIMIT_DAYS

@@ -98,5 +98,10 @@
  "draft_reply": "Antwortentwurf an die Airline (ein Mensch prüft und sendet ihn)",
  "uk261_note": "Dieser Flug fällt unter UK261, die britische Fassung der Regeln, daher wird die Entschädigung in Pfund gezahlt.",
  "rs_reroute_7d": "die Annullierung wurde 7-13 Tage vorher mitgeteilt und der Ersatzflug kam innerhalb von 4 Stunden an. Dann gibt es keine Entschädigung, wenn er höchstens 2 Stunden vor der ursprünglichen Zeit abflog.",
- "rs_reroute_lt7": "die Annullierung wurde weniger als 7 Tage vorher mitgeteilt und der Ersatzflug kam weniger als 2 Stunden zu spät an. Dann gibt es keine Entschädigung, wenn er höchstens 1 Stunde vor der ursprünglichen Zeit abflog."
+ "rs_reroute_lt7": "die Annullierung wurde weniger als 7 Tage vorher mitgeteilt und der Ersatzflug kam weniger als 2 Stunden zu spät an. Dann gibt es keine Entschädigung, wenn er höchstens 1 Stunde vor der ursprünglichen Zeit abflog.",
+ "cause_technical": "Sie erwähnen ein technisches Problem. Das ist meist kein außergewöhnlicher Umstand und steht dem Anspruch nicht entgegen.",
+ "cause_strike_staff": "Ein Streik des eigenen Personals der Airline ist meist kein außergewöhnlicher Umstand und steht dem Anspruch nicht entgegen.",
+ "cause_strike_atc": "Ein Streik der Fluglotsen oder des Flughafenpersonals gilt meist als außergewöhnlicher Umstand, daher besteht eventuell kein Anspruch. Ein Kollege prüft die Details.",
+ "cause_strike": "Sie erwähnen einen Streik. Streikte das Personal der Airline, besteht der Anspruch meist; streikten Fluglotsen oder der Flughafen, meist nicht.",
+ "cause_weather": "Sie erwähnen das Wetter. Airlines berufen sich oft darauf, es entlastet sie aber nur, wenn es Ihren Flug wirklich betroffen hat. Wir prüfen die Wetterdaten, der Anspruch ist damit nicht ausgeschlossen."
 }

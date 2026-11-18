@@ -98,5 +98,10 @@
  "draft_reply": "Havayoluna yanıt taslağı (bir kişi kontrol edip gönderir)",
  "uk261_note": "Bu uçuş, kuralların Birleşik Krallık sürümü olan UK261 kapsamında; bu yüzden tazminat sterlin olarak ödenir.",
  "rs_reroute_7d": "iptal 7-13 gün önceden bildirildi ve alternatif uçuş 4 saat içinde vardı. Bu durumda alternatif uçuş asıl saatten en fazla 2 saat önce kalktıysa tazminat yoktur.",
- "rs_reroute_lt7": "iptal 7 günden az önce bildirildi ve alternatif uçuş 2 saatten az gecikmeyle vardı. Bu durumda alternatif uçuş asıl saatten en fazla 1 saat önce kalktıysa tazminat yoktur."
+ "rs_reroute_lt7": "iptal 7 günden az önce bildirildi ve alternatif uçuş 2 saatten az gecikmeyle vardı. Bu durumda alternatif uçuş asıl saatten en fazla 1 saat önce kalktıysa tazminat yoktur.",
+ "cause_technical": "Teknik bir arızadan bahsediyorsunuz. Bu genellikle olağanüstü bir durum sayılmaz, yani talebinizi engellemez.",
+ "cause_strike_staff": "Havayolunun kendi personelinin grevi genellikle olağanüstü bir durum sayılmaz, yani talebinizi engellemez.",
+ "cause_strike_atc": "Hava trafik kontrolörlerinin veya havalimanı personelinin grevi genellikle olağanüstü durum sayılır, bu yüzden tazminat çıkmayabilir. Bir meslektaşımız ayrıntıları kontrol edecek.",
+ "cause_strike": "Bir grevden bahsediyorsunuz. Grev havayolu personeline aitse talep genellikle geçerlidir; kontrolörler veya havalimanıysa genellikle değildir.",
+ "cause_weather": "Hava durumundan bahsediyorsunuz. Havayolları buna sık başvurur, ama bu onları yalnızca uçuşunuzu gerçekten etkilediyse kurtarır. Hava kayıtlarını kontrol ediyoruz, yani bu talebinizi ortadan kaldırmaz."
 }

@@ -98,5 +98,10 @@
  "draft_reply": "Nacrt odgovora avio-kompaniji (čovek ga proverava i šalje)",
  "uk261_note": "Ovaj let potpada pod UK261, britansku verziju pravila, pa se odšteta isplaćuje u funtama.",
  "rs_reroute_7d": "otkazivanje je najavljeno 7-13 dana ranije, a zamenski let je stigao u roku od 4 sata. Tada nema odštete ako je poleteo najviše 2 sata pre prvobitnog vremena.",
- "rs_reroute_lt7": "otkazivanje je najavljeno manje od 7 dana ranije, a zamenski let je kasnio manje od 2 sata. Tada nema odštete ako je poleteo najviše 1 sat pre prvobitnog vremena."
+ "rs_reroute_lt7": "otkazivanje je najavljeno manje od 7 dana ranije, a zamenski let je kasnio manje od 2 sata. Tada nema odštete ako je poleteo najviše 1 sat pre prvobitnog vremena.",
+ "cause_technical": "Pominjete tehnički kvar. To obično nije vanredna okolnost, pa ne sprečava zahtev.",
+ "cause_strike_staff": "Štrajk sopstvenog osoblja avio-kompanije obično nije vanredna okolnost, pa ne sprečava zahtev.",
+ "cause_strike_atc": "Štrajk kontrolora leta ili osoblja aerodroma obično se smatra vanrednom okolnošću, pa odšteta možda ne pripada. Kolega će proveriti detalje.",
+ "cause_strike": "Pominjete štrajk. Ako je štrajkovalo osoblje avio-kompanije, zahtev obično stoji; ako kontrolori ili aerodrom, obično ne.",
+ "cause_weather": "Pominjete vreme. Avio-kompanije se često pozivaju na njega, ali ih to oslobađa samo ako je zaista uticalo na vaš let. Proveravamo meteorološke podatke, pa ovo ne isključuje vaš zahtev."
 }

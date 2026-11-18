@@ -222,6 +222,9 @@ def route_in_text(text: str) -> tuple[Airport | None, Airport | None, list[Airpo
     return main[0], main[-1], via + main[1:-1]
 
 
+_SHORT_END = r"(?:a|u|e|y|i|ie|em|ii|ei|ą|ę|[^\W\d_a-z]{1,3})?(?!\w)"
+
+
 @dataclass(frozen=True)
 class _Matcher:
     airport: Airport
@@ -238,7 +241,11 @@ def _matchers() -> tuple[_Matcher, ...]:
     for a in AIRPORTS.values():
         names = sorted({fold(n) for n in (a.city, *a.aliases)})
         # Ukrainian/Polish nouns inflect ("з Лісабона", "z Warszawy"); match the stem of longer names.
-        stems = [re.escape(n[:-1]) if len(n) > 5 else re.escape(n) for n in names if n not in _CASE_SENSITIVE_CITIES]
+        # Short names must end the word, allowing a case ending, so "bec" (Beč) does not match "because".
+        # Longer names drop a final vowel, which case endings replace ("Warszawa" -> "z Warszawy");
+        # a final consonant stays ("Poznan" -> "Poznania"), so "poznamka" is not Poznan.
+        stems = [(re.escape(n[:-1]) if n[-1] in "aeiouyаеиоуяюыієї" else re.escape(n)) + r"\w{0,4}(?!\w)"
+                 if len(n) > 5 else re.escape(n) + _SHORT_END for n in names if n not in _CASE_SENSITIVE_CITIES]
         cased = [re.escape(n.capitalize()) for n in names if n in _CASE_SENSITIVE_CITIES]
         out.append(_Matcher(
             a,

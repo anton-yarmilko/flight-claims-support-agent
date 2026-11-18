@@ -98,5 +98,10 @@
  "draft_reply": "Udkast til svar til flyselskabet (et menneske tjekker og sender det)",
  "uk261_note": "Denne flyvning hører under UK261, den britiske udgave af reglerne, så kompensationen udbetales i pund.",
  "rs_reroute_7d": "aflysningen blev meddelt 7-13 dage før, og erstatningsflyet ankom inden for 4 timer. Så er der ingen kompensation, hvis det afgik højst 2 timer før det oprindelige tidspunkt.",
- "rs_reroute_lt7": "aflysningen blev meddelt mindre end 7 dage før, og erstatningsflyet var mindre end 2 timer forsinket. Så er der ingen kompensation, hvis det afgik højst 1 time før det oprindelige tidspunkt."
+ "rs_reroute_lt7": "aflysningen blev meddelt mindre end 7 dage før, og erstatningsflyet var mindre end 2 timer forsinket. Så er der ingen kompensation, hvis det afgik højst 1 time før det oprindelige tidspunkt.",
+ "cause_technical": "Du nævner et teknisk problem. Det er som regel ikke en usædvanlig omstændighed, så det forhindrer ikke kravet.",
+ "cause_strike_staff": "En strejke blandt flyselskabets eget personale er som regel ikke en usædvanlig omstændighed, så den forhindrer ikke kravet.",
+ "cause_strike_atc": "En strejke blandt flyveledere eller lufthavnspersonale regnes som regel som en usædvanlig omstændighed, så der er måske ikke ret til kompensation. En kollega tjekker detaljerne.",
+ "cause_strike": "Du nævner en strejke. Var det flyselskabets personale, holder kravet som regel; var det flyveledere eller lufthavnen, som regel ikke.",
+ "cause_weather": "Du nævner vejret. Flyselskaber henviser ofte til det, men det fritager dem kun, hvis det virkelig ramte dit fly. Vi tjekker vejrdata, så det udelukker ikke dit krav."
 }

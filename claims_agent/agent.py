@@ -130,6 +130,8 @@ def template_reply(intent: str, lang: str, result: EligibilityResult | None) -> 
                 text += " " + t(lang, "elig_half", h=half.group(1))
             if result.passengers > 1:
                 text += " " + t(lang, "elig_total", n=result.passengers, total=result.total_eur, cur=v.currency)
+            if result.cause:
+                text += " " + t(lang, "cause_" + result.cause)
             return text
         return t(lang, "elig_no", reason=_reason(lang, v.reason))
     if intent == "fee_question":
@@ -190,14 +192,15 @@ def _check_summary(result: EligibilityResult | None) -> str:
     cur = d["currency"]
     return (f"Route {d['route']}, {d['distance_km']} km. Regulation: {d['regulation']}. Eligible: {d['eligible']}. "
             f"Amount per passenger before fee: {cur} {d['amount_eur']}. Reason: {d['reason']}"
-            + (f" Passengers: {d['passengers']}, total before fee: {cur} {d['total_eur']}." if d["passengers"] > 1 and d["eligible"] else ""))
+            + (f" Passengers: {d['passengers']}, total before fee: {cur} {d['total_eur']}." if d["passengers"] > 1 and d["eligible"] else "")
+            + (f" The customer names the cause; tell them: {t('en', 'cause_' + d['cause'])}" if d["cause"] and d["eligible"] else ""))
 
 
 def handoff_note(decision: Decision, message: str, facts: FlightFacts | None, summary: str | None = None,
                  next_step: str | None = None, result: EligibilityResult | None = None) -> str:
     known = []
     if facts:
-        for key in ("origin", "destination", "via", "airline", "flight_number", "date", "disruption", "delay_hours", "booking_ref"):
+        for key in ("origin", "destination", "via", "airline", "flight_number", "date", "disruption", "delay_hours", "booking_ref", "cause"):
             v = getattr(facts, key)
             if v is not None:
                 known.append(f"{key}={v}")
