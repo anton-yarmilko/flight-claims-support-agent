@@ -65,6 +65,10 @@ def deterministic_checks(case: dict, reply) -> list[str]:
                                     json.dumps(reply.eligibility.to_dict()) if reply.eligibility else ""])
     if bad:
         fails.append(f"unsupported numbers {bad}")
+    if "amount_eur" in case:
+        got_amount = reply.eligibility.verdict.amount_eur if reply.eligibility and reply.eligibility.verdict else None
+        if got_amount != case["amount_eur"]:
+            fails.append(f"amount {got_amount} != {case['amount_eur']}")
     if PROMISE.search(NOT_PROMISE.sub("", reply.text)):
         fails.append("promises an outcome or date")
     if SECRETS.search(reply.text):

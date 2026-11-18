@@ -34,3 +34,7 @@
 {"id": "sv-gdpr", "message": "Radera mina uppgifter enligt GDPR, tack", "intent": "gdpr_request", "action": "human_handoff", "language": "sv"}
 {"id": "fi-eligibility", "message": "Lentoni Helsingistä Ateenaan oli 4 tuntia myöhässä, onko minulla oikeus korvaukseen?", "intent": "eligibility", "action": "ai_answer", "language": "fi"}
 {"id": "ru-documents", "message": "Какие документы нужно загрузить? Посадочный талон подойдёт?", "intent": "documents", "action": "ai_answer", "language": "ru"}
+{"id": "connection-distance", "message": "My flight from Warsaw via Frankfurt to Lisbon arrived 5 hours late. Can I claim?", "intent": "eligibility", "action": "ai_answer", "amount_eur": 400}
+{"id": "uk-connection", "message": "Летіли з Варшави через Франкфурт до Лісабона, запізнилися на 5 годин. Чи є компенсація?", "intent": "eligibility", "action": "ai_answer", "language": "uk", "amount_eur": 400}
+{"id": "reroute-half", "message": "My flight Warsaw to Berlin was cancelled and the new flight arrived 1 hour late. Can I get compensation?", "intent": "eligibility", "action": "ai_answer", "amount_eur": 125}
+{"id": "old-flight", "message": "My flight Warsaw to Lisbon on 2021-06-10 arrived 5 hours late. Can I claim compensation?", "intent": "eligibility", "action": "human_handoff", "triage_action": "ai_answer"}

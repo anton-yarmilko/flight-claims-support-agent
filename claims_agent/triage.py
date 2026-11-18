@@ -136,7 +136,7 @@ KEYWORDS: dict[str, dict[str, str]] = {
         "sv": r"boardingkort|biljett|dokument|ladda upp|fullmakt", "fi": r"tarkastuskort|(?<!\w)lippu|asiakirj|lataa|valtakirj|passi",
     },
     "eligibility": {
-        "en": r"\b(eligible|entitled|compensation|delayed|delay|cancel+ed|cancellation|overbooked|denied boarding)\b",
+        "en": r"\b(eligible|entitled|compensation|delayed|delay|cancel+ed|cancellation|overbooked|denied boarding|hours? late|arrived late|can i claim)\b",
         "uk": r"затрим|скасува|компенсац|відмовили в посадці|овербукінг|маю право",
         "ru": r"задерж|отмен|овербукинг|отказали в посадке|имею право",
         "pl": r"op[óo][źz]ni|odwo[łl]a|odszkodow|odm[óo]wiono wej[śs]cia|nadrezerwac",
