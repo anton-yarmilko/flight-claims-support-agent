@@ -79,5 +79,6 @@
  "hw_s3": "Poimii lennon tiedot; EU261-summan laskee koodi, ei malli.",
  "hw_s4": "Pieni ja edullinen LLM kirjoittaa vastauksen tietopankin ja laskelman pohjalta.",
  "hw_s5": "Lukuvahti: jos vastauksessa on luku, jota ei ole tiedoissa, malli saa yhden uuden yrityksen, sitten käytetään turvallista pohjaa.",
- "hw_cost": "Toimii minkä tahansa OpenAI-yhteensopivan mallin kanssa (tässä Groq gpt-oss-20b) ja ilman avainta offline-pohjilla."
+ "hw_cost": "Toimii minkä tahansa OpenAI-yhteensopivan mallin kanssa (tässä Groq gpt-oss-20b) ja ilman avainta offline-pohjilla.",
+ "ib_csv": "Lataa CSV"
 }

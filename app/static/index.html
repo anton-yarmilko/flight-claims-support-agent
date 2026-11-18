@@ -128,6 +128,7 @@
       <div class="row" style="margin-top:0">
         <button class="main" id="inboxSample" data-i18n="ib_sample">Run sample inbox</button>
         <button class="ghost" id="inboxMine" data-i18n="ib_mine">Run my messages</button>
+        <button class="ghost" id="inboxCsv" data-i18n="ib_csv" hidden>Download CSV</button>
       </div>
       <textarea id="inboxText" data-i18n-ph="ib_ph" style="min-height:70px;margin-top:10px"></textarea>
       <div id="inboxOut" class="empty" data-i18n="ib_empty" style="margin-top:12px"></div>
@@ -387,6 +388,7 @@ function renderInbox() {
       : r.eligible === false ? `<span class="src">${esc(T("not_elig"))}</span>` : r.missing ? `<span class="src">${esc(T("ib_needs"))}</span>` : "";
     return `<tr data-i="${i}"><td class="msgcell">${esc(r.message)}</td><td>${esc(r.language)}</td><td>${esc(r.intent)}</td><td>${dec}</td><td>${res}</td></tr>`;
   }).join("");
+  $("#inboxCsv").hidden = false;
   $("#inboxOut").className = "";
   $("#inboxOut").innerHTML = `<div class="kpis">${kpi(s.total, "ib_total")}${kpi(`${s.ai} · ${pct(s.ai)}%`, "ib_ai", "ok")}${kpi(s.human, "ib_human", "warn")}
     ${kpi(s.urgent, "ib_urgent")}${kpi(s.eligible, "ib_eligible")}${kpi(`EUR ${s.eur.toLocaleString(LANG)}`, "ib_eur", "ok")}${kpi(s.languages, "ib_langs")}
@@ -399,6 +401,18 @@ function renderInbox() {
     document.querySelector('[data-tab="chat"]').click(); send();
   });
 }
+function inboxCsv() {
+  // Semicolon-separated with a BOM, so Excel opens it in any locale with the right letters.
+  const cell = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const head = ["message", "language", "intent", "action", "priority", "handoff", "route", "eligible", "amount_eur", "reply"];
+  const lines = INBOX.rows.map((r) => [r.message, r.language, r.intent, r.action, r.priority, (r.handoff || []).join(", "),
+    r.route, r.eligible == null ? "" : r.eligible ? "yes" : "no", r.amount ?? "", r.reply].map(cell).join(";"));
+  const blob = new Blob(["\ufeff" + [head.join(";"), ...lines].join("\r\n")], {type: "text/csv;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "flyclaim-inbox.csv"; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+$("#inboxCsv").onclick = () => INBOX && inboxCsv();
 $("#inboxSample").onclick = () => busy($("#inboxSample"), async () => { INBOX = await post("/api/inbox", {}); renderInbox(); });
 $("#inboxMine").onclick = () => busy($("#inboxMine"), async () => {
   const lines = $("#inboxText").value.split("\n").map((x) => x.trim()).filter(Boolean);

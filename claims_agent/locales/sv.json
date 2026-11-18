@@ -79,5 +79,6 @@
  "hw_s3": "Plockar ut flygdata; EU261-beloppet räknas ut av koden, inte av modellen.",
  "hw_s4": "En liten, billig LLM skriver svaret utifrån kunskapsbasen och beräkningen.",
  "hw_s5": "Sifferkontroll: om svaret innehåller en siffra som inte finns i fakta får modellen ett försök till, sedan används en säker mall.",
- "hw_cost": "Fungerar med alla OpenAI-kompatibla modeller (här Groq gpt-oss-20b) och offline med mallar utan nyckel."
+ "hw_cost": "Fungerar med alla OpenAI-kompatibla modeller (här Groq gpt-oss-20b) och offline med mallar utan nyckel.",
+ "ib_csv": "Ladda ner CSV"
 }

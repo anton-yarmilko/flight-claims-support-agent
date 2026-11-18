@@ -79,5 +79,6 @@
  "hw_s3": "Kinyeri a járat adatait; az EU261 összeget a kód számolja, nem a modell.",
  "hw_s4": "Egy kicsi, olcsó LLM írja meg a választ a tudásbázisból és a számításból.",
  "hw_s5": "Számőr: ha a válaszban olyan szám van, ami nincs a tényekben, a modell még egyszer próbálkozhat, utána biztonságos sablon jön.",
- "hw_cost": "Bármely OpenAI-kompatibilis modellel működik (itt Groq gpt-oss-20b), kulcs nélkül pedig offline, sablonokkal."
+ "hw_cost": "Bármely OpenAI-kompatibilis modellel működik (itt Groq gpt-oss-20b), kulcs nélkül pedig offline, sablonokkal.",
+ "ib_csv": "CSV letöltése"
 }

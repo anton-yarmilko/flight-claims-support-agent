@@ -19,7 +19,6 @@ from claims_agent.llm import LLM, LLMError, get_llm, parse_json
 from claims_agent.ticket import parse_bcbp, read_ticket_image
 from claims_agent.triage import Action, triage
 
-
 # ---------- fake LLM server ----------
 
 class FakeLLM:
@@ -263,3 +262,27 @@ def test_letter_llm_paragraph_cannot_change_numbers(fake):
     fake.replies = ["The flight landed 9 hours late, causing great distress."]
     L = draft_letter(_facts(), llm=fake.client)
     assert L.mode == "template" and "4.5 hours" in L.text
+
+
+# ---------- response cache ----------
+
+def test_same_request_is_served_from_cache(fake):
+    fake.replies = ["first", "second"]
+    msgs = [{"role": "user", "content": "hi"}]
+    assert fake.client.chat(msgs) == "first"
+    assert fake.client.chat(msgs) == "first"
+    assert len(fake.requests) == 1 and fake.client.hits == 1
+    assert fake.client.chat(msgs, temperature=0) == "second"  # different request, new call
+
+
+def test_cache_is_bounded_and_can_be_off(fake):
+    fake.client.cache_size = 2
+    fake.replies = ["a", "b", "c", "a2"]
+    for q in ("1", "2", "3"):
+        fake.client.chat([{"role": "user", "content": q}])
+    assert len(fake.client._cache) == 2
+    assert fake.client.chat([{"role": "user", "content": "1"}]) == "a2"  # evicted, asked again
+    fake.client.cache_size = 0
+    fake.replies = ["x", "y"]
+    m = [{"role": "user", "content": "z"}]
+    assert fake.client.chat(m) == "x" and fake.client.chat(m) == "y"

@@ -177,7 +177,7 @@ def merge_llm_facts(base: FlightFacts, data: dict[str, Any]) -> FlightFacts:
     return base
 
 
-def extract_facts(text: str, llm: "LLM | None" = None) -> FlightFacts:
+def extract_facts(text: str, llm: LLM | None = None) -> FlightFacts:
     facts = extract_facts_rules(text)
     if llm is not None:
         from .llm import LLMError

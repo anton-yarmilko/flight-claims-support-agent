@@ -76,7 +76,7 @@ def parse_bcbp(text: str, today: dt.date | None = None) -> FlightFacts | None:
     return f
 
 
-def read_ticket_text(text: str, llm: "LLM | None" = None) -> TicketResult:
+def read_ticket_text(text: str, llm: LLM | None = None) -> TicketResult:
     bcbp = parse_bcbp(text)
     if bcbp:
         notes = []
@@ -91,7 +91,7 @@ def read_ticket_text(text: str, llm: "LLM | None" = None) -> TicketResult:
 IMAGE_PROMPT = EXTRACT_PROMPT + "\nThe input is a photo or screenshot of a boarding pass, e-ticket or booking confirmation."
 
 
-def read_ticket_image(image: bytes, mime: str, llm: "LLM | None") -> TicketResult:
+def read_ticket_image(image: bytes, mime: str, llm: LLM | None) -> TicketResult:
     if llm is None or not llm.vision_model:
         return TicketResult(FlightFacts(), "none", [
             "Reading photos needs a vision model. Set LLM_PROVIDER (and LLM_VISION_MODEL if needed), "

@@ -102,7 +102,7 @@ Reply with JSON only:
 {{"category": "<name>", "airline_claim": "<one sentence: what the airline says happened>"}}"""
 
 
-def analyse(letter: str, llm: "LLM | None" = None) -> Analysis:
+def analyse(letter: str, llm: LLM | None = None) -> Analysis:
     low = letter.lower()
     for c in CATEGORIES:
         m = re.search(c.pattern, low)

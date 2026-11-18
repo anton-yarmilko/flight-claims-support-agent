@@ -79,5 +79,6 @@
  "hw_s3": "Izdvaja podatke o letu; iznos po EU261 računa kod, a ne model.",
  "hw_s4": "Mali, jeftin LLM piše odgovor iz baze znanja i obračuna.",
  "hw_s5": "Kontrola brojeva: ako odgovor sadrži broj koji nije u činjenicama, model dobija još jedan pokušaj, a zatim se koristi bezbedan šablon.",
- "hw_cost": "Radi sa bilo kojim modelom kompatibilnim sa OpenAI (ovde Groq gpt-oss-20b), a bez ključa offline sa šablonima."
+ "hw_cost": "Radi sa bilo kojim modelom kompatibilnim sa OpenAI (ovde Groq gpt-oss-20b), a bez ključa offline sa šablonima.",
+ "ib_csv": "Preuzmi CSV"
 }

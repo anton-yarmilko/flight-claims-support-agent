@@ -5,7 +5,8 @@ import pytest
 
 from claims_agent.triage import Action, triage
 
-CASES = [json.loads(l) for l in (Path(__file__).parent.parent / "evals" / "cases.jsonl").read_text().splitlines() if l.strip()]
+CASES = [json.loads(line) for line in (Path(__file__).parent.parent / "evals" / "cases.jsonl").read_text().splitlines()
+         if line.strip()]
 
 
 @pytest.mark.parametrize("case", CASES, ids=[c["id"] for c in CASES])

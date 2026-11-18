@@ -52,7 +52,7 @@ number exactly; add nothing new. One to three sentences. Reply with the paragrap
 Paragraph: {p}"""
 
 
-def draft_letter(facts: FlightFacts, *, service_name: str = "FlyClaim", llm: "LLM | None" = None,
+def draft_letter(facts: FlightFacts, *, service_name: str = "FlyClaim", llm: LLM | None = None,
                  today: dt.date | None = None) -> Letter:
     result = check_facts(facts)
     missing = list(result.missing)

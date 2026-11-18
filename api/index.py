@@ -10,10 +10,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from app.server import Handler  # noqa: E402
+from app.server import Handler
 
 
-class handler(Handler):  # noqa: N801  Vercel looks for this exact name
+class handler(Handler):
     """vercel.json rewrites every path to /api/index?__p=<path>; restore it."""
 
     def _restore_path(self) -> None:
@@ -23,10 +23,10 @@ class handler(Handler):  # noqa: N801  Vercel looks for this exact name
         if "__p" in q:
             self.path = "/" + q["__p"][0].lstrip("/")
 
-    def do_GET(self) -> None:  # noqa: N802
+    def do_GET(self) -> None:
         self._restore_path()
         super().do_GET()
 
-    def do_POST(self) -> None:  # noqa: N802
+    def do_POST(self) -> None:
         self._restore_path()
         super().do_POST()
