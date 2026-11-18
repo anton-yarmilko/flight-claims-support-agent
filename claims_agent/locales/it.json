@@ -108,5 +108,6 @@
  "codeshare": "Il volo era operato da {airline}, quindi EU261 guarda a {airline} e il reclamo va a {airline}, non alla compagnia che ha venduto il biglietto.",
  "cause_bird": "Parli di un impatto con volatili. I tribunali lo considerano una circostanza eccezionale, quindi spesso il risarcimento non è dovuto, a meno che la compagnia potesse evitare il ritardo con misure ragionevoli. Un collega verificherà i dettagli.",
  "cause_crew_shortage": "Parli di carenza di equipaggio o di personale. È responsabilità della compagnia, quindi non impedisce il reclamo.",
- "cause_passenger": "Parli di un'emergenza medica o di un passeggero molesto a bordo. Di solito è una circostanza eccezionale per quel volo, quindi il risarcimento potrebbe non essere dovuto. Un collega verificherà i dettagli."
+ "cause_passenger": "Parli di un'emergenza medica o di un passeggero molesto a bordo. Di solito è una circostanza eccezionale per quel volo, quindi il risarcimento potrebbe non essere dovuto. Un collega verificherà i dettagli.",
+ "elig_maybe": "Per distanza e ritardo, il tuo volo {route} ({km} km) darebbe diritto a {cur} {amount} a passeggero, prima della nostra commissione. Ma la causa che indichi può esonerare la compagnia, vedi sotto. È una verifica preliminare, non una garanzia. Per avviare il reclamo, invia la carta d'imbarco o il biglietto elettronico."
 }

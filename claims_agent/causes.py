@@ -60,6 +60,9 @@ _RE = {k: re.compile(v) for k, v in
        {"strike": _STRIKE, "atc": _ATC, "staff": _STAFF, "tech": _TECH, "weather": _WEATHER,
         "bird": _BIRD, "shortage": _SHORTAGE, "passenger": _PASSENGER}.items()}
 
+# Causes that usually count as extraordinary circumstances.
+EXCUSING_CAUSES = frozenset({"strike_atc", "bird", "passenger"})
+
 CAUSES = ("bird", "strike_atc", "strike_staff", "strike", "crew_shortage", "technical", "passenger", "weather")
 
 

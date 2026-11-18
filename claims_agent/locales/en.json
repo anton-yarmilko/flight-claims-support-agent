@@ -108,5 +108,6 @@
  "codeshare": "The flight was operated by {airline}: under EU261 that is the airline that counts and the one the claim goes to, not the airline that sold the ticket.",
  "cause_bird": "You mention a bird strike. Courts treat it as an extraordinary circumstance, so compensation is often not due, unless the airline could have avoided the delay with reasonable measures. A colleague will check the details.",
  "cause_crew_shortage": "You mention a shortage of crew or staff. Staffing is the airline's own responsibility, so it does not stop the claim.",
- "cause_passenger": "You mention a medical emergency or a disruptive passenger on board. That usually counts as an extraordinary circumstance for that flight, so compensation may not be due. A colleague will check the details."
+ "cause_passenger": "You mention a medical emergency or a disruptive passenger on board. That usually counts as an extraordinary circumstance for that flight, so compensation may not be due. A colleague will check the details.",
+ "elig_maybe": "By distance and delay, your flight {route} ({km} km) would qualify for {cur} {amount} per passenger, before our service fee. But the cause you mention may excuse the airline, see below. This is a preliminary check, not a guarantee. To start the claim, send your boarding pass or e-ticket."
 }

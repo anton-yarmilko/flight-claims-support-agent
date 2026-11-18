@@ -108,5 +108,6 @@
  "codeshare": "A járatot a(z) {airline} üzemeltette, ezért az EU261 a(z) {airline} szerint ítél, és az igényt a(z) {airline} felé kell benyújtani, nem a jegyet eladó légitársaságnál.",
  "cause_bird": "Madárütközést említ. A bíróságok ezt rendkívüli körülménynek tekintik, így kártérítés gyakran nem jár, hacsak a légitársaság észszerű intézkedésekkel nem kerülhette volna el a késést. Egy kolléga ellenőrzi a részleteket.",
  "cause_crew_shortage": "Személyzethiányt említ. Ez a légitársaság saját felelőssége, így nem akadálya az igénynek.",
- "cause_passenger": "Orvosi vészhelyzetet vagy rendbontó utast említ a fedélzeten. Ez az adott járatnál általában rendkívüli körülmény, így kártérítés nem feltétlenül jár. Egy kolléga ellenőrzi a részleteket."
+ "cause_passenger": "Orvosi vészhelyzetet vagy rendbontó utast említ a fedélzeten. Ez az adott járatnál általában rendkívüli körülmény, így kártérítés nem feltétlenül jár. Egy kolléga ellenőrzi a részleteket.",
+ "elig_maybe": "A távolság és a késés alapján a(z) {route} ({km} km) járata utasonként {cur} {amount} kártérítésre lenne jogosult a díjunk levonása előtt. A említett ok azonban mentesítheti a légitársaságot, lásd lent. Ez előzetes ellenőrzés, nem garancia. Az igény indításához küldje el a beszállókártyát vagy az e-jegyet."
 }

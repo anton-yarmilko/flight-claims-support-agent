@@ -22,6 +22,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
+from .causes import EXCUSING_CAUSES
 from .facts import (
     FUTURE_FLIGHT,
     EligibilityResult,
@@ -122,7 +123,9 @@ def template_reply(intent: str, lang: str, result: EligibilityResult | None) -> 
             return t(lang, "elig_ask", need=need)
         v = result.verdict
         if v.eligible:
-            text = t(lang, "elig_yes", route=result.route, km=result.distance_km, amount=v.amount_eur, cur=v.currency)
+            # A cause that usually excuses the airline: no "good news" opening.
+            key = "elig_maybe" if result.cause in EXCUSING_CAUSES else "elig_yes"
+            text = t(lang, key, route=result.route, km=result.distance_km, amount=v.amount_eur, cur=v.currency)
             if v.regulation == "UK261":
                 text += " " + t(lang, "uk261_note")
             half = re.search(r"within (\d) hours", v.reason)

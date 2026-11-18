@@ -108,5 +108,6 @@
  "codeshare": "Zborul a fost operat de {airline}, deci EU261 ia în calcul {airline}, iar cererea se adresează către {airline}, nu companiei care a vândut biletul.",
  "cause_bird": "Menționați o coliziune cu păsări. Instanțele o consideră o circumstanță extraordinară, deci compensația adesea nu se acordă, cu excepția cazului în care compania putea evita întârzierea prin măsuri rezonabile. Un coleg va verifica detaliile.",
  "cause_crew_shortage": "Menționați lipsa de echipaj sau de personal. Aceasta este responsabilitatea companiei, deci nu împiedică cererea.",
- "cause_passenger": "Menționați o urgență medicală sau un pasager turbulent la bord. De obicei este o circumstanță extraordinară pentru acel zbor, deci compensația poate să nu se acorde. Un coleg va verifica detaliile."
+ "cause_passenger": "Menționați o urgență medicală sau un pasager turbulent la bord. De obicei este o circumstanță extraordinară pentru acel zbor, deci compensația poate să nu se acorde. Un coleg va verifica detaliile.",
+ "elig_maybe": "După distanță și întârziere, zborul dvs. {route} ({km} km) s-ar califica pentru {cur} {amount} de pasager, înainte de comisionul nostru. Dar cauza pe care o menționați poate scuti compania de plată, vedeți mai jos. Este o verificare preliminară, nu o garanție. Pentru a începe cererea, trimiteți cartea de îmbarcare sau biletul electronic."
 }

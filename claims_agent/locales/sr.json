@@ -108,5 +108,6 @@
  "codeshare": "Let je obavila {airline}, pa EU261 uzima u obzir {airline}, a zahtev se podnosi kompaniji {airline}, ne onoj koja je prodala kartu.",
  "cause_bird": "Pominjete udar ptice. Sudovi to smatraju vanrednom okolnošću, pa naknada često ne pripada, osim ako je kompanija mogla da izbegne kašnjenje razumnim merama. Kolega će proveriti detalje.",
  "cause_crew_shortage": "Pominjete nedostatak posade ili osoblja. To je odgovornost same kompanije, pa ne sprečava zahtev.",
- "cause_passenger": "Pominjete hitan medicinski slučaj ili agresivnog putnika u avionu. To je obično vanredna okolnost za taj let, pa naknada možda ne pripada. Kolega će proveriti detalje."
+ "cause_passenger": "Pominjete hitan medicinski slučaj ili agresivnog putnika u avionu. To je obično vanredna okolnost za taj let, pa naknada možda ne pripada. Kolega će proveriti detalje.",
+ "elig_maybe": "Prema udaljenosti i kašnjenju, vaš let {route} ({km} km) bi imao pravo na {cur} {amount} po putniku, pre naše provizije. Ali uzrok koji pominjete može osloboditi kompaniju plaćanja, vidi ispod. Ovo je preliminarna provera, a ne garancija. Da pokrenete zahtev, pošaljite kartu za ukrcavanje ili e-kartu."
 }

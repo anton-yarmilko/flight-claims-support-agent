@@ -108,5 +108,6 @@
  "codeshare": "Flyget opererades av {airline}, så EU261 utgår från {airline} och kravet går till {airline}, inte till flygbolaget som sålde biljetten.",
  "cause_bird": "Du nämner en fågelkollision. Domstolar ser det som en extraordinär omständighet, så ersättning utgår ofta inte, om inte flygbolaget kunde ha undvikit förseningen med rimliga åtgärder. En kollega kontrollerar detaljerna.",
  "cause_crew_shortage": "Du nämner brist på besättning eller personal. Det är flygbolagets eget ansvar, så det hindrar inte kravet.",
- "cause_passenger": "Du nämner ett medicinskt nödläge eller en störande passagerare ombord. Det räknas oftast som en extraordinär omständighet för det flyget, så ersättning kanske inte utgår. En kollega kontrollerar detaljerna."
+ "cause_passenger": "Du nämner ett medicinskt nödläge eller en störande passagerare ombord. Det räknas oftast som en extraordinär omständighet för det flyget, så ersättning kanske inte utgår. En kollega kontrollerar detaljerna.",
+ "elig_maybe": "Utifrån avstånd och försening skulle ditt flyg {route} ({km} km) ge {cur} {amount} per passagerare, före vår serviceavgift. Men orsaken du nämner kan befria flygbolaget, se nedan. Detta är en preliminär kontroll, ingen garanti. Skicka ditt boardingkort eller e-biljett för att starta kravet."
 }
