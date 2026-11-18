@@ -121,9 +121,12 @@ _PAX_PATTERNS = [
 ]
 
 
+_COLLECTIVE_RE = [(re.compile(r"(?<!\w)" + re.escape(phrase) + r"(?!\w)"), n) for phrase, n in _COLLECTIVE.items()]
+
+
 def passengers_in(low: str) -> int | None:
-    for phrase, n in _COLLECTIVE.items():
-        if re.search(r"(?<!\w)" + re.escape(phrase) + r"(?!\w)", low):
+    for pattern, n in _COLLECTIVE_RE:
+        if pattern.search(low):
             return n
     for pat in _PAX_PATTERNS:
         for m in re.finditer(pat, low):
@@ -146,9 +149,12 @@ _RELATIVE_DAYS: tuple[tuple[str, int], ...] = (
 )
 
 
+_RELATIVE_RE = [(re.compile(r"(?<!\w)(?:" + pattern + r")(?!\w)"), days) for pattern, days in _RELATIVE_DAYS]
+
+
 def relative_date(low: str, today: dt.date | None = None) -> str | None:
-    for pattern, days in _RELATIVE_DAYS:
-        if re.search(r"(?<!\w)(?:" + pattern + r")(?!\w)", low):
+    for pattern, days in _RELATIVE_RE:
+        if pattern.search(low):
             return ((today or dt.date.today()) - dt.timedelta(days=days)).isoformat()
     return None
 
