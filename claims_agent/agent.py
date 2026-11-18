@@ -183,6 +183,22 @@ def number_guard(reply: str, allowed_sources: list[str]) -> list[str]:
     return [n for n in _NUM.findall(reply) if _norm_num(n) not in allowed and n.replace(",", "") not in allowed]
 
 
+_CURRENCY_WORDS = {
+    "EUR": re.compile(r"\bEUR\b|€|\beuros?\b|євро|евро|ευρώ|\bavro\b", re.IGNORECASE),
+    "GBP": re.compile(r"\bGBP\b|£|\bpounds?\b|фунт|\bfunt|pfund|sterlin|στερλ", re.IGNORECASE),
+}
+
+
+def currency_guard(reply: str, result: EligibilityResult | None) -> list[str]:
+    """Currency words in the reply that are not the currency of the check (EUR vs GBP for UK261).
+    The number guard cannot see a wrong currency: "EUR 520" uses a grounded number."""
+    v = result.verdict if result else None
+    if v is None or not v.eligible:
+        return []
+    other = "GBP" if v.currency == "EUR" else "EUR"
+    return sorted({m.group(0) for m in _CURRENCY_WORDS[other].finditer(reply)})
+
+
 def _check_summary(result: EligibilityResult | None) -> str:
     if result is None:
         return "No eligibility check run for this message."
@@ -295,13 +311,19 @@ def respond(
     sources = [knowledge(), check, customer_text]
     try:
         text = llm.chat(messages, temperature=0.3, max_tokens=400).strip()
-        bad = number_guard(text, sources)
-        if bad:
-            # One retry: tell the model which numbers it may not use. The guard still decides.
-            notes.append(f"Number guard rejected the first LLM reply (unsupported numbers: {', '.join(bad)}); retried.")
-            retry = [*messages, {"role": "assistant", "content": text}, {"role": "system", "content":
-                     f"Your reply used numbers that are not in the KNOWLEDGE BASE or CHECK RESULT: {', '.join(bad)}. "
-                     "Rewrite it without them, using only numbers given above."}]
+        bad, wrong_cur = number_guard(text, sources), currency_guard(text, result)
+        if bad or wrong_cur:
+            # One retry: tell the model what it may not use. The guards still decide.
+            fix = []
+            if bad:
+                notes.append(f"Number guard rejected the first LLM reply (unsupported numbers: {', '.join(bad)}); retried.")
+                fix.append(f"Your reply used numbers that are not in the KNOWLEDGE BASE or CHECK RESULT: {', '.join(bad)}. "
+                           "Rewrite it without them, using only numbers given above.")
+            if wrong_cur:
+                notes.append(f"Currency guard rejected the first LLM reply (wrong currency: {', '.join(wrong_cur)}); retried.")
+                fix.append(f"The amount is in {result.verdict.currency}, as the CHECK RESULT says; "  # type: ignore[union-attr]
+                           f"do not write {', '.join(wrong_cur)}.")
+            retry = [*messages, {"role": "assistant", "content": text}, {"role": "system", "content": " ".join(fix)}]
             text = llm.chat(retry, temperature=0.0, max_tokens=400).strip()
     except LLMError as e:
         notes.append(f"LLM failed, used template: {e}")
@@ -310,5 +332,9 @@ def respond(
     bad = number_guard(text, sources)
     if bad or not text:
         notes.append(f"Number guard rejected the LLM reply (unsupported numbers: {', '.join(bad) or 'empty reply'}).")
+        return Reply(offline, decision, lang, "offline-fallback", None, facts, result, notes)
+    wrong_cur = currency_guard(text, result)
+    if wrong_cur:
+        notes.append(f"Currency guard rejected the LLM reply (wrong currency: {', '.join(wrong_cur)}).")
         return Reply(offline, decision, lang, "offline-fallback", None, facts, result, notes)
     return Reply(text, decision, lang, "llm", None, facts, result, notes)
