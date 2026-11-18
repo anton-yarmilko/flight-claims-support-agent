@@ -11,7 +11,7 @@ LONG = Flight(departs_eu=True, arrives_eu=False, eu_carrier=True, distance_km=70
 
 
 def cancel(late):
-    return Incident(Disruption.CANCELLATION, cancellation_notice_days=3, reroute_arrival_delay_hours=late)
+    return Incident(Disruption.CANCELLATION, reroute_arrival_delay_hours=late)  # notice unknown
 
 
 def test_halving_by_band():

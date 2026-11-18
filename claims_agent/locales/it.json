@@ -96,5 +96,7 @@
  "rs_voluntary": "ha ceduto il posto volontariamente, e i volontari ricevono quanto concordato con la compagnia, non la compensazione EU261.",
  "f_via": "Scalo (IATA)",
  "draft_reply": "Bozza di risposta alla compagnia (una persona la controlla e la invia)",
- "uk261_note": "Questo volo rientra nel UK261, la versione britannica delle regole, quindi il risarcimento è in sterline."
+ "uk261_note": "Questo volo rientra nel UK261, la versione britannica delle regole, quindi il risarcimento è in sterline.",
+ "rs_reroute_7d": "la cancellazione è stata comunicata 7-13 giorni prima e il volo sostitutivo è arrivato entro 4 ore. In questo caso non spetta il risarcimento se è partito al massimo 2 ore prima dell'orario originale.",
+ "rs_reroute_lt7": "la cancellazione è stata comunicata meno di 7 giorni prima e il volo sostitutivo è arrivato con meno di 2 ore di ritardo. In questo caso non spetta il risarcimento se è partito al massimo 1 ora prima dell'orario originale."
 }

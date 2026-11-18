@@ -96,5 +96,7 @@
  "rs_voluntary": "dobrovolně jste se vzdali místa a dobrovolníci dostávají to, co si dohodli s aerolinkou, ne odškodnění podle EU261.",
  "f_via": "Přestup (IATA)",
  "draft_reply": "Návrh odpovědi aerolince (člověk ho zkontroluje a odešle)",
- "uk261_note": "Tento let spadá pod UK261, britskou verzi pravidel, proto se odškodnění vyplácí v librách."
+ "uk261_note": "Tento let spadá pod UK261, britskou verzi pravidel, proto se odškodnění vyplácí v librách.",
+ "rs_reroute_7d": "zrušení bylo oznámeno 7-13 dní předem a náhradní let přiletěl do 4 hodin. Pak odškodnění nenáleží, pokud odletěl nejvýše 2 hodiny před původním časem.",
+ "rs_reroute_lt7": "zrušení bylo oznámeno méně než 7 dní předem a náhradní let měl zpoždění méně než 2 hodiny. Pak odškodnění nenáleží, pokud odletěl nejvýše 1 hodinu před původním časem."
 }

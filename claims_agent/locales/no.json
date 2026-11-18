@@ -96,5 +96,7 @@
  "rs_voluntary": "du ga frivillig fra deg plassen, og frivillige får det de avtalte med flyselskapet, ikke EU261-kompensasjon.",
  "f_via": "Mellomlanding (IATA)",
  "draft_reply": "Utkast til svar til flyselskapet (et menneske sjekker og sender det)",
- "uk261_note": "Denne flyvningen faller inn under UK261, den britiske versjonen av reglene, så kompensasjonen betales i pund."
+ "uk261_note": "Denne flyvningen faller inn under UK261, den britiske versjonen av reglene, så kompensasjonen betales i pund.",
+ "rs_reroute_7d": "kanselleringen ble varslet 7-13 dager før, og erstatningsflyet ankom innen 4 timer. Da gis det ingen kompensasjon hvis det gikk høyst 2 timer før opprinnelig tid.",
+ "rs_reroute_lt7": "kanselleringen ble varslet mindre enn 7 dager før, og erstatningsflyet var mindre enn 2 timer forsinket. Da gis det ingen kompensasjon hvis det gikk høyst 1 time før opprinnelig tid."
 }

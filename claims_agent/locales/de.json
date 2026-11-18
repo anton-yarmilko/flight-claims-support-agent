@@ -96,5 +96,7 @@
  "rs_voluntary": "Sie haben Ihren Platz freiwillig abgegeben; Freiwillige erhalten die mit der Airline vereinbarten Leistungen, keine EU261-Entschädigung.",
  "f_via": "Umstieg (IATA)",
  "draft_reply": "Antwortentwurf an die Airline (ein Mensch prüft und sendet ihn)",
- "uk261_note": "Dieser Flug fällt unter UK261, die britische Fassung der Regeln, daher wird die Entschädigung in Pfund gezahlt."
+ "uk261_note": "Dieser Flug fällt unter UK261, die britische Fassung der Regeln, daher wird die Entschädigung in Pfund gezahlt.",
+ "rs_reroute_7d": "die Annullierung wurde 7-13 Tage vorher mitgeteilt und der Ersatzflug kam innerhalb von 4 Stunden an. Dann gibt es keine Entschädigung, wenn er höchstens 2 Stunden vor der ursprünglichen Zeit abflog.",
+ "rs_reroute_lt7": "die Annullierung wurde weniger als 7 Tage vorher mitgeteilt und der Ersatzflug kam weniger als 2 Stunden zu spät an. Dann gibt es keine Entschädigung, wenn er höchstens 1 Stunde vor der ursprünglichen Zeit abflog."
 }

@@ -96,5 +96,7 @@
  "rs_voluntary": "önként lemondott a helyéről, az önkéntesek pedig a légitársasággal egyeztetett juttatást kapják, nem EU261 kártérítést.",
  "f_via": "Átszállás (IATA)",
  "draft_reply": "Válaszvázlat a légitársaságnak (ember ellenőrzi és küldi el)",
- "uk261_note": "Erre a járatra az UK261, a szabályok brit változata vonatkozik, ezért a kártérítést fontban fizetik."
+ "uk261_note": "Erre a járatra az UK261, a szabályok brit változata vonatkozik, ezért a kártérítést fontban fizetik.",
+ "rs_reroute_7d": "a törlést 7-13 nappal előre jelezték, és a pótjárat 4 órán belül megérkezett. Ilyenkor nem jár kártérítés, ha legfeljebb 2 órával az eredeti időpont előtt indult.",
+ "rs_reroute_lt7": "a törlést 7 napnál rövidebb idővel előre jelezték, és a pótjárat kevesebb mint 2 órát késett. Ilyenkor nem jár kártérítés, ha legfeljebb 1 órával az eredeti időpont előtt indult."
 }

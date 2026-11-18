@@ -96,5 +96,7 @@
  "rs_voluntary": "u heeft uw stoel vrijwillig afgestaan; vrijwilligers krijgen wat met de maatschappij is afgesproken, geen EU261-compensatie.",
  "f_via": "Overstap (IATA)",
  "draft_reply": "Conceptantwoord aan de maatschappij (een mens controleert en verstuurt het)",
- "uk261_note": "Deze vlucht valt onder UK261, de Britse versie van de regels, dus de compensatie wordt in ponden betaald."
+ "uk261_note": "Deze vlucht valt onder UK261, de Britse versie van de regels, dus de compensatie wordt in ponden betaald.",
+ "rs_reroute_7d": "de annulering werd 7-13 dagen vooraf gemeld en de vervangende vlucht kwam binnen 4 uur aan. Dan is er geen compensatie als die hooguit 2 uur vóór de oorspronkelijke tijd vertrok.",
+ "rs_reroute_lt7": "de annulering werd minder dan 7 dagen vooraf gemeld en de vervangende vlucht kwam minder dan 2 uur te laat aan. Dan is er geen compensatie als die hooguit 1 uur vóór de oorspronkelijke tijd vertrok."
 }

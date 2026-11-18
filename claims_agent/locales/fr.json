@@ -96,5 +96,7 @@
  "rs_voluntary": "vous avez cédé votre place volontairement ; les volontaires reçoivent ce qui a été convenu avec la compagnie, pas l'indemnisation EU261.",
  "f_via": "Correspondance (IATA)",
  "draft_reply": "Projet de réponse à la compagnie (une personne le vérifie et l'envoie)",
- "uk261_note": "Ce vol relève du UK261, la version britannique des règles : l'indemnisation est donc versée en livres."
+ "uk261_note": "Ce vol relève du UK261, la version britannique des règles : l'indemnisation est donc versée en livres.",
+ "rs_reroute_7d": "l'annulation a été annoncée 7 à 13 jours avant et le vol de remplacement est arrivé dans les 4 heures. Il n'y a alors pas d'indemnisation s'il est parti au plus 2 heures avant l'heure prévue.",
+ "rs_reroute_lt7": "l'annulation a été annoncée moins de 7 jours avant et le vol de remplacement est arrivé avec moins de 2 heures de retard. Il n'y a alors pas d'indemnisation s'il est parti au plus 1 heure avant l'heure prévue."
 }

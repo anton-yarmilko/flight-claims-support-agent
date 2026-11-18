@@ -40,3 +40,4 @@
 {"id": "old-flight", "message": "My flight Warsaw to Lisbon on 2021-06-10 arrived 5 hours late. Can I claim compensation?", "intent": "eligibility", "action": "human_handoff", "triage_action": "ai_answer"}
 {"id": "uk261-london", "message": "My British Airways flight from London to New York landed 6 hours late. Can I claim?", "intent": "eligibility", "action": "ai_answer", "amount_eur": 520}
 {"id": "uk261-into-uk-ua", "message": "Наш рейс British Airways з Нью-Йорка до Лондона затримали на 5 годин. Чи є компенсація?", "intent": "eligibility", "action": "ai_answer", "language": "uk", "amount_eur": 520}
+{"id": "pl-cancel-close-reroute", "message": "Lot z Warszawy do Lizbony odwołano 5 dni przed wylotem, nowy lot przyleciał z opóźnieniem 1 godziny. Czy należy się odszkodowanie?", "intent": "eligibility", "action": "ai_answer", "language": "pl", "amount_eur": 0}
