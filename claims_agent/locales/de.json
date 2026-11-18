@@ -103,5 +103,6 @@
  "cause_strike_staff": "Ein Streik des eigenen Personals der Airline ist meist kein außergewöhnlicher Umstand und steht dem Anspruch nicht entgegen.",
  "cause_strike_atc": "Ein Streik der Fluglotsen oder des Flughafenpersonals gilt meist als außergewöhnlicher Umstand, daher besteht eventuell kein Anspruch. Ein Kollege prüft die Details.",
  "cause_strike": "Sie erwähnen einen Streik. Streikte das Personal der Airline, besteht der Anspruch meist; streikten Fluglotsen oder der Flughafen, meist nicht.",
- "cause_weather": "Sie erwähnen das Wetter. Airlines berufen sich oft darauf, es entlastet sie aber nur, wenn es Ihren Flug wirklich betroffen hat. Wir prüfen die Wetterdaten, der Anspruch ist damit nicht ausgeschlossen."
+ "cause_weather": "Sie erwähnen das Wetter. Airlines berufen sich oft darauf, es entlastet sie aber nur, wenn es Ihren Flug wirklich betroffen hat. Wir prüfen die Wetterdaten, der Anspruch ist damit nicht ausgeschlossen.",
+ "dep_only": "Sie nennen die Abflugverspätung. EU261 zählt, wie spät Sie am Endziel ankamen; das gilt also, wenn Sie 3 Stunden oder mehr zu spät gelandet sind."
 }

@@ -56,3 +56,22 @@ def cause_in_text(text: str) -> str | None:
     if _RE["weather"].search(low):
         return "weather"
     return None
+
+
+# EU261 counts the delay at arrival (CJEU C-402/07 Sturgeon; C-452/13 Germanwings).
+_DEPARTED = re.compile(
+    r"depart|took off|take-?off|вилет|вылет|wylot|wylecia|wystartowa|abflug|abgeflogen|gestartet|d[ée]coll|d[ée]part"
+    r"|despeg|salida|sali[óo]|partenza|partit|decoll|partida|partiu|descol|vertrek|vertrokken|plecare|decolat"
+    r"|αναχ[ώω]ρ|απογει|kalk[ıi][şs]|kalkt[ıi]|indul|odlet|odlét|avg[åa]ng|lyfte|afgang|lettede|avgang|l[äa]ht[öo]|l[äa]hti"
+    r"|poleta|polaz|poleteo")
+_ARRIVED = re.compile(
+    r"arriv|land|reached|прибу|приземл|прилет|приліт|прилетіл|przylot|przylecia|wyl[ąa]dow|dotar|ankunft|angekommen"
+    r"|atterr|lleg|aterriz|arriv|chegad|cheg[aá]|aterr|aankomst|aangekomen|sosi|aterizat|[άα]φιξ|φτάσ|προσγει"
+    r"|vard[ıi]k?|var[ıi][şs]|indik|[ée]rkez|p[řr][íi]let|p[řr]ist[áa]l|dorazil|ankomst|kom fram|ankom|saapu|perill[äa]"
+    r"|laskeutu|stig|sleteo|slet|dola[zs]")
+
+
+def departure_only(text: str) -> bool:
+    """The customer talks about the departure delay and never about the arrival."""
+    low = text.lower()
+    return bool(_DEPARTED.search(low)) and not _ARRIVED.search(low)

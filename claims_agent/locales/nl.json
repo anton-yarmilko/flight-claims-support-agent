@@ -103,5 +103,6 @@
  "cause_strike_staff": "Een staking van het eigen personeel van de maatschappij is meestal geen buitengewone omstandigheid, dus het staat de claim niet in de weg.",
  "cause_strike_atc": "Een staking van luchtverkeersleiders of luchthavenpersoneel geldt meestal als buitengewone omstandigheid, dus mogelijk is er geen compensatie. Een collega bekijkt de details.",
  "cause_strike": "U noemt een staking. Staakte het personeel van de maatschappij, dan staat de claim meestal; staakten luchtverkeersleiders of de luchthaven, dan meestal niet.",
- "cause_weather": "U noemt het weer. Maatschappijen beroepen zich er vaak op, maar het ontslaat hen alleen als het uw vlucht echt raakte. Wij controleren de weergegevens, dus dit sluit uw claim niet uit."
+ "cause_weather": "U noemt het weer. Maatschappijen beroepen zich er vaak op, maar het ontslaat hen alleen als het uw vlucht echt raakte. Wij controleren de weergegevens, dus dit sluit uw claim niet uit.",
+ "dep_only": "U noemt de vertrekvertraging. EU261 telt hoe laat u op de eindbestemming aankwam, dus dit geldt als u 3 uur of meer te laat landde."
 }

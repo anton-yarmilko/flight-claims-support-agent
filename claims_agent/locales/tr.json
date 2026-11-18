@@ -103,5 +103,6 @@
  "cause_strike_staff": "Havayolunun kendi personelinin grevi genellikle olağanüstü bir durum sayılmaz, yani talebinizi engellemez.",
  "cause_strike_atc": "Hava trafik kontrolörlerinin veya havalimanı personelinin grevi genellikle olağanüstü durum sayılır, bu yüzden tazminat çıkmayabilir. Bir meslektaşımız ayrıntıları kontrol edecek.",
  "cause_strike": "Bir grevden bahsediyorsunuz. Grev havayolu personeline aitse talep genellikle geçerlidir; kontrolörler veya havalimanıysa genellikle değildir.",
- "cause_weather": "Hava durumundan bahsediyorsunuz. Havayolları buna sık başvurur, ama bu onları yalnızca uçuşunuzu gerçekten etkilediyse kurtarır. Hava kayıtlarını kontrol ediyoruz, yani bu talebinizi ortadan kaldırmaz."
+ "cause_weather": "Hava durumundan bahsediyorsunuz. Havayolları buna sık başvurur, ama bu onları yalnızca uçuşunuzu gerçekten etkilediyse kurtarır. Hava kayıtlarını kontrol ediyoruz, yani bu talebinizi ortadan kaldırmaz.",
+ "dep_only": "Kalkış gecikmesinden bahsediyorsunuz. EU261 son varış noktasına ne kadar geç vardığınızı sayar; yani 3 saat veya daha fazla geç indiyseniz geçerlidir."
 }

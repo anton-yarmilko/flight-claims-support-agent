@@ -103,5 +103,6 @@
  "cause_strike_staff": "O grevă a personalului propriu al companiei de obicei nu este o circumstanță extraordinară, deci nu împiedică cererea.",
  "cause_strike_atc": "O grevă a controlorilor de trafic aerian sau a personalului aeroportului este de obicei o circumstanță extraordinară, deci despăgubirea poate să nu fie datorată. Un coleg va verifica detaliile.",
  "cause_strike": "Menționați o grevă. Dacă a fost personalul companiei, cererea de obicei se susține; dacă au fost controlorii sau aeroportul, de obicei nu.",
- "cause_weather": "Menționați vremea. Companiile o invocă des, dar le scutește doar dacă a afectat cu adevărat zborul dvs. Verificăm datele meteo, deci asta nu exclude cererea."
+ "cause_weather": "Menționați vremea. Companiile o invocă des, dar le scutește doar dacă a afectat cu adevărat zborul dvs. Verificăm datele meteo, deci asta nu exclude cererea.",
+ "dep_only": "Menționați întârzierea la plecare. EU261 ia în calcul cât de târziu ați ajuns la destinația finală, deci se aplică dacă ați aterizat cu cel puțin 3 ore întârziere."
 }
