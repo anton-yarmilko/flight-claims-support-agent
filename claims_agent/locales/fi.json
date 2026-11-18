@@ -105,5 +105,8 @@
  "cause_strike": "Mainitset lakon. Jos lakossa oli lentoyhtiön henkilöstö, vaatimus yleensä pätee; jos lennonjohto tai lentoasema, yleensä ei.",
  "cause_weather": "Mainitset sään. Lentoyhtiöt vetoavat siihen usein, mutta se vapauttaa ne vain, jos sää todella vaikutti lentoosi. Tarkistamme säätiedot, joten tämä ei sulje vaatimustasi pois.",
  "dep_only": "Mainitset lähdön viivästyksen. EU261 laskee, kuinka myöhässä saavuit lopulliseen määränpäähän, joten tämä pätee, jos laskeuduit vähintään 3 tuntia myöhässä.",
- "codeshare": "Lennon liikennöi {airline}, joten EU261 katsoo yhtiötä {airline}, ja vaatimus osoitetaan yhtiölle {airline} eikä lipun myyneelle yhtiölle."
+ "codeshare": "Lennon liikennöi {airline}, joten EU261 katsoo yhtiötä {airline}, ja vaatimus osoitetaan yhtiölle {airline} eikä lipun myyneelle yhtiölle.",
+ "cause_bird": "Mainitset lintutörmäyksen. Tuomioistuimet pitävät sitä poikkeuksellisena olosuhteena, joten korvausta ei usein makseta, ellei yhtiö olisi voinut välttää viivästystä kohtuullisin toimin. Kollega tarkistaa yksityiskohdat.",
+ "cause_crew_shortage": "Mainitset miehistön tai henkilöstön puutteen. Se on lentoyhtiön omalla vastuulla, joten se ei estä vaatimusta.",
+ "cause_passenger": "Mainitset lääketieteellisen hätätilanteen tai häiriköivän matkustajan koneessa. Se on yleensä poikkeuksellinen olosuhde kyseiselle lennolle, joten korvausta ei ehkä makseta. Kollega tarkistaa yksityiskohdat."
 }

@@ -105,5 +105,8 @@
  "cause_strike": "Bir grevden bahsediyorsunuz. Grev havayolu personeline aitse talep genellikle geçerlidir; kontrolörler veya havalimanıysa genellikle değildir.",
  "cause_weather": "Hava durumundan bahsediyorsunuz. Havayolları buna sık başvurur, ama bu onları yalnızca uçuşunuzu gerçekten etkilediyse kurtarır. Hava kayıtlarını kontrol ediyoruz, yani bu talebinizi ortadan kaldırmaz.",
  "dep_only": "Kalkış gecikmesinden bahsediyorsunuz. EU261 son varış noktasına ne kadar geç vardığınızı sayar; yani 3 saat veya daha fazla geç indiyseniz geçerlidir.",
- "codeshare": "Uçuşu {airline} gerçekleştirdi; bu yüzden EU261 {airline} şirketini esas alır ve talep, bileti satan şirkete değil {airline} şirketine yapılır."
+ "codeshare": "Uçuşu {airline} gerçekleştirdi; bu yüzden EU261 {airline} şirketini esas alır ve talep, bileti satan şirkete değil {airline} şirketine yapılır.",
+ "cause_bird": "Kuş çarpmasından bahsediyorsunuz. Mahkemeler bunu olağanüstü durum sayar; bu yüzden havayolu gecikmeyi makul önlemlerle önleyemeyecek durumdaysa tazminat çoğu zaman ödenmez. Bir meslektaşımız ayrıntıları kontrol edecek.",
+ "cause_crew_shortage": "Mürettebat veya personel eksikliğinden bahsediyorsunuz. Bu havayolunun kendi sorumluluğudur, bu yüzden talebi engellemez.",
+ "cause_passenger": "Uçakta tıbbi acil durum veya kural tanımaz bir yolcudan bahsediyorsunuz. Bu genellikle o uçuş için olağanüstü durum sayılır, bu yüzden tazminat ödenmeyebilir. Bir meslektaşımız ayrıntıları kontrol edecek."
 }

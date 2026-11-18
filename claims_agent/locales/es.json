@@ -105,5 +105,8 @@
  "cause_strike": "Mencionas una huelga. Si fue del personal de la aerolínea, la reclamación suele proceder; si fue de controladores o del aeropuerto, normalmente no.",
  "cause_weather": "Mencionas el tiempo. Las aerolíneas lo alegan a menudo, pero solo las exime si de verdad afectó a tu vuelo. Revisamos los registros meteorológicos, así que esto no descarta tu reclamación.",
  "dep_only": "Mencionas el retraso en la salida. EU261 cuenta con cuánto retraso llegaste al destino final, así que esto vale si aterrizaste con 3 horas o más de retraso.",
- "codeshare": "El vuelo lo operó {airline}, así que EU261 tiene en cuenta a {airline} y la reclamación va a {airline}, no a la aerolínea que vendió el billete."
+ "codeshare": "El vuelo lo operó {airline}, así que EU261 tiene en cuenta a {airline} y la reclamación va a {airline}, no a la aerolínea que vendió el billete.",
+ "cause_bird": "Mencionas un impacto con aves. Los tribunales lo consideran una circunstancia extraordinaria, así que a menudo no hay compensación, salvo que la aerolínea pudiera evitar el retraso con medidas razonables. Un compañero revisará los detalles.",
+ "cause_crew_shortage": "Mencionas falta de tripulación o de personal. Es responsabilidad de la propia aerolínea, así que no impide la reclamación.",
+ "cause_passenger": "Mencionas una emergencia médica o un pasajero conflictivo a bordo. Suele contar como circunstancia extraordinaria para ese vuelo, así que puede no haber compensación. Un compañero revisará los detalles."
 }

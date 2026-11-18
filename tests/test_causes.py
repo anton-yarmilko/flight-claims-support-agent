@@ -84,3 +84,24 @@ def test_cause_in_dict_and_handoff_note():
 def test_short_city_names_need_a_word_end(text, expected):
     from claims_agent.airports import _airport_hits
     assert [a.iata for _, a in _airport_hits(text)] == expected
+
+
+@pytest.mark.parametrize("text,cause", [
+    ("delayed 4 hours after a bird strike", "bird"),  # not read as a strike
+    ("Vogelschlag, 4 Stunden Verspätung", "bird"),
+    ("uderzenie ptaka", "bird"),
+    ("рейс затримали через нестачу екіпажу", "crew_shortage"),
+    ("cancelled due to crew shortage", "crew_shortage"),
+    ("medical emergency on board, we diverted", "passenger"),
+    ("an unruly passenger had to be removed", "passenger"),
+    ("the airline blamed staff, then the weather", "weather"),
+])
+def test_more_causes(text, cause):
+    assert cause_in_text(text) == cause
+
+
+@pytest.mark.parametrize("lang", list(LANGUAGES))
+def test_cause_notes_name_their_own_cause(lang):
+    s = strings(lang)
+    for cause in ("bird", "crew_shortage", "passenger"):
+        assert cause_in_text(s["cause_" + cause]) == cause, (lang, cause)

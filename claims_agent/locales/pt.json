@@ -105,5 +105,8 @@
  "cause_strike": "Menciona uma greve. Se foi do pessoal da companhia, a reclamação normalmente procede; se foi dos controladores ou do aeroporto, normalmente não.",
  "cause_weather": "Menciona o tempo. As companhias invocam-no muitas vezes, mas só as isenta se afetou mesmo o seu voo. Verificamos os registos meteorológicos, por isso isto não exclui a sua reclamação.",
  "dep_only": "Menciona o atraso na partida. O EU261 conta o atraso na chegada ao destino final, por isso isto vale se aterrou com 3 horas ou mais de atraso.",
- "codeshare": "O voo foi operado pela {airline}, por isso o EU261 considera a {airline} e a reclamação vai para a {airline}, não para a companhia que vendeu o bilhete."
+ "codeshare": "O voo foi operado pela {airline}, por isso o EU261 considera a {airline} e a reclamação vai para a {airline}, não para a companhia que vendeu o bilhete.",
+ "cause_bird": "Menciona uma colisão com aves. Os tribunais consideram-na uma circunstância extraordinária, por isso a indemnização muitas vezes não é devida, a menos que a companhia pudesse evitar o atraso com medidas razoáveis. Um colega vai verificar os detalhes.",
+ "cause_crew_shortage": "Menciona falta de tripulação ou de pessoal. É responsabilidade da própria companhia, por isso não impede a reclamação.",
+ "cause_passenger": "Menciona uma emergência médica ou um passageiro desordeiro a bordo. Normalmente conta como circunstância extraordinária para esse voo, por isso a indemnização pode não ser devida. Um colega vai verificar os detalhes."
 }

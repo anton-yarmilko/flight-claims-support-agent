@@ -105,5 +105,8 @@
  "cause_strike": "Menționați o grevă. Dacă a fost personalul companiei, cererea de obicei se susține; dacă au fost controlorii sau aeroportul, de obicei nu.",
  "cause_weather": "Menționați vremea. Companiile o invocă des, dar le scutește doar dacă a afectat cu adevărat zborul dvs. Verificăm datele meteo, deci asta nu exclude cererea.",
  "dep_only": "Menționați întârzierea la plecare. EU261 ia în calcul cât de târziu ați ajuns la destinația finală, deci se aplică dacă ați aterizat cu cel puțin 3 ore întârziere.",
- "codeshare": "Zborul a fost operat de {airline}, deci EU261 ia în calcul {airline}, iar cererea se adresează către {airline}, nu companiei care a vândut biletul."
+ "codeshare": "Zborul a fost operat de {airline}, deci EU261 ia în calcul {airline}, iar cererea se adresează către {airline}, nu companiei care a vândut biletul.",
+ "cause_bird": "Menționați o coliziune cu păsări. Instanțele o consideră o circumstanță extraordinară, deci compensația adesea nu se acordă, cu excepția cazului în care compania putea evita întârzierea prin măsuri rezonabile. Un coleg va verifica detaliile.",
+ "cause_crew_shortage": "Menționați lipsa de echipaj sau de personal. Aceasta este responsabilitatea companiei, deci nu împiedică cererea.",
+ "cause_passenger": "Menționați o urgență medicală sau un pasager turbulent la bord. De obicei este o circumstanță extraordinară pentru acel zbor, deci compensația poate să nu se acorde. Un coleg va verifica detaliile."
 }

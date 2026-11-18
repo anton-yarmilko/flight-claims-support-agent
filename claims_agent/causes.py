@@ -9,6 +9,9 @@ sentence that sets expectations, since whether a cause excuses the airline
 - weather: extraordinary only if it really affected this flight, checked later
 - strike by air traffic control or airport staff: usually extraordinary
 - a strike without saying whose: depends on whose staff it was
+- bird strike: extraordinary (CJEU C-315/15 Pešková), unless reasonable measures could have avoided the delay
+- shortage of crew or staff: the airline's own responsibility, the claim stands
+- medical emergency or disruptive passenger on board: usually extraordinary for that flight (C-74/19 LE v TAP)
 """
 
 from __future__ import annotations
@@ -36,23 +39,47 @@ _WEATHER = (r"weather|storm|snow|\bfog\b|thunder|hurricane|blizzard|icing|пог
             r"|id[őo]j[áa]r[áa]s|vihar|havaz|\bköd\b|po[čc]as[íi]|bouř|sn[íi]h|mlh|v[äa]der|sn[öo]storm|dimma|vejr"
             r"|tåge|\bsnø|tåke|uvær|myrsky|\blumi(?:sate\w*|myrsk\w*)?\b|\blumen\b|\blunta\b|\bsumu|nevreme|oluj|\bsneg|magl")
 
-_RE = {k: re.compile(v) for k, v in
-       {"strike": _STRIKE, "atc": _ATC, "staff": _STAFF, "tech": _TECH, "weather": _WEATHER}.items()}
+_BIRD = (r"\bbirds?\b|птах|птиц|\bpta(?:k|ki|ka|kiem)\b|\bvogel|vögel|oiseau|p[áa]jaro|uccell|p[áa]ssaro|\bp[ăa]s[ăa]r"
+         r"|πουλ|πτην|ku[şs] [çc]arp|mad[áa]r|\bpt[áa]k|\bpt[áa]c|f[åa]gel|f[åa]glar|\bfugl|\blintu|\bptic|\baves\b|volatil|aviaire")
+_SHORTAGE = (r"(?:crew|staff|pilot)s? shortage|shortage of (?:crew|staff|pilots)|lack of (?:crew|staff|pilots)|no (?:crew|pilots?) (?:was )?available"
+             r"|нестач\w* (?:екіпаж|персонал|пілот)|брак\w* (?:екіпаж|персонал|пілот)|нехват\w* (?:экипаж|персонал|пилот)"
+             r"|brak\w* (?:za[łl]og|personel|pilot)|personalmangel|crewmangel|manque (?:de |d')(?:personnel|pilotes|[ée]quipage)|mangel an (?:crew|personal|piloten)"
+             r"|falta de (?:personal|tripula|pilotos|pessoal)|carenza di (?:personale|equipaggio|piloti)|personeelstekort"
+             r"|personalbrist|brist på (?:besättning|personal|piloter)|tekort aan (?:bemanning|personeel|piloten)|szem[ée]lyzethi[áa]ny|lipsa de (?:echipaj|personal)|personalemangel|mangel på (?:personale|personell|besætning|mannskap)|lips[ăa] de personal"
+             r"|έλλειψη (?:προσωπικού|πληρώματος)|personel eksikli|m[üu]rettebat eksikli|munkaer[őo]hi[áa]ny"
+             r"|nedostat\w* (?:person[áa]l|pos[áa]dk|osoblja|posade)|henkil[öo]st[öo]pula|miehist[öo]pula|(?:miehist[öo]n|henkil[öo]st[öo]n)\w* (?:\w+ )?puut")
+_PASSENGER = (r"medical emergency|passenger (?:was |fell |got |became )?(?:ill|sick|unwell)|sick passenger|unruly|disruptive passenger"
+              r"|медичн\w* (?:допомог|невідклад|надзвичай|ситуац)|невідкладн\w* медичн|экстренн\w* медицин|медицинск\w* ситуац|пасажир\w* (?:стало погано|захвор)|медицинск\w* (?:помощ|экстрен|чрезвычай)"
+              r"|пассажир\w* (?:стало плохо|заболел)|nag[łl]\w* wypad\w* medyczn|medizinische[rn]? notfall|urgence m[ée]dicale"
+              r"|passager malade|emergencia m[ée]dica|pasajero enfermo|emergenza medica|passeggero (?:malato|si [èe] sentito male)"
+              r"|emerg[êe]ncia m[ée]dica|medisch noodgeval|urgen[țt][ăa] medical[ăa]|ιατρικ\w* (?:έκτακτ|περιστατικ)"
+              r"|t[ıi]bbi acil|orvosi v[ée]szhelyzet|zdravotn\w* (?:n[áa]hl|pohotov)|medicinsk(?:t)? n[öø]d|medisinsk n[øo]d|h[äa]t[äa]tilan|medicinsk akut"
+              r"|l[äa][äa]ketieteellinen h[äa]t[äa]|hitn[ae] medicinsk|agresivn\w* putnik")
 
-CAUSES = ("strike_atc", "strike_staff", "strike", "technical", "weather")
+_RE = {k: re.compile(v) for k, v in
+       {"strike": _STRIKE, "atc": _ATC, "staff": _STAFF, "tech": _TECH, "weather": _WEATHER,
+        "bird": _BIRD, "shortage": _SHORTAGE, "passenger": _PASSENGER}.items()}
+
+CAUSES = ("bird", "strike_atc", "strike_staff", "strike", "crew_shortage", "technical", "passenger", "weather")
 
 
 def cause_in_text(text: str) -> str | None:
-    """One of CAUSES, or None. Strikes first, since "pilot strike" also has no weather word."""
+    """One of CAUSES, or None. A bird strike before strikes; strikes before the rest ("pilot strike")."""
     low = text.lower()
+    if _RE["bird"].search(low):
+        return "bird"
     if _RE["strike"].search(low):
         if _RE["atc"].search(low):
             return "strike_atc"
         if _RE["staff"].search(low):
             return "strike_staff"
         return "strike"
+    if _RE["shortage"].search(low):
+        return "crew_shortage"
     if _RE["tech"].search(low):
         return "technical"
+    if _RE["passenger"].search(low):
+        return "passenger"
     if _RE["weather"].search(low):
         return "weather"
     return None
