@@ -52,6 +52,7 @@ class FlightFacts:
 _HOUR_UNIT = (r"(?:hours?|hrs?|h\b|годин\w*|год\b|час\w*|godzin\w*|godz\b|stunden?|std\b|horas?"
               r"|heures?|ore\b|ora\b|uur|ώρ\w*|saat|[óo]r[áa]\w*|hodin\w*|sat[ai]?\b|timer|timmar|tunti\w*|tunnin)")
 _MINUTE_UNIT = r"(?:minutes?|mins?|хвилин\w*|хв\b|минут\w*|minut\w*|min\b|minuten|minuti|minutos|λεπτ\w*|dakika|perc\w*|minuuttia)"
+_BEFORE = r"(?:before|in advance|до|перед|przed|vorher|vor|antes|avant|prima|înainte|voor|før|före|πριν|önce|előtt|předem|pre|ennen)"
 _HOURS = r"(\d+(?:[.,]\d+)?)\s*" + _HOUR_UNIT
 _MINUTES = r"(\d+)\s*" + _MINUTE_UNIT
 _CANCEL = (r"cancel|скасува|отмен|odwo[łl]a|annul|gestrichen|anulat|geannuleerd|annulering|ακυρ|iptal|t[öo]r[öo]lt"
@@ -187,8 +188,11 @@ def extract_facts_rules(text: str, today: dt.date | None = None) -> FlightFacts:
         f.delay_hours = int(mins.group(1)) / 60
     if f.delay_hours is not None and f.disruption is None:
         f.disruption = "delay"
+    elif f.disruption != "delay" and f.delay_hours is not None and h and re.match(
+            r"\W{0,3}" + _BEFORE + r"(?!\w)", spelled[h.end():]):
+        f.delay_hours = None  # "cancelled 2 hours before departure" is notice, not a late arrival
 
-    n = re.search(r"(\d+)\s*(?:days?|днів|дні|дней|дня|dni|tage?n?|d[íi]as|jours?|giorni|zile|dagen|dage|dager|dagar|ημέρες|g[üu]n|nap\w*|dn[íi]|dana|p[äa]iv[äa][äa])\s*(?:before|in advance|до|przed|vorher|vor|antes|avant|prima|înainte|voor|før|före|πριν|önce|előtt|předem|pre|ennen)", low)
+    n = re.search(r"(\d+)\s*(?:days?|днів|дні|дней|дня|dni|tage?n?|d[íi]as|jours?|giorni|zile|dagen|dage|dager|dagar|ημέρες|g[üu]n|nap\w*|dn[íi]|dana|p[äa]iv[äa][äa])\s*" + _BEFORE, low)
     if n:
         f.notice_days = int(n.group(1))
 
@@ -398,5 +402,6 @@ def _check(facts: FlightFacts, extraordinary: bool) -> EligibilityResult:
         arrival_delay_hours=facts.delay_hours or 0.0,
         cancellation_notice_days=facts.notice_days,
         extraordinary_circumstances=extraordinary,
+        reroute_arrival_delay_hours=facts.delay_hours if facts.disruption != "delay" else None,
     )
     return EligibilityResult(check(flight, incident), km, [], f"{o.city} - {d.city}", facts.passengers or 1)

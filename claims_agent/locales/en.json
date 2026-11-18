@@ -90,5 +90,7 @@
  "hr_old": "flight over 2 years old",
  "too_old": "The flight is over 2 years old. Claim deadlines depend on the country, so a colleague checks this case.",
  "download": "Download .txt",
- "m_future": "the date of a flight that has already taken place (this date is in the future)"
+ "m_future": "the date of a flight that has already taken place (this date is in the future)",
+ "rs_halved": "Likely eligible: EUR {amount} per passenger before the service fee. It is half the usual amount because the replacement flight arrived within {h} hours.",
+ "elig_half": "It is half the usual amount because the replacement flight arrived within {h} hours."
 }

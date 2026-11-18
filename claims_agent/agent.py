@@ -99,6 +99,9 @@ REASON_KEYS = {
 
 
 def _reason(lang: str, reason: str) -> str:
+    m = re.match(r"Likely eligible: EUR (\d+) .*within (\d) hours", reason)
+    if m:
+        return t(lang, "rs_halved", amount=m.group(1), h=m.group(2))
     m = re.match(r"Likely eligible: EUR (\d+)", reason)
     if m:
         return t(lang, "rs_likely", amount=m.group(1))
@@ -117,6 +120,9 @@ def template_reply(intent: str, lang: str, result: EligibilityResult | None) -> 
         v = result.verdict
         if v.eligible:
             text = t(lang, "elig_yes", route=result.route, km=result.distance_km, amount=v.amount_eur)
+            half = re.search(r"within (\d) hours", v.reason)
+            if half:
+                text += " " + t(lang, "elig_half", h=half.group(1))
             if result.passengers > 1:
                 text += " " + t(lang, "elig_total", n=result.passengers, total=result.total_eur)
             return text

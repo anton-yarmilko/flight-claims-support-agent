@@ -90,5 +90,7 @@
  "hr_old": "voo com mais de 2 anos",
  "too_old": "O voo tem mais de 2 anos. Os prazos dependem do país, por isso um colega verifica este caso.",
  "download": "Transferir .txt",
- "m_future": "a data de um voo que já se realizou (esta data é no futuro)"
+ "m_future": "a data de um voo que já se realizou (esta data é no futuro)",
+ "rs_halved": "Provavelmente elegível: EUR {amount} por passageiro antes da comissão. É metade do valor habitual, porque o voo alternativo chegou em até {h} horas.",
+ "elig_half": "É metade do valor habitual, porque o voo alternativo chegou em até {h} horas."
 }

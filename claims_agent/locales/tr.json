@@ -90,5 +90,7 @@
  "hr_old": "2 yıldan eski uçuş",
  "too_old": "Uçuş 2 yıldan daha eski. Başvuru süreleri ülkeye göre değişir, bu yüzden bu dosyayı bir meslektaşımız kontrol eder.",
  "download": ".txt indir",
- "m_future": "gerçekleşmiş bir uçuşun tarihi (bu tarih gelecekte)"
+ "m_future": "gerçekleşmiş bir uçuşun tarihi (bu tarih gelecekte)",
+ "rs_halved": "Muhtemelen hak kazanıyorsunuz: komisyon öncesi yolcu başına EUR {amount}. Alternatif uçuş {h} saat içinde vardığı için normal tutarın yarısıdır.",
+ "elig_half": "Alternatif uçuş {h} saat içinde vardığı için normal tutarın yarısıdır."
 }

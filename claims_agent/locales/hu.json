@@ -90,5 +90,7 @@
  "hr_old": "2 évnél régebbi járat",
  "too_old": "A járat több mint 2 éve volt. A határidők országonként eltérnek, ezért ezt az ügyet egy kolléga ellenőrzi.",
  "download": ".txt letöltése",
- "m_future": "egy már lezajlott járat dátuma (ez a dátum a jövőben van)"
+ "m_future": "egy már lezajlott járat dátuma (ez a dátum a jövőben van)",
+ "rs_halved": "Valószínűleg jogosult: utasonként EUR {amount} a díj levonása előtt. Ez a szokásos összeg fele, mert a pótjárat {h} órán belül megérkezett.",
+ "elig_half": "Ez a szokásos összeg fele, mert a pótjárat {h} órán belül megérkezett."
 }

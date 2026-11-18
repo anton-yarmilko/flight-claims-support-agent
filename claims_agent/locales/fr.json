@@ -90,5 +90,7 @@
  "hr_old": "vol de plus de 2 ans",
  "too_old": "Le vol date de plus de 2 ans. Les délais dépendent du pays, un collègue vérifie donc ce dossier.",
  "download": "Télécharger .txt",
- "m_future": "la date d'un vol déjà effectué (cette date est dans le futur)"
+ "m_future": "la date d'un vol déjà effectué (cette date est dans le futur)",
+ "rs_halved": "Probablement éligible : EUR {amount} par passager avant commission. C'est la moitié du montant habituel, car le vol de remplacement est arrivé dans les {h} heures.",
+ "elig_half": "C'est la moitié du montant habituel, car le vol de remplacement est arrivé dans les {h} heures."
 }
