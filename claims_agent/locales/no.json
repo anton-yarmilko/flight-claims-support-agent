@@ -105,5 +105,8 @@
  "cause_strike": "Du nevner en streik. Var det flyselskapets ansatte, står kravet som regel seg; var det flygeledere eller flyplassen, som regel ikke.",
  "cause_weather": "Du nevner været. Flyselskaper viser ofte til det, men det fritar dem bare hvis det virkelig rammet flyvningen din. Vi sjekker værdata, så det utelukker ikke kravet ditt.",
  "dep_only": "Du nevner forsinkelsen ved avgang. EU261 teller hvor sent du kom fram til endelig bestemmelsessted, så det gjelder hvis du landet 3 timer eller mer for sent.",
- "codeshare": "Flyvningen ble operert av {airline}, så EU261 ser på {airline}, og kravet går til {airline}, ikke til selskapet som solgte billetten."
+ "codeshare": "Flyvningen ble operert av {airline}, så EU261 ser på {airline}, og kravet går til {airline}, ikke til selskapet som solgte billetten.",
+ "cause_bird": "Du nevner en fuglekollisjon. Domstolene ser det som en ekstraordinær omstendighet, så kompensasjon gis ofte ikke, med mindre flyselskapet kunne unngått forsinkelsen med rimelige tiltak. En kollega sjekker detaljene.",
+ "cause_crew_shortage": "Du nevner mangel på mannskap eller personale. Det er flyselskapets eget ansvar, så det hindrer ikke kravet.",
+ "cause_passenger": "Du nevner en medisinsk nødsituasjon eller en bråkete passasjer om bord. Det regnes som regel som en ekstraordinær omstendighet for den flyvningen, så kompensasjon gis kanskje ikke. En kollega sjekker detaljene."
 }

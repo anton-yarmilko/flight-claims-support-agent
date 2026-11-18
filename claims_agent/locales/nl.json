@@ -105,5 +105,8 @@
  "cause_strike": "U noemt een staking. Staakte het personeel van de maatschappij, dan staat de claim meestal; staakten luchtverkeersleiders of de luchthaven, dan meestal niet.",
  "cause_weather": "U noemt het weer. Maatschappijen beroepen zich er vaak op, maar het ontslaat hen alleen als het uw vlucht echt raakte. Wij controleren de weergegevens, dus dit sluit uw claim niet uit.",
  "dep_only": "U noemt de vertrekvertraging. EU261 telt hoe laat u op de eindbestemming aankwam, dus dit geldt als u 3 uur of meer te laat landde.",
- "codeshare": "De vlucht werd uitgevoerd door {airline}, dus EU261 kijkt naar {airline} en de claim gaat naar {airline}, niet naar de maatschappij die het ticket verkocht."
+ "codeshare": "De vlucht werd uitgevoerd door {airline}, dus EU261 kijkt naar {airline} en de claim gaat naar {airline}, niet naar de maatschappij die het ticket verkocht.",
+ "cause_bird": "U noemt een vogelaanvaring. Rechters zien dat als buitengewone omstandigheid, dus compensatie is vaak niet verschuldigd, tenzij de maatschappij de vertraging met redelijke maatregelen had kunnen voorkomen. Een collega controleert de details.",
+ "cause_crew_shortage": "U noemt een tekort aan bemanning of personeel. Dat is de verantwoordelijkheid van de maatschappij, dus het staat de claim niet in de weg.",
+ "cause_passenger": "U noemt een medisch noodgeval of een ontregelende passagier aan boord. Dat geldt meestal als buitengewone omstandigheid voor die vlucht, dus compensatie is mogelijk niet verschuldigd. Een collega controleert de details."
 }

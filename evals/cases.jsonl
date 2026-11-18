@@ -43,3 +43,4 @@
 {"id": "pl-cancel-close-reroute", "message": "Lot z Warszawy do Lizbony odwołano 5 dni przed wylotem, nowy lot przyleciał z opóźnieniem 1 godziny. Czy należy się odszkodowanie?", "intent": "eligibility", "action": "ai_answer", "language": "pl", "amount_eur": 0}
 {"id": "cause-technical", "message": "My Ryanair flight from Warsaw to Barcelona was 5 hours late because of a technical problem. Can I claim?", "intent": "eligibility", "action": "ai_answer", "amount_eur": 400}
 {"id": "uk-cause-atc", "message": "Рейс з Варшави до Барселони затримали на 5 годин через страйк диспетчерів. Чи є компенсація?", "intent": "eligibility", "action": "ai_answer", "language": "uk", "amount_eur": 400}
+{"id": "cause-bird-strike", "message": "My Ryanair flight from Warsaw to Barcelona was 5 hours late after a bird strike. Can I claim?", "intent": "eligibility", "action": "ai_answer", "amount_eur": 400}

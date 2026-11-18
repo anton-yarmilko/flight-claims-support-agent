@@ -105,5 +105,8 @@
  "cause_strike": "Vous mentionnez une grève. Si c'était le personnel de la compagnie, la demande tient généralement ; si c'étaient les contrôleurs ou l'aéroport, généralement pas.",
  "cause_weather": "Vous mentionnez la météo. Les compagnies l'invoquent souvent, mais elle ne les exonère que si elle a réellement touché votre vol. Nous vérifions les relevés météo, cela n'exclut donc pas votre demande.",
  "dep_only": "Vous mentionnez le retard au départ. EU261 compte le retard à l'arrivée à la destination finale : cela vaut donc si vous avez atterri avec 3 heures de retard ou plus.",
- "codeshare": "Le vol était opéré par {airline} : EU261 tient donc compte de {airline}, et la réclamation s'adresse à {airline}, pas à la compagnie qui a vendu le billet."
+ "codeshare": "Le vol était opéré par {airline} : EU261 tient donc compte de {airline}, et la réclamation s'adresse à {airline}, pas à la compagnie qui a vendu le billet.",
+ "cause_bird": "Vous mentionnez une collision aviaire. Les tribunaux y voient une circonstance extraordinaire : l'indemnisation n'est donc souvent pas due, sauf si la compagnie pouvait éviter le retard par des mesures raisonnables. Un collègue vérifiera les détails.",
+ "cause_crew_shortage": "Vous mentionnez un manque d'équipage ou de personnel. C'est la responsabilité de la compagnie, cela n'empêche donc pas la réclamation.",
+ "cause_passenger": "Vous mentionnez une urgence médicale ou un passager perturbateur à bord. C'est généralement une circonstance extraordinaire pour ce vol, l'indemnisation peut donc ne pas être due. Un collègue vérifiera les détails."
 }

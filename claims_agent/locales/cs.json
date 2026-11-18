@@ -105,5 +105,8 @@
  "cause_strike": "Zmiňujete stávku. Pokud stávkovali zaměstnanci letecké společnosti, nárok obvykle trvá; pokud řídící nebo letiště, obvykle ne.",
  "cause_weather": "Zmiňujete počasí. Letecké společnosti se na něj často odvolávají, ale omlouvá je jen tehdy, když skutečně ovlivnilo váš let. Ověřujeme meteorologické záznamy, takže to váš nárok nevylučuje.",
  "dep_only": "Zmiňujete zpoždění odletu. EU261 počítá, s jakým zpožděním jste dorazili do cílové destinace, takže to platí, pokud jste přistáli se zpožděním 3 hodiny a více.",
- "codeshare": "Let provozovala {airline}, takže EU261 posuzuje {airline} a nárok se uplatňuje u {airline}, ne u aerolinky, která prodala letenku."
+ "codeshare": "Let provozovala {airline}, takže EU261 posuzuje {airline} a nárok se uplatňuje u {airline}, ne u aerolinky, která prodala letenku.",
+ "cause_bird": "Zmiňujete střet s ptákem. Soudy to považují za mimořádnou okolnost, takže odškodnění často nenáleží, pokud se aerolinka nemohla zpoždění vyhnout přiměřenými opatřeními. Kolega prověří podrobnosti.",
+ "cause_crew_shortage": "Zmiňujete nedostatek posádky nebo personálu. To je odpovědnost samotné aerolinky, takže to nároku nebrání.",
+ "cause_passenger": "Zmiňujete zdravotní pohotovost nebo nepřizpůsobivého cestujícího na palubě. Pro daný let jde obvykle o mimořádnou okolnost, takže odškodnění nemusí náležet. Kolega prověří podrobnosti."
 }

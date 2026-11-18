@@ -105,5 +105,8 @@
  "cause_strike": "Wspominasz o strajku. Jeśli strajkował personel linii, roszczenie zwykle jest zasadne; jeśli kontrolerzy lub lotnisko, zwykle nie.",
  "cause_weather": "Wspominasz o pogodzie. Linie często się na nią powołują, ale zwalnia je to tylko wtedy, gdy pogoda naprawdę wpłynęła na Twój lot. Sprawdzamy dane pogodowe, więc to nie przekreśla roszczenia.",
  "dep_only": "Wspominasz o opóźnieniu wylotu. EU261 liczy, jak późno dotarłeś do miejsca docelowego, więc to obowiązuje, jeśli wylądowałeś co najmniej 3 godziny później.",
- "codeshare": "Lot wykonywała {airline}, więc EU261 bierze pod uwagę {airline}, a roszczenie składa się do {airline}, nie do linii, która sprzedała bilet."
+ "codeshare": "Lot wykonywała {airline}, więc EU261 bierze pod uwagę {airline}, a roszczenie składa się do {airline}, nie do linii, która sprzedała bilet.",
+ "cause_bird": "Wspominasz o zderzeniu z ptakiem. Sądy uznają to za nadzwyczajną okoliczność, więc odszkodowanie często się nie należy, chyba że linia mogła uniknąć opóźnienia rozsądnymi środkami. Współpracownik sprawdzi szczegóły.",
+ "cause_crew_shortage": "Wspominasz o braku załogi lub personelu. To odpowiedzialność samej linii, więc nie przekreśla roszczenia.",
+ "cause_passenger": "Wspominasz o nagłym wypadku medycznym lub agresywnym pasażerze na pokładzie. Zwykle to nadzwyczajna okoliczność dla tego lotu, więc odszkodowanie może się nie należeć. Współpracownik sprawdzi szczegóły."
 }

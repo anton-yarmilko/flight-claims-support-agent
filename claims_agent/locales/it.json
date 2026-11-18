@@ -105,5 +105,8 @@
  "cause_strike": "Parli di uno sciopero. Se ha scioperato il personale della compagnia, la richiesta di solito regge; se i controllori o l'aeroporto, di solito no.",
  "cause_weather": "Parli del meteo. Le compagnie lo citano spesso, ma le esonera solo se ha davvero colpito il tuo volo. Controlliamo i dati meteo, quindi questo non esclude la tua richiesta.",
  "dep_only": "Parli del ritardo alla partenza. EU261 conta il ritardo all'arrivo a destinazione finale, quindi vale se sei atterrato con 3 ore o più di ritardo.",
- "codeshare": "Il volo era operato da {airline}, quindi EU261 guarda a {airline} e il reclamo va a {airline}, non alla compagnia che ha venduto il biglietto."
+ "codeshare": "Il volo era operato da {airline}, quindi EU261 guarda a {airline} e il reclamo va a {airline}, non alla compagnia che ha venduto il biglietto.",
+ "cause_bird": "Parli di un impatto con volatili. I tribunali lo considerano una circostanza eccezionale, quindi spesso il risarcimento non è dovuto, a meno che la compagnia potesse evitare il ritardo con misure ragionevoli. Un collega verificherà i dettagli.",
+ "cause_crew_shortage": "Parli di carenza di equipaggio o di personale. È responsabilità della compagnia, quindi non impedisce il reclamo.",
+ "cause_passenger": "Parli di un'emergenza medica o di un passeggero molesto a bordo. Di solito è una circostanza eccezionale per quel volo, quindi il risarcimento potrebbe non essere dovuto. Un collega verificherà i dettagli."
 }
