@@ -103,5 +103,6 @@
  "cause_strike_staff": "Lentoyhtiön oman henkilöstön lakko ei yleensä ole poikkeuksellinen olosuhde, joten se ei estä korvausvaatimusta.",
  "cause_strike_atc": "Lennonjohtajien tai lentoaseman henkilöstön lakko katsotaan yleensä poikkeukselliseksi olosuhteeksi, joten korvausta ei ehkä makseta. Kollega tarkistaa yksityiskohdat.",
  "cause_strike": "Mainitset lakon. Jos lakossa oli lentoyhtiön henkilöstö, vaatimus yleensä pätee; jos lennonjohto tai lentoasema, yleensä ei.",
- "cause_weather": "Mainitset sään. Lentoyhtiöt vetoavat siihen usein, mutta se vapauttaa ne vain, jos sää todella vaikutti lentoosi. Tarkistamme säätiedot, joten tämä ei sulje vaatimustasi pois."
+ "cause_weather": "Mainitset sään. Lentoyhtiöt vetoavat siihen usein, mutta se vapauttaa ne vain, jos sää todella vaikutti lentoosi. Tarkistamme säätiedot, joten tämä ei sulje vaatimustasi pois.",
+ "dep_only": "Mainitset lähdön viivästyksen. EU261 laskee, kuinka myöhässä saavuit lopulliseen määränpäähän, joten tämä pätee, jos laskeuduit vähintään 3 tuntia myöhässä."
 }

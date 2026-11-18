@@ -103,5 +103,6 @@
  "cause_strike_staff": "En streik blant flyselskapets egne ansatte er som regel ikke en ekstraordinær omstendighet, så den hindrer ikke kravet.",
  "cause_strike_atc": "En streik blant flygeledere eller flyplassansatte regnes som regel som en ekstraordinær omstendighet, så det kan hende du ikke har krav på kompensasjon. En kollega sjekker detaljene.",
  "cause_strike": "Du nevner en streik. Var det flyselskapets ansatte, står kravet som regel seg; var det flygeledere eller flyplassen, som regel ikke.",
- "cause_weather": "Du nevner været. Flyselskaper viser ofte til det, men det fritar dem bare hvis det virkelig rammet flyvningen din. Vi sjekker værdata, så det utelukker ikke kravet ditt."
+ "cause_weather": "Du nevner været. Flyselskaper viser ofte til det, men det fritar dem bare hvis det virkelig rammet flyvningen din. Vi sjekker værdata, så det utelukker ikke kravet ditt.",
+ "dep_only": "Du nevner forsinkelsen ved avgang. EU261 teller hvor sent du kom fram til endelig bestemmelsessted, så det gjelder hvis du landet 3 timer eller mer for sent."
 }

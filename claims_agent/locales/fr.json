@@ -103,5 +103,6 @@
  "cause_strike_staff": "Une grève du personnel de la compagnie elle-même n'est généralement pas une circonstance extraordinaire, cela n'empêche donc pas la demande.",
  "cause_strike_atc": "Une grève des contrôleurs aériens ou du personnel de l'aéroport est généralement une circonstance extraordinaire, l'indemnisation peut donc ne pas être due. Un collègue vérifiera les détails.",
  "cause_strike": "Vous mentionnez une grève. Si c'était le personnel de la compagnie, la demande tient généralement ; si c'étaient les contrôleurs ou l'aéroport, généralement pas.",
- "cause_weather": "Vous mentionnez la météo. Les compagnies l'invoquent souvent, mais elle ne les exonère que si elle a réellement touché votre vol. Nous vérifions les relevés météo, cela n'exclut donc pas votre demande."
+ "cause_weather": "Vous mentionnez la météo. Les compagnies l'invoquent souvent, mais elle ne les exonère que si elle a réellement touché votre vol. Nous vérifions les relevés météo, cela n'exclut donc pas votre demande.",
+ "dep_only": "Vous mentionnez le retard au départ. EU261 compte le retard à l'arrivée à la destination finale : cela vaut donc si vous avez atterri avec 3 heures de retard ou plus."
 }

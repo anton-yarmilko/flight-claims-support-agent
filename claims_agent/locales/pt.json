@@ -103,5 +103,6 @@
  "cause_strike_staff": "Uma greve do pessoal da própria companhia normalmente não é uma circunstância extraordinária, por isso não impede a reclamação.",
  "cause_strike_atc": "Uma greve de controladores aéreos ou do pessoal do aeroporto costuma ser uma circunstância extraordinária, por isso a compensação pode não ser devida. Um colega vai verificar os detalhes.",
  "cause_strike": "Menciona uma greve. Se foi do pessoal da companhia, a reclamação normalmente procede; se foi dos controladores ou do aeroporto, normalmente não.",
- "cause_weather": "Menciona o tempo. As companhias invocam-no muitas vezes, mas só as isenta se afetou mesmo o seu voo. Verificamos os registos meteorológicos, por isso isto não exclui a sua reclamação."
+ "cause_weather": "Menciona o tempo. As companhias invocam-no muitas vezes, mas só as isenta se afetou mesmo o seu voo. Verificamos os registos meteorológicos, por isso isto não exclui a sua reclamação.",
+ "dep_only": "Menciona o atraso na partida. O EU261 conta o atraso na chegada ao destino final, por isso isto vale se aterrou com 3 horas ou mais de atraso."
 }
