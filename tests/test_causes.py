@@ -105,3 +105,17 @@ def test_cause_notes_name_their_own_cause(lang):
     s = strings(lang)
     for cause in ("bird", "crew_shortage", "passenger"):
         assert cause_in_text(s["cause_" + cause]) == cause, (lang, cause)
+
+
+def test_excusing_cause_drops_good_news_opening():
+    r = respond("My Ryanair flight from Warsaw to Barcelona was 5 hours late after a bird strike")
+    assert not r.text.startswith("Good news") and "EUR 400" in r.text
+    r = respond("My Ryanair flight from Warsaw to Barcelona was 5 hours late because of a technical problem")
+    assert r.text.startswith("Good news")
+
+
+@pytest.mark.parametrize("lang", list(LANGUAGES))
+def test_elig_maybe_keeps_placeholders(lang):
+    s = strings(lang)["elig_maybe"]
+    for ph in ("{route}", "{km}", "{cur}", "{amount}"):
+        assert ph in s

@@ -108,5 +108,6 @@
  "codeshare": "Der Flug wurde von {airline} durchgeführt. Nach EU261 zählt daher {airline}, und der Anspruch richtet sich an {airline}, nicht an die Airline, die das Ticket verkauft hat.",
  "cause_bird": "Sie nennen einen Vogelschlag. Gerichte werten ihn als außergewöhnlichen Umstand, daher besteht oft kein Anspruch, außer die Airline hätte die Verspätung mit zumutbaren Maßnahmen vermeiden können. Ein Kollege prüft die Details.",
  "cause_crew_shortage": "Sie nennen einen Mangel an Crew oder Personal. Das liegt in der Verantwortung der Airline und steht dem Anspruch nicht entgegen.",
- "cause_passenger": "Sie nennen einen medizinischen Notfall oder einen randalierenden Passagier an Bord. Das gilt für diesen Flug meist als außergewöhnlicher Umstand, daher besteht möglicherweise kein Anspruch. Ein Kollege prüft die Details."
+ "cause_passenger": "Sie nennen einen medizinischen Notfall oder einen randalierenden Passagier an Bord. Das gilt für diesen Flug meist als außergewöhnlicher Umstand, daher besteht möglicherweise kein Anspruch. Ein Kollege prüft die Details.",
+ "elig_maybe": "Nach Entfernung und Verspätung käme Ihr Flug {route} ({km} km) auf {cur} {amount} pro Passagier vor unserer Servicegebühr. Der genannte Grund kann die Airline aber entlasten, siehe unten. Dies ist eine vorläufige Prüfung, keine Garantie. Senden Sie für den Antrag Ihre Bordkarte oder Ihr E-Ticket."
 }

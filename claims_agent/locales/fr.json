@@ -108,5 +108,6 @@
  "codeshare": "Le vol était opéré par {airline} : EU261 tient donc compte de {airline}, et la réclamation s'adresse à {airline}, pas à la compagnie qui a vendu le billet.",
  "cause_bird": "Vous mentionnez une collision aviaire. Les tribunaux y voient une circonstance extraordinaire : l'indemnisation n'est donc souvent pas due, sauf si la compagnie pouvait éviter le retard par des mesures raisonnables. Un collègue vérifiera les détails.",
  "cause_crew_shortage": "Vous mentionnez un manque d'équipage ou de personnel. C'est la responsabilité de la compagnie, cela n'empêche donc pas la réclamation.",
- "cause_passenger": "Vous mentionnez une urgence médicale ou un passager perturbateur à bord. C'est généralement une circonstance extraordinaire pour ce vol, l'indemnisation peut donc ne pas être due. Un collègue vérifiera les détails."
+ "cause_passenger": "Vous mentionnez une urgence médicale ou un passager perturbateur à bord. C'est généralement une circonstance extraordinaire pour ce vol, l'indemnisation peut donc ne pas être due. Un collègue vérifiera les détails.",
+ "elig_maybe": "Selon la distance et le retard, votre vol {route} ({km} km) ouvrirait droit à {cur} {amount} par passager, avant nos frais. Mais la cause que vous mentionnez peut exonérer la compagnie, voir ci-dessous. Il s'agit d'une vérification préliminaire, pas d'une garantie. Pour lancer la réclamation, envoyez votre carte d'embarquement ou votre e-billet."
 }

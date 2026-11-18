@@ -108,5 +108,6 @@
  "codeshare": "O voo foi operado pela {airline}, por isso o EU261 considera a {airline} e a reclamação vai para a {airline}, não para a companhia que vendeu o bilhete.",
  "cause_bird": "Menciona uma colisão com aves. Os tribunais consideram-na uma circunstância extraordinária, por isso a indemnização muitas vezes não é devida, a menos que a companhia pudesse evitar o atraso com medidas razoáveis. Um colega vai verificar os detalhes.",
  "cause_crew_shortage": "Menciona falta de tripulação ou de pessoal. É responsabilidade da própria companhia, por isso não impede a reclamação.",
- "cause_passenger": "Menciona uma emergência médica ou um passageiro desordeiro a bordo. Normalmente conta como circunstância extraordinária para esse voo, por isso a indemnização pode não ser devida. Um colega vai verificar os detalhes."
+ "cause_passenger": "Menciona uma emergência médica ou um passageiro desordeiro a bordo. Normalmente conta como circunstância extraordinária para esse voo, por isso a indemnização pode não ser devida. Um colega vai verificar os detalhes.",
+ "elig_maybe": "Pela distância e pelo atraso, o seu voo {route} ({km} km) daria direito a {cur} {amount} por passageiro, antes da nossa comissão. Mas a causa que menciona pode isentar a companhia, veja abaixo. É uma verificação preliminar, não uma garantia. Para iniciar a reclamação, envie o cartão de embarque ou o bilhete eletrónico."
 }

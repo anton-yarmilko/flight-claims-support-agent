@@ -108,5 +108,6 @@
  "codeshare": "Flyvningen ble operert av {airline}, så EU261 ser på {airline}, og kravet går til {airline}, ikke til selskapet som solgte billetten.",
  "cause_bird": "Du nevner en fuglekollisjon. Domstolene ser det som en ekstraordinær omstendighet, så kompensasjon gis ofte ikke, med mindre flyselskapet kunne unngått forsinkelsen med rimelige tiltak. En kollega sjekker detaljene.",
  "cause_crew_shortage": "Du nevner mangel på mannskap eller personale. Det er flyselskapets eget ansvar, så det hindrer ikke kravet.",
- "cause_passenger": "Du nevner en medisinsk nødsituasjon eller en bråkete passasjer om bord. Det regnes som regel som en ekstraordinær omstendighet for den flyvningen, så kompensasjon gis kanskje ikke. En kollega sjekker detaljene."
+ "cause_passenger": "Du nevner en medisinsk nødsituasjon eller en bråkete passasjer om bord. Det regnes som regel som en ekstraordinær omstendighet for den flyvningen, så kompensasjon gis kanskje ikke. En kollega sjekker detaljene.",
+ "elig_maybe": "Ut fra avstand og forsinkelse ville flyvningen din {route} ({km} km) gi {cur} {amount} per passasjer før servicegebyret vårt. Men årsaken du nevner kan frita flyselskapet, se nedenfor. Dette er en foreløpig sjekk, ingen garanti. Send boardingkortet eller e-billetten for å starte kravet."
 }

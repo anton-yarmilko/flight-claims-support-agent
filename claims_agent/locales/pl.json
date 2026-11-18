@@ -108,5 +108,6 @@
  "codeshare": "Lot wykonywała {airline}, więc EU261 bierze pod uwagę {airline}, a roszczenie składa się do {airline}, nie do linii, która sprzedała bilet.",
  "cause_bird": "Wspominasz o zderzeniu z ptakiem. Sądy uznają to za nadzwyczajną okoliczność, więc odszkodowanie często się nie należy, chyba że linia mogła uniknąć opóźnienia rozsądnymi środkami. Współpracownik sprawdzi szczegóły.",
  "cause_crew_shortage": "Wspominasz o braku załogi lub personelu. To odpowiedzialność samej linii, więc nie przekreśla roszczenia.",
- "cause_passenger": "Wspominasz o nagłym wypadku medycznym lub agresywnym pasażerze na pokładzie. Zwykle to nadzwyczajna okoliczność dla tego lotu, więc odszkodowanie może się nie należeć. Współpracownik sprawdzi szczegóły."
+ "cause_passenger": "Wspominasz o nagłym wypadku medycznym lub agresywnym pasażerze na pokładzie. Zwykle to nadzwyczajna okoliczność dla tego lotu, więc odszkodowanie może się nie należeć. Współpracownik sprawdzi szczegóły.",
+ "elig_maybe": "Pod względem odległości i opóźnienia Twój lot {route} ({km} km) kwalifikuje się do {cur} {amount} na pasażera przed naszą prowizją. Ale przyczyna, o której wspominasz, może zwolnić linię z wypłaty, patrz niżej. To wstępna weryfikacja, a nie gwarancja. Aby złożyć wniosek, wyślij kartę pokładową lub e-bilet."
 }

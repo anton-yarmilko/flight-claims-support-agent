@@ -108,5 +108,6 @@
  "codeshare": "De vlucht werd uitgevoerd door {airline}, dus EU261 kijkt naar {airline} en de claim gaat naar {airline}, niet naar de maatschappij die het ticket verkocht.",
  "cause_bird": "U noemt een vogelaanvaring. Rechters zien dat als buitengewone omstandigheid, dus compensatie is vaak niet verschuldigd, tenzij de maatschappij de vertraging met redelijke maatregelen had kunnen voorkomen. Een collega controleert de details.",
  "cause_crew_shortage": "U noemt een tekort aan bemanning of personeel. Dat is de verantwoordelijkheid van de maatschappij, dus het staat de claim niet in de weg.",
- "cause_passenger": "U noemt een medisch noodgeval of een ontregelende passagier aan boord. Dat geldt meestal als buitengewone omstandigheid voor die vlucht, dus compensatie is mogelijk niet verschuldigd. Een collega controleert de details."
+ "cause_passenger": "U noemt een medisch noodgeval of een ontregelende passagier aan boord. Dat geldt meestal als buitengewone omstandigheid voor die vlucht, dus compensatie is mogelijk niet verschuldigd. Een collega controleert de details.",
+ "elig_maybe": "Op basis van afstand en vertraging komt uw vlucht {route} ({km} km) in aanmerking voor {cur} {amount} per passagier, vóór onze servicekosten. Maar de oorzaak die u noemt kan de maatschappij ontslaan van betaling, zie hieronder. Dit is een voorlopige controle, geen garantie. Stuur uw instapkaart of e-ticket om de claim te starten."
 }

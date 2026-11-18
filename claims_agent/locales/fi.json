@@ -108,5 +108,6 @@
  "codeshare": "Lennon liikennöi {airline}, joten EU261 katsoo yhtiötä {airline}, ja vaatimus osoitetaan yhtiölle {airline} eikä lipun myyneelle yhtiölle.",
  "cause_bird": "Mainitset lintutörmäyksen. Tuomioistuimet pitävät sitä poikkeuksellisena olosuhteena, joten korvausta ei usein makseta, ellei yhtiö olisi voinut välttää viivästystä kohtuullisin toimin. Kollega tarkistaa yksityiskohdat.",
  "cause_crew_shortage": "Mainitset miehistön tai henkilöstön puutteen. Se on lentoyhtiön omalla vastuulla, joten se ei estä vaatimusta.",
- "cause_passenger": "Mainitset lääketieteellisen hätätilanteen tai häiriköivän matkustajan koneessa. Se on yleensä poikkeuksellinen olosuhde kyseiselle lennolle, joten korvausta ei ehkä makseta. Kollega tarkistaa yksityiskohdat."
+ "cause_passenger": "Mainitset lääketieteellisen hätätilanteen tai häiriköivän matkustajan koneessa. Se on yleensä poikkeuksellinen olosuhde kyseiselle lennolle, joten korvausta ei ehkä makseta. Kollega tarkistaa yksityiskohdat.",
+ "elig_maybe": "Matkan ja viivästyksen perusteella lentosi {route} ({km} km) oikeuttaisi korvaukseen {cur} {amount} matkustajaa kohden ennen palkkiotamme. Mainitsemasi syy voi kuitenkin vapauttaa lentoyhtiön, katso alta. Tämä on alustava tarkistus, ei takuu. Aloita vaatimus lähettämällä tarkastuskortti tai e-lippu."
 }
