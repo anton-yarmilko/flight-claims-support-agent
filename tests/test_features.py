@@ -291,3 +291,30 @@ def test_cache_is_bounded_and_can_be_off(fake):
     fake.replies = ["x", "y"]
     m = [{"role": "user", "content": "z"}]
     assert fake.client.chat(m) == "x" and fake.client.chat(m) == "y"
+
+
+UK_MSG = "My BA flight from London to New York landed 6 hours late. Can I claim?"
+
+
+def test_currency_guard_rejects_euros_for_uk261(fake):
+    fake.replies = ["{}", "Good news, you can get EUR 520.", "You can get 520 euros."]
+    r = respond(UK_MSG, llm=fake.client)
+    assert r.mode == "offline-fallback" and "GBP 520" in r.text
+    assert any("Currency guard" in n for n in r.notes)
+    assert "GBP" in fake.requests[-1]["messages"][-1]["content"]
+
+
+def test_currency_guard_retry_can_fix_the_reply(fake):
+    fake.replies = ["{}", "You can get €520.", "You can get GBP 520 per passenger under UK261."]
+    r = respond(UK_MSG, llm=fake.client)
+    assert r.mode == "llm" and "GBP 520" in r.text
+
+
+def test_currency_guard_only_for_eligible_checks():
+    from claims_agent.agent import currency_guard
+    from claims_agent.facts import FlightFacts
+    eu = check_facts(FlightFacts(origin="WAW", destination="BCN", disruption="delay", delay_hours=5))
+    assert currency_guard("EUR 400 per passenger", eu) == []
+    assert currency_guard("£400 per passenger", eu) == ["£"]
+    assert currency_guard("400 фунтів", eu) == ["фунт"]
+    assert currency_guard("anything", None) == []

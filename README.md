@@ -25,7 +25,7 @@ threats, GDPR requests, upset customers, weak knowledge-base matches.
 | Knowledge base | `knowledge/*.md` | EU261 rules, fees, stages, documents |
 | Evals | `evals/cases.jsonl`, `evals/judge.py` | Triage cases in all 20 languages; reply checks + optional LLM-as-judge |
 | Inbox | `claims_agent/inbox.py` | Batch triage of a day of mail: AI share, handoff reasons, urgent cases, compensation found |
-| Tests | `tests/` | 324 tests, run in CI with a fake LLM server |
+| Tests | `tests/` | 327 tests, run in CI with a fake LLM server |
 
 ```mermaid
 flowchart LR
@@ -122,6 +122,8 @@ The LLM client also keeps a small in-memory cache (256 answers, `LLM(cache_size=
   goes through the same 0.70 threshold. It can never turn an escalation into an AI answer.
 - **Number guard.** A reply that quotes a number found neither in the knowledge base, the EU261
   check nor the customer's own message is thrown away and replaced by a template.
+- **Currency guard.** The number guard cannot see "EUR 520" on a UK261 claim, where 520 is right
+  but the currency is pounds. A reply naming the other currency gets one retry, then the template.
 - **Typed extraction.** Ticket fields from the model are normalised and range-checked
   (airport codes, flight numbers, delay hours); implausible values are dropped and every field
   records whether it came from the barcode, the rules or the LLM.
@@ -140,7 +142,7 @@ tune the rules from real tickets.
 
 ```bash
 pip install pytest
-pytest -q                     # 324 tests, LLM calls go to a fake local server
+pytest -q                     # 327 tests, LLM calls go to a fake local server
 python -m evals.judge         # reply checks on every eval case (offline: templates)
 
 # with a model, plus a bigger judge model for LLM-as-judge scoring
