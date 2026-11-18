@@ -74,6 +74,9 @@ Danish, Norwegian, Finnish, Dutch, Swedish, Czech, Italian, Ukrainian and Russia
 
 ![Language switcher: the same chat in Ukrainian](docs/demo-languages.png)
 
+**Public demo:** https://flyclaim-ai-demo.vercel.app (offline mode, no LLM key, so replies come from
+templates). `api/index.py` and `vercel.json` serve the same app as one Vercel Python function.
+
 The five tabs:
 
 1. **Support chat** - write as a customer in any of the 20 languages. The side panel shows the
