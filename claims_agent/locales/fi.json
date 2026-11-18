@@ -86,5 +86,8 @@
  "copied": "Kopioitu",
  "elig_total": "{n} matkustajalle se on yhteensä EUR {total}.",
  "total": "Yhteensä",
- "f_pax": "Matkustajat"
+ "f_pax": "Matkustajat",
+ "hr_old": "yli 2 vuotta vanha lento",
+ "too_old": "Lento on yli 2 vuotta vanha. Määräajat riippuvat maasta, joten kollega tarkistaa tapauksen.",
+ "download": "Lataa .txt"
 }

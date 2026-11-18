@@ -86,5 +86,8 @@
  "copied": "Kopyalandı",
  "elig_total": "{n} yolcu için toplam EUR {total} eder.",
  "total": "Toplam",
- "f_pax": "Yolcular"
+ "f_pax": "Yolcular",
+ "hr_old": "2 yıldan eski uçuş",
+ "too_old": "Uçuş 2 yıldan daha eski. Başvuru süreleri ülkeye göre değişir, bu yüzden bu dosyayı bir meslektaşımız kontrol eder.",
+ "download": ".txt indir"
 }

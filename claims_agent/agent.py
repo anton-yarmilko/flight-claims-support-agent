@@ -203,6 +203,28 @@ HANDOFF_PROMPT = """Summarise this support message for a human colleague.
 Reply with JSON only: {"customer_wants": "<one sentence in English>", "next_step": "<one line in English>"}"""
 
 
+TOO_OLD_REASON = "Flight is over 2 years old: the claim deadline depends on the country, a person checks it."
+
+
+def _handoff(decision: Decision, message: str, lang: str, facts: FlightFacts | None, llm: LLM | None) -> Reply:
+    from .llm import LLMError
+
+    notes: list[str] = []
+    summary = next_step = None
+    if llm is not None:
+        try:
+            data = llm.chat_json([{"role": "system", "content": HANDOFF_PROMPT},
+                                  {"role": "user", "content": message}], temperature=0.0, max_tokens=150)
+            summary = str(data.get("customer_wants") or "") or None
+            next_step = str(data.get("next_step") or "") or None
+        except LLMError as e:
+            notes.append(f"LLM summary failed: {e}")
+    if TOO_OLD_REASON in decision.reasons and not next_step:
+        next_step = "Check the claim deadline for the departure country and airline before accepting the case."
+    return Reply(holding(lang), decision, lang, "llm" if llm and not notes else "offline",
+                 handoff_note(decision, message, facts, summary, next_step), facts, None, notes)
+
+
 def respond(
     message: str,
     history: list[dict[str, str]] | None = None,
@@ -219,18 +241,7 @@ def respond(
     notes: list[str] = []
 
     if decision.action is Action.HUMAN_HANDOFF:
-        facts = extract_facts(customer_text)
-        summary = next_step = None
-        if llm is not None:
-            try:
-                data = llm.chat_json([{"role": "system", "content": HANDOFF_PROMPT},
-                                      {"role": "user", "content": message}], temperature=0.0, max_tokens=150)
-                summary = str(data.get("customer_wants") or "") or None
-                next_step = str(data.get("next_step") or "") or None
-            except LLMError as e:
-                notes.append(f"LLM summary failed: {e}")
-        return Reply(holding(lang), decision, lang, "llm" if llm and not notes else "offline",
-                     handoff_note(decision, message, facts, summary, next_step), facts, None, notes)
+        return _handoff(decision, message, lang, extract_facts(customer_text), llm)
 
     facts = result = None
     if decision.intent == "eligibility":
@@ -238,6 +249,12 @@ def respond(
         if history:
             facts = prefer_latest(facts, extract_facts_rules(message))
         result = check_facts(facts)
+        if result.too_old:
+            decision = Decision(decision.intent, Action.HUMAN_HANDOFF, [*decision.reasons, TOO_OLD_REASON],
+                                decision.priority, decision.source)
+            reply = _handoff(decision, message, lang, facts, llm)
+            reply.eligibility = result
+            return reply
 
     offline = template_reply(decision.intent, lang, result)
     if llm is None:

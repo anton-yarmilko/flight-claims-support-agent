@@ -86,5 +86,8 @@
  "copied": "Kopirano",
  "elig_total": "Za {n} putnika to je ukupno EUR {total}.",
  "total": "Ukupno",
- "f_pax": "Putnici"
+ "f_pax": "Putnici",
+ "hr_old": "let stariji od 2 godine",
+ "too_old": "Let je stariji od 2 godine. Rokovi zavise od zemlje, pa ovaj slučaj proverava kolega.",
+ "download": "Preuzmi .txt"
 }

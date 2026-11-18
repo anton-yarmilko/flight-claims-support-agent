@@ -321,7 +321,7 @@ function decisionHtml(r) {
     const e = r.eligibility;
     h += `<p><b>${esc(T("check_title"))}</b></p>`;
     if (e.eligible === null) h += `<p class="empty">${esc(T("waiting"))}: ${esc(e.missing.join(", "))}</p>`;
-    else h += `<dl><dt>${esc(T("route"))}</dt><dd>${esc(e.route)} (${e.distance_km} km)</dd><dt>${esc(T("eligible"))}</dt><dd>${esc(T(e.eligible ? "yes" : "no"))}</dd><dt>${esc(T("amount"))}</dt><dd>EUR ${e.amount_eur} ${esc(T("per_pax"))}</dd>${e.passengers > 1 && e.eligible ? `<dt>${esc(T("total"))}</dt><dd><b>EUR ${e.total_eur}</b> (${e.passengers} × ${e.amount_eur})</dd>` : ""}<dt>${esc(T("reason"))}</dt><dd>${esc(e.reason)}</dd></dl>`;
+    else h += `<dl><dt>${esc(T("route"))}</dt><dd>${esc(e.route)} (${e.distance_km} km)</dd><dt>${esc(T("eligible"))}</dt><dd>${esc(T(e.eligible ? "yes" : "no"))}</dd><dt>${esc(T("amount"))}</dt><dd>EUR ${e.amount_eur} ${esc(T("per_pax"))}</dd>${e.passengers > 1 && e.eligible ? `<dt>${esc(T("total"))}</dt><dd><b>EUR ${e.total_eur}</b> (${e.passengers} × ${e.amount_eur})</dd>` : ""}<dt>${esc(T("reason"))}</dt><dd>${esc(e.reason)}</dd></dl>${e.too_old ? `<p style="color:var(--warn)"><b>${esc(T("too_old"))}</b></p>` : ""}`;
   }
   if (r.handoff_note) h += `<p><b>${esc(T("note_title"))}</b> ${copyBtn("handoffNote")}</p><pre id="handoffNote">${esc(r.handoff_note)}</pre>`;
   if (r.notes.length) h += `<p class="src">${r.notes.map(esc).join("<br>")}</p>`;
@@ -383,7 +383,7 @@ $("#ticketCheck").onclick = () => busy($("#ticketCheck"), async () => {
   const e = await post("/api/eligibility", {...readFacts("t"), lang: LANG});
   $("#ticketOut").innerHTML = e.eligible === null
     ? `<p class="empty">${esc(T("add"))}: ${esc(e.missing.join(", "))}</p>`
-    : `<p class="big" style="color:var(--${e.eligible ? "ok" : "bad"})">${e.eligible ? "EUR " + e.amount_eur + " " + esc(T("per_pax")) : esc(T("not_elig"))}</p>${e.eligible && e.passengers > 1 ? `<p><b>${esc(T("total"))}: EUR ${e.total_eur}</b> (${e.passengers} × ${e.amount_eur})</p>` : ""}<p>${esc(e.reason)}</p><p class="src">${esc(e.route)} · ${e.distance_km} km</p>`;
+    : `<p class="big" style="color:var(--${e.eligible ? "ok" : "bad"})">${e.eligible ? "EUR " + e.amount_eur + " " + esc(T("per_pax")) : esc(T("not_elig"))}</p>${e.eligible && e.passengers > 1 ? `<p><b>${esc(T("total"))}: EUR ${e.total_eur}</b> (${e.passengers} × ${e.amount_eur})</p>` : ""}<p>${esc(e.reason)}</p><p class="src">${esc(e.route)} · ${e.distance_km} km</p>${e.too_old ? `<p style="color:var(--warn)"><b>${esc(T("too_old"))}</b></p>` : ""}`;
 });
 $("#ticketToLetter").onclick = () => { writeFacts("l", readFacts("t")); document.querySelector('[data-tab="letter"]').click(); $("#letterGo").click(); };
 
@@ -457,9 +457,14 @@ $("#replyGo").onclick = () => busy($("#replyGo"), async () => {
 $("#letterGo").onclick = () => busy($("#letterGo"), async () => {
   const D = await post("/api/letter", readFacts("l"));
   $("#letterOut").className = "";
-  $("#letterOut").innerHTML = `<span class="badge ${D.ready ? "ok" : "warn"}">${esc(T(D.ready ? "ready" : "incomplete"))}</span><span class="badge">${esc(D.mode)}</span>${copyBtn("letterText")}
+  $("#letterOut").innerHTML = `<span class="badge ${D.ready ? "ok" : "warn"}">${esc(T(D.ready ? "ready" : "incomplete"))}</span><span class="badge">${esc(D.mode)}</span>${copyBtn("letterText")} <button class="ghost" id="letterDl">${esc(T("download"))}</button>
     ${D.missing.length ? `<p class="empty">${esc(T("missing"))}: ${esc(D.missing.join(", "))}</p>` : ""}<pre id="letterText">${esc(D.text)}</pre>
     ${D.notes.length ? `<p class="src">${D.notes.map(esc).join("<br>")}</p>` : ""}`;
+  $("#letterDl").onclick = () => {
+    const a = document.createElement("a"), flight = (readFacts("l").flight_number || "draft").replace(/[^\w-]/g, "");
+    a.href = URL.createObjectURL(new Blob([D.text], {type: "text/plain;charset=utf-8"}));
+    a.download = `claim-letter-${flight}.txt`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
 });
 </script>
 </body>

@@ -86,5 +86,8 @@
  "copied": "Kopiert",
  "elig_total": "For {n} passasjerer blir det totalt EUR {total}.",
  "total": "Totalt",
- "f_pax": "Passasjerer"
+ "f_pax": "Passasjerer",
+ "hr_old": "flyvning over 2 år gammel",
+ "too_old": "Flyvningen er over 2 år gammel. Fristene avhenger av landet, så en kollega sjekker saken.",
+ "download": "Last ned .txt"
 }

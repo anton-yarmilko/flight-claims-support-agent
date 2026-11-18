@@ -86,5 +86,8 @@
  "copied": "Zkopírováno",
  "elig_total": "Pro {n} cestující je to celkem EUR {total}.",
  "total": "Celkem",
- "f_pax": "Cestující"
+ "f_pax": "Cestující",
+ "hr_old": "let starší než 2 roky",
+ "too_old": "Let je starší než 2 roky. Lhůty závisí na zemi, proto tento případ prověří kolega.",
+ "download": "Stáhnout .txt"
 }

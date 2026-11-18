@@ -86,5 +86,8 @@
  "copied": "Gekopieerd",
  "elig_total": "Voor {n} passagiers is dat in totaal EUR {total}.",
  "total": "Totaal",
- "f_pax": "Passagiers"
+ "f_pax": "Passagiers",
+ "hr_old": "vlucht ouder dan 2 jaar",
+ "too_old": "De vlucht is meer dan 2 jaar geleden. Termijnen verschillen per land, dus een collega bekijkt deze zaak.",
+ "download": "Download .txt"
 }

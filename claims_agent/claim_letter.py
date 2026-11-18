@@ -54,7 +54,7 @@ Paragraph: {p}"""
 
 def draft_letter(facts: FlightFacts, *, service_name: str = "FlyClaim", llm: LLM | None = None,
                  today: dt.date | None = None) -> Letter:
-    result = check_facts(facts)
+    result = check_facts(facts, today=today)
     missing = list(result.missing)
     for key, label in (("flight_number", "flight number"), ("date", "flight date"), ("passenger", "passenger name")):
         if not getattr(facts, key):
@@ -107,7 +107,9 @@ Yours faithfully,
 {service_name} claims team
 
 Attachments: boarding pass / e-ticket, authorisation (power of attorney), passenger ID"""
-    ready = not missing
-    if not ready:
+    ready = not missing and not result.too_old
+    if missing:
         notes.append("Fill the [PLACEHOLDERS] before sending.")
+    if result.too_old:
+        notes.append("The flight is over 2 years old: check the claim deadline for this country before sending.")
     return Letter(letter, ready, missing, result, mode, notes)

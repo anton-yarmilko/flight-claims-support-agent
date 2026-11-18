@@ -24,6 +24,7 @@ HANDOFF_REASONS = (
     ("Data-protection", "gdpr"),
     ("Money or bank", "money"),
     ("upset", "anger"),
+    ("over 2 years old", "old"),
     ("No known intent", "unknown"),
 )
 
