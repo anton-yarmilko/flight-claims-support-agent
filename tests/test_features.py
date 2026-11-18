@@ -170,10 +170,17 @@ def test_llm_reply_used_when_numbers_are_grounded(fake):
 
 
 def test_number_guard_blocks_invented_numbers(fake):
-    fake.replies = ["Our fee is only 15% and you will be paid in 7 days."]
+    fake.replies = ["Our fee is only 15% and you will be paid in 7 days.", "Still 15%."]
     r = respond("How much commission do you take?", llm=fake.client)
     assert r.mode == "offline-fallback" and "30%" in r.text
     assert any("Number guard" in n for n in r.notes)
+
+
+def test_number_guard_retry_can_fix_the_reply(fake):
+    fake.replies = ["Our fee is only 15%.", "Our fee is 30% of the compensation, only if you win."]
+    r = respond("How much commission do you take?", llm=fake.client)
+    assert r.mode == "llm" and "30%" in r.text
+    assert "15" in fake.requests[-1]["messages"][-1]["content"]
 
 
 def test_llm_failure_falls_back_to_template():

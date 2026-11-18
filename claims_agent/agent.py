@@ -242,13 +242,22 @@ def respond(
         language=SUPPORTED.get(lang, "English"), knowledge=knowledge(), check=check)}]
     messages += [m for m in history[-8:] if m.get("role") in {"user", "assistant"}]
     messages.append({"role": "user", "content": message})
+    sources = [knowledge(), check, customer_text]
     try:
         text = llm.chat(messages, temperature=0.3, max_tokens=400).strip()
+        bad = number_guard(text, sources)
+        if bad:
+            # One retry: tell the model which numbers it may not use. The guard still decides.
+            notes.append(f"Number guard rejected the first LLM reply (unsupported numbers: {', '.join(bad)}); retried.")
+            retry = messages + [{"role": "assistant", "content": text}, {"role": "system", "content":
+                     f"Your reply used numbers that are not in the KNOWLEDGE BASE or CHECK RESULT: {', '.join(bad)}. "
+                     "Rewrite it without them, using only numbers given above."}]
+            text = llm.chat(retry, temperature=0.0, max_tokens=400).strip()
     except LLMError as e:
         notes.append(f"LLM failed, used template: {e}")
         return Reply(offline, decision, lang, "offline-fallback", None, facts, result, notes)
 
-    bad = number_guard(text, [knowledge(), check, customer_text])
+    bad = number_guard(text, sources)
     if bad or not text:
         notes.append(f"Number guard rejected the LLM reply (unsupported numbers: {', '.join(bad) or 'empty reply'}).")
         return Reply(offline, decision, lang, "offline-fallback", None, facts, result, notes)
