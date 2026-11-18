@@ -318,3 +318,21 @@ def test_currency_guard_only_for_eligible_checks():
     assert currency_guard("£400 per passenger", eu) == ["£"]
     assert currency_guard("400 фунтів", eu) == ["фунт"]
     assert currency_guard("anything", None) == []
+
+
+@pytest.mark.parametrize("reply", ["Du får 520 pund.", "Získáte 520 librách.", "Θα λάβετε 520 λίρες.",
+                                   "Saat 520 punnissa.", "Vous recevrez 520 livres.", "U krijgt 520 pond.",
+                                   "Receberá 520 libras.", "520 font jár."])
+def test_currency_guard_knows_local_pound_names(reply):
+    from claims_agent.agent import currency_guard
+    from claims_agent.facts import FlightFacts
+    eu = check_facts(FlightFacts(origin="WAW", destination="BCN", disruption="delay", delay_hours=5))
+    assert currency_guard(reply, eu), reply
+
+
+def test_currency_guard_knows_local_euro_names_but_not_europe():
+    from claims_agent.agent import currency_guard
+    from claims_agent.facts import FlightFacts
+    uk = check_facts(FlightFacts(origin="LHR", destination="JFK", airline="BA", disruption="delay", delay_hours=6))
+    assert currency_guard("520 eurót kap.", uk) and currency_guard("520 eurów", uk)
+    assert currency_guard("GBP 520 under UK261, the UK copy of the European rules.", uk) == []
