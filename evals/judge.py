@@ -2,7 +2,7 @@
 
     python -m evals.judge            # offline: deterministic checks on template replies
     LLM_PROVIDER=groq LLM_API_KEY=... python -m evals.judge
-    JUDGE_MODEL=llama-3.3-70b-versatile python -m evals.judge --strict
+    JUDGE_MODEL=openai/gpt-oss-120b python -m evals.judge --strict
 
 For every eval case the agent produces a reply. Deterministic checks run always:
 

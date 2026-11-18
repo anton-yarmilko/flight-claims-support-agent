@@ -49,7 +49,7 @@ python -m app.server                    # offline: rules + templates, no key nee
 With a small model (a free Groq key is enough):
 
 ```bash
-export LLM_PROVIDER=groq LLM_API_KEY=gsk_...      # llama-3.1-8b-instant, vision: llama-4-scout
+export LLM_PROVIDER=groq LLM_API_KEY=gsk_...      # gpt-oss-20b, vision: qwen3.8-27b
 python -m app.server
 ```
 
@@ -120,7 +120,7 @@ pytest -q                     # 163 tests, LLM calls go to a fake local server
 python -m evals.judge         # reply checks on every eval case (offline: templates)
 
 # with a model, plus a bigger judge model for LLM-as-judge scoring
-LLM_PROVIDER=groq LLM_API_KEY=... JUDGE_MODEL=llama-3.3-70b-versatile python -m evals.judge --strict
+LLM_PROVIDER=groq LLM_API_KEY=... JUDGE_MODEL=openai/gpt-oss-120b python -m evals.judge --strict
 ```
 
 `evals/judge.py` checks every reply for the right intent and action, the customer's language,

@@ -69,7 +69,7 @@ def test_no_key_means_offline():
 
 def test_key_alone_uses_groq_default():
     llm = get_llm({"LLM_API_KEY": "k"})
-    assert llm and "groq" in llm.base_url and llm.model == "llama-3.1-8b-instant"
+    assert llm and "groq" in llm.base_url and llm.model == "openai/gpt-oss-20b"
 
 
 def test_ollama_needs_no_key_and_model_override():

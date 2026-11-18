@@ -31,8 +31,8 @@ from typing import Any
 PRESETS: dict[str, dict[str, str]] = {
     "groq": {
         "base_url": "https://api.groq.com/openai/v1",
-        "model": "llama-3.1-8b-instant",
-        "vision_model": "meta-llama/llama-4-scout-17b-16e-instruct",
+        "model": "openai/gpt-oss-20b",
+        "vision_model": "qwen/qwen3.8-27b",
     },
     "openrouter": {
         "base_url": "https://openrouter.ai/api/v1",
@@ -88,6 +88,10 @@ class LLM:
             "temperature": temperature,
             "max_tokens": max_tokens,
         }
+        if body["model"].startswith("openai/gpt-oss"):
+            # Reasoning model: keep thinking short, and leave room for it in the budget.
+            body["reasoning_effort"] = "low"
+            body["max_tokens"] = max(max_tokens, 1000)
         if json_mode:
             body["response_format"] = {"type": "json_object"}
         req = urllib.request.Request(
