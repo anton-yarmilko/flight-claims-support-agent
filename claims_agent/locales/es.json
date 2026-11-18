@@ -104,5 +104,6 @@
  "cause_strike_atc": "Una huelga de controladores aéreos o del personal del aeropuerto suele considerarse circunstancia extraordinaria, así que puede no haber compensación. Un compañero revisará los detalles.",
  "cause_strike": "Mencionas una huelga. Si fue del personal de la aerolínea, la reclamación suele proceder; si fue de controladores o del aeropuerto, normalmente no.",
  "cause_weather": "Mencionas el tiempo. Las aerolíneas lo alegan a menudo, pero solo las exime si de verdad afectó a tu vuelo. Revisamos los registros meteorológicos, así que esto no descarta tu reclamación.",
- "dep_only": "Mencionas el retraso en la salida. EU261 cuenta con cuánto retraso llegaste al destino final, así que esto vale si aterrizaste con 3 horas o más de retraso."
+ "dep_only": "Mencionas el retraso en la salida. EU261 cuenta con cuánto retraso llegaste al destino final, así que esto vale si aterrizaste con 3 horas o más de retraso.",
+ "codeshare": "El vuelo lo operó {airline}, así que EU261 tiene en cuenta a {airline} y la reclamación va a {airline}, no a la aerolínea que vendió el billete."
 }

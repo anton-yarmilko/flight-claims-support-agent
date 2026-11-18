@@ -104,5 +104,6 @@
  "cause_strike_atc": "Štrajk kontrolora leta ili osoblja aerodroma obično se smatra vanrednom okolnošću, pa odšteta možda ne pripada. Kolega će proveriti detalje.",
  "cause_strike": "Pominjete štrajk. Ako je štrajkovalo osoblje avio-kompanije, zahtev obično stoji; ako kontrolori ili aerodrom, obično ne.",
  "cause_weather": "Pominjete vreme. Avio-kompanije se često pozivaju na njega, ali ih to oslobađa samo ako je zaista uticalo na vaš let. Proveravamo meteorološke podatke, pa ovo ne isključuje vaš zahtev.",
- "dep_only": "Pominjete kašnjenje poletanja. EU261 računa koliko ste kasno stigli na krajnje odredište, pa ovo važi ako ste sleteli sa kašnjenjem od 3 sata ili više."
+ "dep_only": "Pominjete kašnjenje poletanja. EU261 računa koliko ste kasno stigli na krajnje odredište, pa ovo važi ako ste sleteli sa kašnjenjem od 3 sata ili više.",
+ "codeshare": "Let je obavila {airline}, pa EU261 uzima u obzir {airline}, a zahtev se podnosi kompaniji {airline}, ne onoj koja je prodala kartu."
 }

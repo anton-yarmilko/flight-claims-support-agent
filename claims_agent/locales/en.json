@@ -104,5 +104,6 @@
  "cause_strike_atc": "A strike by air traffic control or airport staff usually counts as an extraordinary circumstance, so compensation may not be due. A colleague will check the details.",
  "cause_strike": "You mention a strike. If it was the airline's own staff, the claim usually stands; if it was air traffic control or the airport, it usually does not.",
  "cause_weather": "You mention the weather. Airlines often cite it, but it only excuses them if it really affected your flight. We check the weather records, so this does not rule out your claim.",
- "dep_only": "You mention the departure delay. EU261 counts how late you arrived at the final destination, so this holds if you landed 3 hours or more late."
+ "dep_only": "You mention the departure delay. EU261 counts how late you arrived at the final destination, so this holds if you landed 3 hours or more late.",
+ "codeshare": "The flight was operated by {airline}: under EU261 that is the airline that counts and the one the claim goes to, not the airline that sold the ticket."
 }

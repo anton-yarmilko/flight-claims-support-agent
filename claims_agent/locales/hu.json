@@ -104,5 +104,6 @@
  "cause_strike_atc": "A légiforgalmi irányítók vagy a repülőtéri személyzet sztrájkja általában rendkívüli körülménynek számít, így lehet, hogy nem jár kártérítés. Egy kolléga ellenőrzi a részleteket.",
  "cause_strike": "Sztrájkot említ. Ha a légitársaság személyzete sztrájkolt, az igény általában megáll; ha az irányítók vagy a repülőtér, általában nem.",
  "cause_weather": "Az időjárást említi. A légitársaságok gyakran hivatkoznak rá, de csak akkor mentesíti őket, ha valóban érintette a járatát. Ellenőrizzük az időjárási adatokat, így ez nem zárja ki az igényét.",
- "dep_only": "Az indulási késést említi. Az EU261 azt számolja, mennyit késve érkezett a végső célállomásra, így ez akkor érvényes, ha legalább 3 órás késéssel szállt le."
+ "dep_only": "Az indulási késést említi. Az EU261 azt számolja, mennyit késve érkezett a végső célállomásra, így ez akkor érvényes, ha legalább 3 órás késéssel szállt le.",
+ "codeshare": "A járatot a(z) {airline} üzemeltette, ezért az EU261 a(z) {airline} szerint ítél, és az igényt a(z) {airline} felé kell benyújtani, nem a jegyet eladó légitársaságnál."
 }
