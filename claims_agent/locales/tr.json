@@ -89,5 +89,6 @@
  "f_pax": "Yolcular",
  "hr_old": "2 yıldan eski uçuş",
  "too_old": "Uçuş 2 yıldan daha eski. Başvuru süreleri ülkeye göre değişir, bu yüzden bu dosyayı bir meslektaşımız kontrol eder.",
- "download": ".txt indir"
+ "download": ".txt indir",
+ "m_future": "gerçekleşmiş bir uçuşun tarihi (bu tarih gelecekte)"
 }

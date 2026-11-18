@@ -89,5 +89,6 @@
  "f_pax": "Passengers",
  "hr_old": "flight over 2 years old",
  "too_old": "The flight is over 2 years old. Claim deadlines depend on the country, so a colleague checks this case.",
- "download": "Download .txt"
+ "download": "Download .txt",
+ "m_future": "the date of a flight that has already taken place (this date is in the future)"
 }

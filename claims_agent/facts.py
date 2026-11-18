@@ -133,7 +133,26 @@ def passengers_in(low: str) -> int | None:
     return None
 
 
-def extract_facts_rules(text: str) -> FlightFacts:
+# "Yesterday" and "the day before yesterday" in the 20 languages (longer forms first). "Today" is
+# left out because customers say it about when they write, not when they flew; French "hier" is
+# left out because it means "here" in German and Dutch.
+_RELATIVE_DAYS: tuple[tuple[str, int], ...] = (
+    (r"day before yesterday|позавчора|позавчера|przedwczoraj|vorgestern|anteayer|antes de ayer|avant-hier|l'altro ieri"
+     r"|anteontem|alaltăieri|eergisteren|i forgårs|toissapäivänä|tegnapelőtt|předevčírem|прекјуче|prekjuče"
+     r"|προχθές|evvelsi gün|i förrgår", 2),
+    (r"yesterday|вчора|вчера|wczoraj|gestern|ayer|ieri|ontem|gisteren|i går|igår|eilen|tegnap|včera|juče|јуче"
+     r"|χθες|dün", 1),
+)
+
+
+def relative_date(low: str, today: dt.date | None = None) -> str | None:
+    for pattern, days in _RELATIVE_DAYS:
+        if re.search(r"(?<!\w)(?:" + pattern + r")(?!\w)", low):
+            return ((today or dt.date.today()) - dt.timedelta(days=days)).isoformat()
+    return None
+
+
+def extract_facts_rules(text: str, today: dt.date | None = None) -> FlightFacts:
     f = FlightFacts()
     low = text.lower()
 
@@ -178,6 +197,8 @@ def extract_facts_rules(text: str) -> FlightFacts:
     d = re.search(_DATE, low)
     if d:
         f.date = d.group(1)
+    else:
+        f.date = relative_date(low, today)
     b = re.search(r"\b(?:booking|pnr|reservation|confirmation|бронювання|rezerwac\w*|buchung\w*|reserva)\W{0,15}([A-Z0-9]{6})\b", text, re.I)
     if b and not b.group(1).isdigit():
         f.booking_ref = b.group(1).upper()
@@ -268,6 +289,11 @@ def extract_facts(text: str, llm: LLM | None = None) -> FlightFacts:
             facts = merge_llm_facts(facts, data)
         except LLMError:
             pass
+        # A small model may add a year the customer never wrote; that year would drive the deadline check.
+        when = parse_date(facts.date) if facts.sources.get("date") == "llm" else None
+        if when is not None and str(when.year) not in text and f"{when.year % 100:02d}" not in re.findall(r"\d{2}", text):
+            facts.date = None
+            facts.sources.pop("date", None)
     return facts
 
 
@@ -290,6 +316,7 @@ def prefer_latest(facts: FlightFacts, latest: FlightFacts) -> FlightFacts:
 # The knowledge base: "If a customer asks about a flight older than 2 years, hand off."
 # Claim deadlines differ by country, so the bot never says a claim is too late; a person checks.
 TIME_LIMIT_DAYS = 730
+FUTURE_FLIGHT = "the date of a flight that has already taken place (this date is in the future)"
 _MONTHS = {m: i for i, m in enumerate(("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"), 1)}
 
 
@@ -342,8 +369,10 @@ class EligibilityResult:
 
 
 def check_facts(facts: FlightFacts, *, extraordinary: bool = False, today: dt.date | None = None) -> EligibilityResult:
-    result = _check(facts, extraordinary)
     when = parse_date(facts.date)
+    if when is not None and when > (today or dt.date.today()):
+        return EligibilityResult(None, None, [FUTURE_FLIGHT], flight_date=when.isoformat())
+    result = _check(facts, extraordinary)
     if when is not None:
         result.flight_date = when.isoformat()
         result.too_old = ((today or dt.date.today()) - when).days > TIME_LIMIT_DAYS

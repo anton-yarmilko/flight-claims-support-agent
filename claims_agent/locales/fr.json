@@ -89,5 +89,6 @@
  "f_pax": "Passagers",
  "hr_old": "vol de plus de 2 ans",
  "too_old": "Le vol date de plus de 2 ans. Les délais dépendent du pays, un collègue vérifie donc ce dossier.",
- "download": "Télécharger .txt"
+ "download": "Télécharger .txt",
+ "m_future": "la date d'un vol déjà effectué (cette date est dans le futur)"
 }

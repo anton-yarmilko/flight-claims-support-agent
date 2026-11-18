@@ -89,5 +89,6 @@
  "f_pax": "Passeggeri",
  "hr_old": "volo di oltre 2 anni fa",
  "too_old": "Il volo risale a più di 2 anni fa. I termini dipendono dal paese, quindi un collega verifica il caso.",
- "download": "Scarica .txt"
+ "download": "Scarica .txt",
+ "m_future": "la data di un volo già effettuato (questa data è nel futuro)"
 }
