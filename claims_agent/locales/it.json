@@ -92,5 +92,6 @@
  "download": "Scarica .txt",
  "m_future": "la data di un volo già effettuato (questa data è nel futuro)",
  "rs_halved": "Probabilmente ha diritto: EUR {amount} per passeggero prima della commissione. È la metà dell'importo abituale perché il volo alternativo è arrivato entro {h} ore.",
- "elig_half": "È la metà dell'importo abituale perché il volo alternativo è arrivato entro {h} ore."
+ "elig_half": "È la metà dell'importo abituale perché il volo alternativo è arrivato entro {h} ore.",
+ "rs_voluntary": "ha ceduto il posto volontariamente, e i volontari ricevono quanto concordato con la compagnia, non la compensazione EU261."
 }

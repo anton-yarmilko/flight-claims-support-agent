@@ -33,6 +33,7 @@ class FlightFacts:
     delay_hours: float | None = None
     notice_days: int | None = None
     passengers: int | None = None  # people on the booking; compensation is per passenger
+    voluntary: bool | None = None  # denied boarding: gave up the seat voluntarily
     sources: dict[str, str] = field(default_factory=dict)
 
     def missing_for_check(self) -> list[str]:
@@ -61,6 +62,14 @@ _DENIED = (r"denied boarding|overbook|відмовили в посадці|ов�
            r"|[üu]berbuch|nicht mitgenommen|denegaron el embarque|refus d.embarquement|surr[ée]servation|negato l.imbarco"
            r"|recusa de embarque|refuz la [îi]mbarcare|instapweigering|άρνηση επιβίβασης|u[çc]a[ğg]a al[ıi]nmad|nepustili"
            r"|nisu me pustili|n[æa]gtet boarding|nektet ombordstigning|nekad ombordstigning|ei p[äa][äa]ssyt koneeseen")
+# Gave up the seat voluntarily (Article 4(1)): volunteers get agreed benefits, not compensation.
+_VOLUNTARY = (r"volunteer|voluntarily|gave up (?:my|our) seats?|took the voucher|accepted (?:a|the) voucher|добровільно"
+              r"|добровольно|dobrowolnie|na ochotnika|freiwillig|voluntari|volontair|volontari|voluntár|voluntar"
+              r"|vrijwillig|frivillig|vapaaehtoi|εθελοντικά|gönüllü|önként|dobrovoln|dobrovoljno")
+_INVOLUNTARY = (r"involuntar|not voluntar|недобровільн|недобровольн|не добровільн|не добровольн|nie dobrowoln"
+                r"|niedobrowoln|unfreiwillig|nicht freiwillig|involontair|no voluntari|não voluntári|onvrijwillig"
+                r"|ufrivillig|ofrivillig|ikke frivillig|inte frivillig|ei vapaaehtoi|nedobrovoln|ακούσια|istemeden"
+                r"|nem önként|against (?:my|our) will")
 _DELAY = (r"delay|late|затрим|запізн|задерж|опозда|op[óo][źz]ni|versp[äa]t|retras|retard|ritard|atras|[îi]nt[âa]rzi"
           r"|vertraag|vertraging|καθυστ|r[öo]tar|gecik|k[ée]s|zpo[žz]d|kasn|forsink|f[öo]rsen|my[öo]h[äa]|viiv[äa]s")
 _DATE = r"\b(\d{4}-\d{2}-\d{2}|\d{1,2}[./]\d{1,2}[./]\d{2,4}|\d{1,2}\s?(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s?\d{2,4})\b"
@@ -179,6 +188,8 @@ def extract_facts_rules(text: str, today: dt.date | None = None) -> FlightFacts:
         f.disruption = "cancellation"
     elif re.search(_DENIED, low):
         f.disruption = "denied_boarding"
+        if not re.search(_INVOLUNTARY, low) and re.search(_VOLUNTARY, low):
+            f.voluntary = True
     elif re.search(_DELAY, low):
         f.disruption = "delay"
 
@@ -408,5 +419,6 @@ def _check(facts: FlightFacts, extraordinary: bool) -> EligibilityResult:
         cancellation_notice_days=facts.notice_days,
         extraordinary_circumstances=extraordinary,
         reroute_arrival_delay_hours=facts.delay_hours if facts.disruption != "delay" else None,
+        voluntary=bool(facts.voluntary),
     )
     return EligibilityResult(check(flight, incident), km, [], f"{o.city} - {d.city}", facts.passengers or 1)

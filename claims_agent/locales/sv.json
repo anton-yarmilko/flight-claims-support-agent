@@ -92,5 +92,6 @@
  "download": "Ladda ner .txt",
  "m_future": "datumet för ett flyg som redan har ägt rum (det här datumet ligger i framtiden)",
  "rs_halved": "Troligen berättigad: EUR {amount} per passagerare före avgiften. Det är halva det vanliga beloppet eftersom ersättningsflyget kom fram inom {h} timmar.",
- "elig_half": "Det är halva det vanliga beloppet eftersom ersättningsflyget kom fram inom {h} timmar."
+ "elig_half": "Det är halva det vanliga beloppet eftersom ersättningsflyget kom fram inom {h} timmar.",
+ "rs_voluntary": "du lämnade frivilligt din plats, och frivilliga får det som avtalats med flygbolaget, inte EU261-ersättning."
 }

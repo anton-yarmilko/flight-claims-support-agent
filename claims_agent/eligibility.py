@@ -37,6 +37,8 @@ class Incident:
     extraordinary_circumstances: bool = False
     # Cancellation / denied boarding: how late the replacement flight reached the final destination.
     reroute_arrival_delay_hours: float | None = None
+    # Denied boarding: the passenger gave up the seat in exchange for benefits (Article 4(1)).
+    voluntary: bool = False
 
 
 @dataclass(frozen=True)
@@ -70,6 +72,10 @@ def check(flight: Flight, incident: Incident) -> Verdict:
 
     if incident.extraordinary_circumstances:
         return Verdict(False, 0, "Airline cites extraordinary circumstances; needs a human review of the evidence.")
+
+    if incident.kind is Disruption.DENIED_BOARDING and incident.voluntary:
+        return Verdict(False, 0, "Passenger gave up the seat voluntarily; volunteers get the benefits agreed "
+                                 "with the airline, not EU261 compensation.")
 
     if incident.kind is Disruption.DELAY and incident.arrival_delay_hours < 3:
         return Verdict(False, 0, "Arrival delay under 3 hours.")

@@ -92,5 +92,6 @@
  "download": "Download .txt",
  "m_future": "the date of a flight that has already taken place (this date is in the future)",
  "rs_halved": "Likely eligible: EUR {amount} per passenger before the service fee. It is half the usual amount because the replacement flight arrived within {h} hours.",
- "elig_half": "It is half the usual amount because the replacement flight arrived within {h} hours."
+ "elig_half": "It is half the usual amount because the replacement flight arrived within {h} hours.",
+ "rs_voluntary": "you gave up your seat voluntarily, and volunteers get the benefits agreed with the airline rather than EU261 compensation."
 }
