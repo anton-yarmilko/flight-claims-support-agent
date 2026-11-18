@@ -270,7 +270,7 @@ function buildSamples() {
 function addMsg(role, text, meta, handoff) {
   const d = document.createElement("div");
   d.className = `msg ${role}${handoff ? " handoff" : ""}`;
-  d.textContent = text;
+  d.textContent = text.replace(/\*\*(.+?)\*\*/g, "$1");  // small models still add Markdown bold sometimes
   if (meta) { const m = document.createElement("small"); m.textContent = meta; d.append(m); }
   $("#log").append(d); $("#log").scrollTop = 1e9;
 }
