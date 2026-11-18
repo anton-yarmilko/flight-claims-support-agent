@@ -83,5 +83,8 @@
  "ib_csv": "CSV indir",
  "ib_f_all": "Tümü",
  "copy": "Kopyala",
- "copied": "Kopyalandı"
+ "copied": "Kopyalandı",
+ "elig_total": "{n} yolcu için toplam EUR {total} eder.",
+ "total": "Toplam",
+ "f_pax": "Yolcular"
 }

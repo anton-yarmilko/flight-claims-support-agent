@@ -83,5 +83,8 @@
  "ib_csv": "Ladda ner CSV",
  "ib_f_all": "Alla",
  "copy": "Kopiera",
- "copied": "Kopierad"
+ "copied": "Kopierad",
+ "elig_total": "För {n} passagerare blir det totalt EUR {total}.",
+ "total": "Totalt",
+ "f_pax": "Passagerare"
 }

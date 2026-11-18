@@ -83,5 +83,8 @@
  "ib_csv": "Stáhnout CSV",
  "ib_f_all": "Vše",
  "copy": "Kopírovat",
- "copied": "Zkopírováno"
+ "copied": "Zkopírováno",
+ "elig_total": "Pro {n} cestující je to celkem EUR {total}.",
+ "total": "Celkem",
+ "f_pax": "Cestující"
 }

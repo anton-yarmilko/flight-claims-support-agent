@@ -31,6 +31,7 @@ class FlightFacts:
     disruption: str | None = None  # delay | cancellation | denied_boarding
     delay_hours: float | None = None
     notice_days: int | None = None
+    passengers: int | None = None  # people on the booking; compensation is per passenger
     sources: dict[str, str] = field(default_factory=dict)
 
     def missing_for_check(self) -> list[str]:
@@ -85,12 +86,50 @@ _UNIT_AFTER = re.compile(r"\s+(?:" + _HOUR_UNIT + "|" + _MINUTE_UNIT + ")")
 _NUMBER_WORD_RE = re.compile(r"(?<!\w)(" + "|".join(sorted(map(re.escape, _NUMBER_WORDS), key=len, reverse=True)) + r")(?=\s+)")
 
 
+_HALF_AFTER = re.compile(r"(\d+)\s*(?:½|and a half|і пів|с половиной|i pół|und ein halb|y media|et demie|e mezza|e meia|en een half)\s+")
+_ONE_AND_HALF = re.compile(r"(?<!\w)(?:one and a half|півтори|полтора|półtorej|anderthalb|eineinhalb|uno y medio|une heure et demie)(?=\s)")
+
+
 def spell_numbers(low: str) -> str:
-    """Turn a spelled-out number into digits when an hour or minute word follows it."""
+    """Turn a spelled-out number into digits when an hour or minute word follows it.
+
+    Also "3 and a half hours" -> "3.5 hours" and "півтори години" -> "1.5 години".
+    """
+    low = _HALF_AFTER.sub(lambda m: f"{m.group(1)}.5 ", low)
+    low = _ONE_AND_HALF.sub("1.5", low)
     def repl(m: re.Match[str]) -> str:
         unit = _UNIT_AFTER.match(low, m.end())
         return str(_NUMBER_WORDS[m.group(1)]) if unit else m.group(1)
     return _NUMBER_WORD_RE.sub(repl, low)
+
+
+# "we were three", "family of 4", "нас було троє", "było nas czworo", "wir waren zu dritt"...
+_COLLECTIVE = {"двоє": 2, "троє": 3, "четверо": 4, "п'ятеро": 5, "шестеро": 6, "двое": 2, "трое": 3,
+               "пятеро": 5, "dwoje": 2, "troje": 3, "czworo": 4, "pięcioro": 5, "zu zweit": 2, "zu dritt": 3,
+               "zu viert": 4, "zu fünft": 5, "both of us": 2, "the two of us": 2, "my wife and i": 2,
+               "my husband and i": 2, "my partner and i": 2}
+_PAX_NUM = r"(\d{1,2}|[a-zа-яіїєґąćęłńóśźżäöüßéèêàçíñ']+)"
+_PAX_PATTERNS = [
+    _PAX_NUM + r"\s+(?:passengers?|people|persons|adults|of us|пасажир\w*|пассажир\w*|людей|осіб|человек"
+    r"|pasa[żz]er\w*|os[óo]b\w*|passagiere|personen|pasajeros|personas|passagers|personnes|passeggeri|persone"
+    r"|passageiros|pessoas|passagiers|matkustaja\w*|utas\w*|cestuj[íi]c\w*|yolcu|επιβάτ\w*)",
+    r"(?:family of|we were|we are|there were|нас було|нас было|нас|было нас|było nas|wir waren|éramos|somos"
+    r"|nous étions|nous sommes|eravamo|siamo|we waren|vi var|olimme)\s+(?:in |zu )?" + _PAX_NUM
+    + r"(?!\s*(?:" + _HOUR_UNIT + "|" + _MINUTE_UNIT + "))",  # "we were 4 hours late" is not 4 people
+]
+
+
+def passengers_in(low: str) -> int | None:
+    for phrase, n in _COLLECTIVE.items():
+        if re.search(r"(?<!\w)" + re.escape(phrase) + r"(?!\w)", low):
+            return n
+    for pat in _PAX_PATTERNS:
+        for m in re.finditer(pat, low):
+            word = m.group(1)
+            n = int(word) if word.isdigit() else _NUMBER_WORDS.get(word) or _COLLECTIVE.get(word)
+            if n and 1 <= n <= 20:
+                return n
+    return None
 
 
 def extract_facts_rules(text: str) -> FlightFacts:
@@ -133,6 +172,8 @@ def extract_facts_rules(text: str) -> FlightFacts:
     if n:
         f.notice_days = int(n.group(1))
 
+    f.passengers = passengers_in(low)
+
     d = re.search(_DATE, low)
     if d:
         f.date = d.group(1)
@@ -156,7 +197,8 @@ Reply with JSON only:
  "airline": "<airline name or 2-letter code>", "flight_number": "<e.g. FR1234>",
  "date": "<YYYY-MM-DD if known>", "passenger": "<name>", "booking_ref": "<6 chars>",
  "disruption": "delay|cancellation|denied_boarding|null",
- "delay_hours": <number or null>, "notice_days": <number or null>}"""
+ "delay_hours": <number or null>, "notice_days": <number or null>,
+ "passengers": <number of people travelling on the booking, or null>}"""
 
 
 def _norm_airport(value: Any) -> str | None:
@@ -193,6 +235,7 @@ def merge_llm_facts(base: FlightFacts, data: dict[str, Any]) -> FlightFacts:
         "disruption": lambda v: v if v in {"delay", "cancellation", "denied_boarding"} else None,
         "delay_hours": lambda v: float(v) if isinstance(v, (int, float)) and 0 <= v < 100 else None,
         "notice_days": lambda v: int(v) if isinstance(v, (int, float)) and 0 <= v < 400 else None,
+        "passengers": lambda v: int(v) if isinstance(v, (int, float)) and 1 <= v <= 20 else None,
     }
     for key, clean in cleaners.items():
         if getattr(base, key) is not None:
@@ -249,11 +292,18 @@ class EligibilityResult:
     distance_km: int | None
     missing: list[str]
     route: str | None = None
+    passengers: int = 1
+
+    @property
+    def total_eur(self) -> int:
+        return self.verdict.amount_eur * self.passengers if self.verdict and self.verdict.eligible else 0
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "eligible": self.verdict.eligible if self.verdict else None,
             "amount_eur": self.verdict.amount_eur if self.verdict else None,
+            "passengers": self.passengers,
+            "total_eur": self.total_eur,
             "reason": self.verdict.reason if self.verdict else None,
             "distance_km": self.distance_km,
             "route": self.route,
@@ -281,4 +331,4 @@ def check_facts(facts: FlightFacts, *, extraordinary: bool = False) -> Eligibili
         cancellation_notice_days=facts.notice_days,
         extraordinary_circumstances=extraordinary,
     )
-    return EligibilityResult(check(flight, incident), km, [], f"{o.city} - {d.city}")
+    return EligibilityResult(check(flight, incident), km, [], f"{o.city} - {d.city}", facts.passengers or 1)

@@ -83,5 +83,8 @@
  "ib_csv": "CSV letöltése",
  "ib_f_all": "Mind",
  "copy": "Másolás",
- "copied": "Másolva"
+ "copied": "Másolva",
+ "elig_total": "{n} utas esetén ez összesen EUR {total}.",
+ "total": "Összesen",
+ "f_pax": "Utasok"
 }

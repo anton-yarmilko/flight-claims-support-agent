@@ -321,7 +321,7 @@ function decisionHtml(r) {
     const e = r.eligibility;
     h += `<p><b>${esc(T("check_title"))}</b></p>`;
     if (e.eligible === null) h += `<p class="empty">${esc(T("waiting"))}: ${esc(e.missing.join(", "))}</p>`;
-    else h += `<dl><dt>${esc(T("route"))}</dt><dd>${esc(e.route)} (${e.distance_km} km)</dd><dt>${esc(T("eligible"))}</dt><dd>${esc(T(e.eligible ? "yes" : "no"))}</dd><dt>${esc(T("amount"))}</dt><dd>EUR ${e.amount_eur} ${esc(T("per_pax"))}</dd><dt>${esc(T("reason"))}</dt><dd>${esc(e.reason)}</dd></dl>`;
+    else h += `<dl><dt>${esc(T("route"))}</dt><dd>${esc(e.route)} (${e.distance_km} km)</dd><dt>${esc(T("eligible"))}</dt><dd>${esc(T(e.eligible ? "yes" : "no"))}</dd><dt>${esc(T("amount"))}</dt><dd>EUR ${e.amount_eur} ${esc(T("per_pax"))}</dd>${e.passengers > 1 && e.eligible ? `<dt>${esc(T("total"))}</dt><dd><b>EUR ${e.total_eur}</b> (${e.passengers} × ${e.amount_eur})</dd>` : ""}<dt>${esc(T("reason"))}</dt><dd>${esc(e.reason)}</dd></dl>`;
   }
   if (r.handoff_note) h += `<p><b>${esc(T("note_title"))}</b> ${copyBtn("handoffNote")}</p><pre id="handoffNote">${esc(r.handoff_note)}</pre>`;
   if (r.notes.length) h += `<p class="src">${r.notes.map(esc).join("<br>")}</p>`;
@@ -349,7 +349,7 @@ $("#chatReset").onclick = () => { history = []; handoffs = 0; $("#log").innerHTM
 
 // ---------- fact forms (shared by ticket and letter) ----------
 const FIELDS = [["passenger","f_passenger"],["booking_ref","f_booking"],["flight_number","f_flight"],["date","f_date"],
-  ["origin","f_from"],["destination","f_to"],["airline","f_airline"],["disruption","f_what"],["delay_hours","f_delay"],["notice_days","f_notice"]];
+  ["origin","f_from"],["destination","f_to"],["airline","f_airline"],["disruption","f_what"],["delay_hours","f_delay"],["notice_days","f_notice"],["passengers","f_pax"]];
 function relabelFields() {
   document.querySelectorAll("[data-flabel]").forEach((el) => { el.firstChild.textContent = T(el.dataset.flabel) + " "; });
   document.querySelectorAll("[data-dopt]").forEach((el) => { el.textContent = T(el.dataset.dopt); });
@@ -383,7 +383,7 @@ $("#ticketCheck").onclick = () => busy($("#ticketCheck"), async () => {
   const e = await post("/api/eligibility", {...readFacts("t"), lang: LANG});
   $("#ticketOut").innerHTML = e.eligible === null
     ? `<p class="empty">${esc(T("add"))}: ${esc(e.missing.join(", "))}</p>`
-    : `<p class="big" style="color:var(--${e.eligible ? "ok" : "bad"})">${e.eligible ? "EUR " + e.amount_eur + " " + esc(T("per_pax")) : esc(T("not_elig"))}</p><p>${esc(e.reason)}</p><p class="src">${esc(e.route)} · ${e.distance_km} km</p>`;
+    : `<p class="big" style="color:var(--${e.eligible ? "ok" : "bad"})">${e.eligible ? "EUR " + e.amount_eur + " " + esc(T("per_pax")) : esc(T("not_elig"))}</p>${e.eligible && e.passengers > 1 ? `<p><b>${esc(T("total"))}: EUR ${e.total_eur}</b> (${e.passengers} × ${e.amount_eur})</p>` : ""}<p>${esc(e.reason)}</p><p class="src">${esc(e.route)} · ${e.distance_km} km</p>`;
 });
 $("#ticketToLetter").onclick = () => { writeFacts("l", readFacts("t")); document.querySelector('[data-tab="letter"]').click(); $("#letterGo").click(); };
 
@@ -424,9 +424,9 @@ function renderInbox() {
 function inboxCsv() {
   // Semicolon-separated with a BOM, so Excel opens it in any locale with the right letters.
   const cell = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  const head = ["message", "language", "intent", "action", "priority", "handoff", "route", "eligible", "amount_eur", "reply"];
+  const head = ["message", "language", "intent", "action", "priority", "handoff", "route", "eligible", "passengers", "amount_eur", "reply"];
   const lines = INBOX.rows.map((r) => [r.message, r.language, r.intent, r.action, r.priority, (r.handoff || []).join(", "),
-    r.route, r.eligible == null ? "" : r.eligible ? "yes" : "no", r.amount ?? "", r.reply].map(cell).join(";"));
+    r.route, r.eligible == null ? "" : r.eligible ? "yes" : "no", r.passengers ?? 1, r.amount ?? "", r.reply].map(cell).join(";"));
   const blob = new Blob(["\ufeff" + [head.join(";"), ...lines].join("\r\n")], {type: "text/csv;charset=utf-8"});
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob); a.download = "flyclaim-inbox.csv"; a.click();

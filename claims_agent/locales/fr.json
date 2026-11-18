@@ -83,5 +83,8 @@
  "ib_csv": "Télécharger le CSV",
  "ib_f_all": "Tous",
  "copy": "Copier",
- "copied": "Copié"
+ "copied": "Copié",
+ "elig_total": "Pour {n} passagers, cela fait EUR {total} au total.",
+ "total": "Total",
+ "f_pax": "Passagers"
 }

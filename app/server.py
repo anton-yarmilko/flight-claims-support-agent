@@ -40,7 +40,7 @@ MAX_DOCUMENT = 8000
 CSP = ("default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; "
        "img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'")
 FACT_FIELDS = ("origin", "destination", "airline", "flight_number", "date", "passenger", "booking_ref",
-               "disruption", "delay_hours", "notice_days")
+               "disruption", "delay_hours", "notice_days", "passengers")
 
 try:
     LLM_CLIENT = get_llm()
@@ -114,6 +114,8 @@ def facts_from(d: dict[str, Any]) -> FlightFacts:
             v = float(v)
         elif k == "notice_days":
             v = int(v)
+        elif k == "passengers":
+            v = max(1, min(20, int(v)))
         elif k in {"origin", "destination", "airline", "booking_ref", "flight_number"}:
             v = str(v).strip().upper()
         setattr(f, k, v)

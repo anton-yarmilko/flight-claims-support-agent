@@ -83,5 +83,8 @@
  "ib_csv": "Preuzmi CSV",
  "ib_f_all": "Sve",
  "copy": "Kopiraj",
- "copied": "Kopirano"
+ "copied": "Kopirano",
+ "elig_total": "Za {n} putnika to je ukupno EUR {total}.",
+ "total": "Ukupno",
+ "f_pax": "Putnici"
 }
