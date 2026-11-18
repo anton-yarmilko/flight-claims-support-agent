@@ -17,7 +17,7 @@ threats, GDPR requests, upset customers, weak knowledge-base matches.
 | Chat agent | `claims_agent/agent.py` | Triage, then an LLM reply from the knowledge base or a handoff note |
 | LLM client | `claims_agent/llm.py` | Any OpenAI-compatible model (Groq, OpenRouter, Gemini, Ollama, OpenAI); offline without one |
 | Triage | `claims_agent/triage.py` | Intent + AI-or-human decision, keywords in all 20 languages, LLM only as a fallback |
-| Eligibility | `claims_agent/eligibility.py`, `facts.py`, `airports.py` | EU261 check on facts pulled from the conversation, incl. the 50% rule for long-haul delays of 3-4 h and the Article 7(2) halving when a cancelled or denied passenger was re-routed and arrived within 2/3/4 h. Connecting flights ("Warsaw via Frankfurt to Lisbon", "через Франкфурт", "przez Frankfurt") use the distance from first departure to final destination. A passenger who gave up the seat voluntarily ("I volunteered", "добровільно", "freiwillig") is told that volunteers get the agreed benefits, not compensation. 105 airports with names in the 20 languages; accents optional ("Amsterdam" = "Ámsterdam"), spelled-out delays ("tres horas", "чотири години", "3 і пів години") understood. Party size ("we were three", "нас було троє", "family of 4") multiplies the amount in the reply, the claim letter and the Inbox total. A flight over 2 years old goes to a person, because claim deadlines differ by country; the claim letter is marked not ready and can be downloaded as .txt. "Yesterday" / "вчора" / "wczoraj" become a date; a future date asks for a past flight; the handoff note carries the EU261 numbers |
+| Eligibility | `claims_agent/eligibility.py`, `facts.py`, `airports.py` | EU261 check on facts pulled from the conversation, incl. the 50% rule for long-haul delays of 3-4 h and the Article 7(2) halving when a cancelled or denied passenger was re-routed and arrived within 2/3/4 h. Connecting flights ("Warsaw via Frankfurt to Lisbon", "через Франкфурт", "przez Frankfurt") use the distance from first departure to final destination; the connection is kept for the claim letter ("connecting in Frankfurt (FRA)") and the handoff note. A passenger who gave up the seat voluntarily ("I volunteered", "добровільно", "freiwillig") is told that volunteers get the agreed benefits, not compensation. 105 airports with names in the 20 languages; accents optional ("Amsterdam" = "Ámsterdam"), spelled-out delays ("tres horas", "чотири години", "3 і пів години") understood. Party size ("we were three", "нас було троє", "family of 4") multiplies the amount in the reply, the claim letter and the Inbox total. A flight over 2 years old goes to a person, because claim deadlines differ by country; the claim letter is marked not ready and can be downloaded as .txt. "Yesterday" / "вчора" / "wczoraj" become a date; a future date asks for a past flight; the handoff note carries the EU261 numbers |
 | Ticket reader | `claims_agent/ticket.py` | Boarding-pass barcode text, e-ticket text, or a photo via a vision model |
 | Airline reply | `claims_agent/airline_reply.py` | Names the refusal cause, maps it to EU case law, suggests contest / review |
 | Claim letter | `claims_agent/claim_letter.py` | EU261 demand letter; amounts come from the check, never from the model |
@@ -25,7 +25,7 @@ threats, GDPR requests, upset customers, weak knowledge-base matches.
 | Knowledge base | `knowledge/*.md` | EU261 rules, fees, stages, documents |
 | Evals | `evals/cases.jsonl`, `evals/judge.py` | Triage cases in all 20 languages; reply checks + optional LLM-as-judge |
 | Inbox | `claims_agent/inbox.py` | Batch triage of a day of mail: AI share, handoff reasons, urgent cases, compensation found |
-| Tests | `tests/` | 258 tests, run in CI with a fake LLM server |
+| Tests | `tests/` | 262 tests, run in CI with a fake LLM server |
 
 ```mermaid
 flowchart LR
@@ -140,7 +140,7 @@ tune the rules from real tickets.
 
 ```bash
 pip install pytest
-pytest -q                     # 258 tests, LLM calls go to a fake local server
+pytest -q                     # 262 tests, LLM calls go to a fake local server
 python -m evals.judge         # reply checks on every eval case (offline: templates)
 
 # with a model, plus a bigger judge model for LLM-as-judge scoring

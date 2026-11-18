@@ -349,7 +349,7 @@ $("#chatReset").onclick = () => { history = []; handoffs = 0; $("#log").innerHTM
 
 // ---------- fact forms (shared by ticket and letter) ----------
 const FIELDS = [["passenger","f_passenger"],["booking_ref","f_booking"],["flight_number","f_flight"],["date","f_date"],
-  ["origin","f_from"],["destination","f_to"],["airline","f_airline"],["disruption","f_what"],["delay_hours","f_delay"],["notice_days","f_notice"],["passengers","f_pax"]];
+  ["origin","f_from"],["destination","f_to"],["via","f_via"],["airline","f_airline"],["disruption","f_what"],["delay_hours","f_delay"],["notice_days","f_notice"],["passengers","f_pax"]];
 function relabelFields() {
   document.querySelectorAll("[data-flabel]").forEach((el) => { el.firstChild.textContent = T(el.dataset.flabel) + " "; });
   document.querySelectorAll("[data-dopt]").forEach((el) => { el.textContent = T(el.dataset.dopt); });

@@ -93,5 +93,6 @@
  "m_future": "datoen for en flyvning, der allerede har fundet sted (denne dato ligger i fremtiden)",
  "rs_halved": "Sandsynligvis berettiget: EUR {amount} pr. passager før gebyret. Det er halvdelen af det normale beløb, fordi erstatningsflyet ankom inden for {h} timer.",
  "elig_half": "Det er halvdelen af det normale beløb, fordi erstatningsflyet ankom inden for {h} timer.",
- "rs_voluntary": "du opgav frivilligt din plads, og frivillige får det aftalte med flyselskabet, ikke EU261-kompensation."
+ "rs_voluntary": "du opgav frivilligt din plads, og frivillige får det aftalte med flyselskabet, ikke EU261-kompensation.",
+ "f_via": "Mellemlanding (IATA)"
 }

@@ -93,5 +93,6 @@
  "m_future": "la date d'un vol déjà effectué (cette date est dans le futur)",
  "rs_halved": "Probablement éligible : EUR {amount} par passager avant commission. C'est la moitié du montant habituel, car le vol de remplacement est arrivé dans les {h} heures.",
  "elig_half": "C'est la moitié du montant habituel, car le vol de remplacement est arrivé dans les {h} heures.",
- "rs_voluntary": "vous avez cédé votre place volontairement ; les volontaires reçoivent ce qui a été convenu avec la compagnie, pas l'indemnisation EU261."
+ "rs_voluntary": "vous avez cédé votre place volontairement ; les volontaires reçoivent ce qui a été convenu avec la compagnie, pas l'indemnisation EU261.",
+ "f_via": "Correspondance (IATA)"
 }

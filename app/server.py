@@ -12,6 +12,7 @@ from __future__ import annotations
 import base64
 import json
 import os
+import re
 import sys
 import threading
 import time
@@ -40,7 +41,7 @@ MAX_DOCUMENT = 8000
 CSP = ("default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; "
        "img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'")
 FACT_FIELDS = ("origin", "destination", "airline", "flight_number", "date", "passenger", "booking_ref",
-               "disruption", "delay_hours", "notice_days", "passengers")
+               "disruption", "delay_hours", "notice_days", "passengers", "via")
 
 try:
     LLM_CLIENT = get_llm()
@@ -118,6 +119,8 @@ def facts_from(d: dict[str, Any]) -> FlightFacts:
             v = max(1, min(20, int(v)))
         elif k in {"origin", "destination", "airline", "booking_ref", "flight_number"}:
             v = str(v).strip().upper()
+        elif k == "via":
+            v = ",".join(re.findall(r"[A-Z]{3}", str(v).upper())[:3]) or None
         setattr(f, k, v)
     return f
 

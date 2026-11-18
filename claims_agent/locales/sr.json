@@ -93,5 +93,6 @@
  "m_future": "datum leta koji je već obavljen (ovaj datum je u budućnosti)",
  "rs_halved": "Verovatno imate pravo: EUR {amount} po putniku pre provizije. To je pola uobičajenog iznosa jer je zamenski let stigao u roku od {h} sata.",
  "elig_half": "To je pola uobičajenog iznosa jer je zamenski let stigao u roku od {h} sata.",
- "rs_voluntary": "dobrovoljno ste ustupili mesto, a dobrovoljci dobijaju ono što su dogovorili sa avio-kompanijom, ne odštetu po EU261."
+ "rs_voluntary": "dobrovoljno ste ustupili mesto, a dobrovoljci dobijaju ono što su dogovorili sa avio-kompanijom, ne odštetu po EU261.",
+ "f_via": "Presedanje (IATA)"
 }

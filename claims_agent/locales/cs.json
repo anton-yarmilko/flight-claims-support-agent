@@ -93,5 +93,6 @@
  "m_future": "datum letu, který už proběhl (toto datum je v budoucnosti)",
  "rs_halved": "Pravděpodobně máte nárok: EUR {amount} na cestujícího před provizí. Je to polovina obvyklé částky, protože náhradní let přiletěl do {h} hodin.",
  "elig_half": "Je to polovina obvyklé částky, protože náhradní let přiletěl do {h} hodin.",
- "rs_voluntary": "dobrovolně jste se vzdali místa a dobrovolníci dostávají to, co si dohodli s aerolinkou, ne odškodnění podle EU261."
+ "rs_voluntary": "dobrovolně jste se vzdali místa a dobrovolníci dostávají to, co si dohodli s aerolinkou, ne odškodnění podle EU261.",
+ "f_via": "Přestup (IATA)"
 }

@@ -93,5 +93,6 @@
  "m_future": "gerçekleşmiş bir uçuşun tarihi (bu tarih gelecekte)",
  "rs_halved": "Muhtemelen hak kazanıyorsunuz: komisyon öncesi yolcu başına EUR {amount}. Alternatif uçuş {h} saat içinde vardığı için normal tutarın yarısıdır.",
  "elig_half": "Alternatif uçuş {h} saat içinde vardığı için normal tutarın yarısıdır.",
- "rs_voluntary": "koltuğunuzu gönüllü olarak bıraktınız; gönüllüler EU261 tazminatı değil, havayoluyla anlaştıkları hakları alır."
+ "rs_voluntary": "koltuğunuzu gönüllü olarak bıraktınız; gönüllüler EU261 tazminatı değil, havayoluyla anlaştıkları hakları alır.",
+ "f_via": "Aktarma (IATA)"
 }

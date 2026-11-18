@@ -34,6 +34,7 @@ class FlightFacts:
     notice_days: int | None = None
     passengers: int | None = None  # people on the booking; compensation is per passenger
     voluntary: bool | None = None  # denied boarding: gave up the seat voluntarily
+    via: str | None = None  # connecting airports (IATA, comma-separated); not used for the distance
     sources: dict[str, str] = field(default_factory=dict)
 
     def missing_for_check(self) -> list[str]:
@@ -174,9 +175,10 @@ def extract_facts_rules(text: str, today: dt.date | None = None) -> FlightFacts:
 
     # "from X to Y" order is the usual one; IATA chains like "WAW-FRA-LIS" keep their order too.
     # A connection ("via Frankfurt") is skipped: EU261 distance is first departure to final destination.
-    origin, destination, _ = route_in_text(text)
+    origin, destination, via = route_in_text(text)
     f.origin = origin.iata if origin else None
     f.destination = destination.iata if destination else None
+    f.via = ",".join(a.iata for a in via) or None
 
     f.airline = airline_in_text(text)
     m = re.search(r"\b([A-Z0-9]{2})\s?(\d{2,4})\b", text)
