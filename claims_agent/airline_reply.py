@@ -107,9 +107,42 @@ class Analysis:
     summary: str | None = None
     notes: list[str] = field(default_factory=list)
     human_review: bool = True
+    draft: str | None = None  # reply to the airline, for "contest" and "review"; a person edits and sends it
 
     def to_dict(self) -> dict[str, Any]:
         return self.__dict__.copy()
+
+
+EVIDENCE = {
+    "contest": "Under Regulation (EC) No 261/2004 the burden of proving extraordinary circumstances lies with "
+               "the carrier, and the cause you name is, in established case law, part of the normal exercise of "
+               "an air carrier's activity. We therefore maintain the claim.",
+    "review": "Under Regulation (EC) No 261/2004 the burden of proving extraordinary circumstances lies with "
+              "the carrier. Before we can assess your position, please provide:",
+}
+REQUESTS = (
+    "- documentary evidence of the cause and of when it occurred (for example technical log entries, "
+    "ATC or airport notices, or weather reports for the airports concerned);\n"
+    "- evidence that the cause directly affected this flight; and\n"
+    "- the reasonable measures you took to avoid the disruption or limit the delay, including re-routing options."
+)
+
+
+def rebuttal(a: Analysis, letter: str) -> str | None:
+    """A fixed-template reply to the airline. No model writes it, so it carries no invented facts."""
+    if a.recommendation not in EVIDENCE:
+        return None
+    ref = re.search(r"\b(?:booking|reference|pnr|claim|case)\W{0,15}(?=[A-Z]*\d)([A-Z0-9]{6,10})\b", letter, re.I)
+    subject = f"Your refusal of the compensation claim{f' (reference {ref.group(1).upper()})' if ref else ''}"
+    body = [f"Subject: {subject}", "", "Dear Sir or Madam,", "",
+            f"Thank you for your reply. You refused compensation, citing: {a.label.lower()}.", "",
+            EVIDENCE[a.recommendation]]
+    if a.recommendation == "contest":
+        body += ["", a.why, "", "If you still consider the circumstances extraordinary, please provide:"]
+    body += [REQUESTS, "",
+             "Please pay the compensation or send this evidence within 14 days. Otherwise we will refer the case "
+             "to the national enforcement body or to the court.", "", "Yours faithfully,", "[SERVICE] claims team"]
+    return "\n".join(body)
 
 
 LLM_PROMPT = """You read an airline's reply to an EU261 compensation claim.
@@ -150,4 +183,5 @@ def analyse(letter: str, llm: LLM | None = None) -> Analysis:
                 a.notes.append(f"The LLM read the cause as '{BY_NAME[cat].label}'; check which one applies.")
         except LLMError as e:
             a.notes.append(f"LLM analysis failed: {e}")
+    a.draft = rebuttal(a, letter)
     return a

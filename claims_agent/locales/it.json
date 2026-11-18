@@ -94,5 +94,6 @@
  "rs_halved": "Probabilmente ha diritto: EUR {amount} per passeggero prima della commissione. È la metà dell'importo abituale perché il volo alternativo è arrivato entro {h} ore.",
  "elig_half": "È la metà dell'importo abituale perché il volo alternativo è arrivato entro {h} ore.",
  "rs_voluntary": "ha ceduto il posto volontariamente, e i volontari ricevono quanto concordato con la compagnia, non la compensazione EU261.",
- "f_via": "Scalo (IATA)"
+ "f_via": "Scalo (IATA)",
+ "draft_reply": "Bozza di risposta alla compagnia (una persona la controlla e la invia)"
 }

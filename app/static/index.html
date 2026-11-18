@@ -450,6 +450,7 @@ $("#replyGo").onclick = () => busy($("#replyGo"), async () => {
   $("#replyOut").innerHTML = `<p class="big">${esc(a.label)}</p><span class="badge ${cls}">${esc(T(label))}</span><span class="badge">${esc(T("found_by"))}: ${esc(a.source)}</span>
     ${a.summary ? `<p><b>${esc(T("airline_says"))}:</b> ${esc(a.summary)}</p>` : ""}${a.matched ? `<p class="src">Matched: "${esc(a.matched)}"</p>` : ""}
     <p><b>${esc(T("why"))}:</b> ${esc(a.why)}</p><p><b>${esc(T("next_step"))}:</b> ${esc(a.next_step)}</p>
+    ${a.draft ? `<p><b>${esc(T("draft_reply"))}</b> ${copyBtn("replyDraft")}</p><pre id="replyDraft">${esc(a.draft)}</pre>` : ""}
     ${a.notes.length ? `<p class="src">${a.notes.map(esc).join("<br>")}</p>` : ""}<p class="src">${esc(T("footer"))}</p>`;
 });
 
