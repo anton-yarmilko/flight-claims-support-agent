@@ -192,7 +192,7 @@ def handoff_note(decision: Decision, message: str, facts: FlightFacts | None, su
                  next_step: str | None = None, result: EligibilityResult | None = None) -> str:
     known = []
     if facts:
-        for key in ("origin", "destination", "airline", "flight_number", "date", "disruption", "delay_hours", "booking_ref"):
+        for key in ("origin", "destination", "via", "airline", "flight_number", "date", "disruption", "delay_hours", "booking_ref"):
             v = getattr(facts, key)
             if v is not None:
                 known.append(f"{key}={v}")

@@ -93,5 +93,6 @@
  "m_future": "datę lotu, który już się odbył (ta data jest w przyszłości)",
  "rs_halved": "Prawdopodobnie przysługuje: EUR {amount} na pasażera przed prowizją. To połowa zwykłej kwoty, bo lot zastępczy przyleciał w ciągu {h} godzin.",
  "elig_half": "To połowa zwykłej kwoty, bo lot zastępczy przyleciał w ciągu {h} godzin.",
- "rs_voluntary": "dobrowolnie oddałeś miejsce, a ochotnicy dostają to, co uzgodnili z linią, a nie odszkodowanie z EU261."
+ "rs_voluntary": "dobrowolnie oddałeś miejsce, a ochotnicy dostają to, co uzgodnili z linią, a nie odszkodowanie z EU261.",
+ "f_via": "Przesiadka (IATA)"
 }

@@ -48,6 +48,14 @@ def _what_happened(f: FlightFacts) -> str:
     return "The passenger was denied boarding against their will despite presenting for check-in on time."
 
 
+def _connection(f: FlightFacts) -> str:
+    codes = [c for c in (f.via or "").split(",") if c in AIRPORTS]
+    if not codes:
+        return ""
+    names = " and ".join(f"{AIRPORTS[c].city} ({c})" for c in codes)
+    return f", connecting in {names} under one booking"
+
+
 PARAGRAPH_PROMPT = """Rewrite this paragraph for a formal EU261 claim letter in English. Keep every fact and
 number exactly; add nothing new. One to three sentences. Reply with the paragraph only.
 
@@ -97,7 +105,7 @@ Dear Sir or Madam,
 
 {service_name} acts on behalf of {passenger}{f' (booking reference {facts.booking_ref})' if facts.booking_ref else ''}, under the attached authorisation.
 
-The passenger held a confirmed reservation on flight {facts.flight_number or '[FLIGHT]'} from {o.city} ({o.iata}) to {d.city} ({d.iata}) on {facts.date or '[DATE]'}. {paragraph}
+The passenger held a confirmed reservation on flight {facts.flight_number or '[FLIGHT]'} from {o.city} ({o.iata}) to {d.city} ({d.iata}){_connection(facts)} on {facts.date or '[DATE]'}. {paragraph}
 
 Under {ARTICLE[facts.disruption or 'delay']} of Regulation (EC) No 261/2004, and given a flight distance of {result.distance_km} km, {"the passenger is" if pax == 1 else f"each of the {pax} passengers is"} entitled to compensation of EUR {amount}{"" if pax == 1 else f", EUR {total} in total"}.
 

@@ -93,5 +93,6 @@
  "m_future": "a data de um voo que já se realizou (esta data é no futuro)",
  "rs_halved": "Provavelmente elegível: EUR {amount} por passageiro antes da comissão. É metade do valor habitual, porque o voo alternativo chegou em até {h} horas.",
  "elig_half": "É metade do valor habitual, porque o voo alternativo chegou em até {h} horas.",
- "rs_voluntary": "cedeu o seu lugar voluntariamente, e os voluntários recebem o que acordaram com a companhia, não a indemnização EU261."
+ "rs_voluntary": "cedeu o seu lugar voluntariamente, e os voluntários recebem o que acordaram com a companhia, não a indemnização EU261.",
+ "f_via": "Escala (IATA)"
 }

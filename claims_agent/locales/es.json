@@ -93,5 +93,6 @@
  "m_future": "la fecha de un vuelo que ya se haya realizado (esta fecha es futura)",
  "rs_halved": "Probablemente tiene derecho: EUR {amount} por pasajero antes de la comisión. Es la mitad del importe habitual porque el vuelo alternativo llegó en menos de {h} horas.",
  "elig_half": "Es la mitad del importe habitual porque el vuelo alternativo llegó en menos de {h} horas.",
- "rs_voluntary": "cedió su plaza voluntariamente, y los voluntarios reciben lo acordado con la aerolínea, no la compensación de EU261."
+ "rs_voluntary": "cedió su plaza voluntariamente, y los voluntarios reciben lo acordado con la aerolínea, no la compensación de EU261.",
+ "f_via": "Escala (IATA)"
 }
